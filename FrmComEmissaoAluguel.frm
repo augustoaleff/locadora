@@ -602,6 +602,23 @@ End Sub
 Private Sub CmdBuscarNome_Click()
  FrmComEmissaoAluguelBuscarNome.Show
 End Sub
+Private Function ValidaCompos() As Boolean
+
+ If IsNumeric(TxtNumPedido.Text) <> Empty Then
+
+ 
+ ValidaCampos = True
+ 
+ Else
+ 
+ ValidaCampos = False
+ 
+ End If
+ Else
+  
+
+
+End Function
 
 Private Sub CmdGerarNumeroPedido_Click()
 

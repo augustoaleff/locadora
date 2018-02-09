@@ -126,26 +126,26 @@ If Valida_Campos() = True Then
      
     If CBoxAleatorio.Value = vbChecked Then
       
-      reg.Open ("SELECT * FROM CLIENTES WHERE NOME LIKE '%" & Trim(TxtNome.Text) & "%'")
+      reg.Open ("SELECT CODCLI,NOME FROM CLIENTES WHERE NOME LIKE '%" & Trim(TxtNome.Text) & "%'")
       
      Else
        
-      reg.Open ("SELECT * FROM CLIENTES WHERE NOME LIKE '" & Trim(TxtNome.Text) & "%'")
+      reg.Open ("SELECT CODCLI,NOME FROM CLIENTES WHERE NOME LIKE '" & Trim(TxtNome.Text) & "%'")
      
      End If
     
  End If
  
  If OptCPF.Value = True Then
-    reg.Open ("SELECT * FROM CLIENTES WHERE CPF LIKE '" & Replace(Replace(Replace(Replace(Replace(TxtNome.Text, ".", ""), " ", ""), "/", ""), "\", ""), "-", "") & "%'")
+    reg.Open ("SELECT CODCLI,NOME FROM CLIENTES WHERE CPF LIKE '" & Replace(Replace(Replace(Replace(Replace(TxtNome.Text, ".", ""), " ", ""), "/", ""), "\", ""), "-", "") & "%'")
  End If
  
  If OptRG.Value = True Then
-    reg.Open ("SELECT * FROM CLIENTES WHERE IE LIKE '" & Replace(Replace(Replace(Replace(Replace(TxtNome.Text, ".", ""), " ", ""), "/", ""), "\", ""), "-", "") & "%'")
+    reg.Open ("SELECT CODCLI,NOME FROM CLIENTES WHERE IE LIKE '" & Replace(Replace(Replace(Replace(Replace(TxtNome.Text, ".", ""), " ", ""), "/", ""), "\", ""), "-", "") & "%'")
  End If
  
  If OptCEP.Value = True Then
-    reg.Open ("SELECT * FROM CLIENTES WHERE CEP LIKE '" & Replace(Replace(Replace(Replace(Replace(TxtNome.Text, ".", ""), " ", ""), "/", ""), "\", ""), "-", "") & "%'")
+    reg.Open ("SELECT CODCLI,NOME FROM CLIENTES WHERE CEP LIKE '" & Replace(Replace(Replace(Replace(Replace(TxtNome.Text, ".", ""), " ", ""), "/", ""), "\", ""), "-", "") & "%'")
  End If
  
  Call formata_flex

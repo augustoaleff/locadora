@@ -438,7 +438,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
    End
    Begin VB.Label LblComEmissaoConsultaPedidoValorPago 
       Caption         =   "Valor Pago R$"
-      Height          =   375
+      Height          =   255
       Left            =   6480
       TabIndex        =   20
       Top             =   4920

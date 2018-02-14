@@ -8,6 +8,15 @@ Begin VB.Form FrmComEmissaoAluguel
    ClientLeft      =   225
    ClientTop       =   2505
    ClientWidth     =   11085
+   BeginProperty Font 
+      Name            =   "MS Sans Serif"
+      Size            =   18
+      Charset         =   0
+      Weight          =   700
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MDIChild        =   -1  'True
@@ -16,6 +25,15 @@ Begin VB.Form FrmComEmissaoAluguel
    ScaleWidth      =   11085
    Begin VB.CommandButton CmdBuscaProduto 
       Caption         =   "Buscar Produto"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   495
       Left            =   6000
       TabIndex        =   59
@@ -23,6 +41,7 @@ Begin VB.Form FrmComEmissaoAluguel
       Width           =   2415
    End
    Begin VB.TextBox TxtDiasAlugados 
+      Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -47,6 +66,7 @@ Begin VB.Form FrmComEmissaoAluguel
       _ExtentX        =   2143
       _ExtentY        =   582
       _Version        =   393216
+      Enabled         =   0   'False
       MaxLength       =   10
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
@@ -62,6 +82,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.CommandButton CmdGerarNumeroPedido 
       Caption         =   "Gerar nº Pedido"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   495
       Left            =   360
       TabIndex        =   1
@@ -70,6 +99,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.CommandButton CmdBuscarNome 
       Caption         =   "Buscar por Nome do Cliente"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   495
       Left            =   3000
       TabIndex        =   53
@@ -77,6 +115,16 @@ Begin VB.Form FrmComEmissaoAluguel
       Width           =   2415
    End
    Begin VB.TextBox TxtOBS 
+      Enabled         =   0   'False
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   330
       Left            =   840
       TabIndex        =   5
@@ -85,6 +133,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.CommandButton CmdRemoverItem 
       Caption         =   "Remover Item"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
       Left            =   9720
       TabIndex        =   50
@@ -93,6 +150,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.TextBox TxtDesconto 
       Enabled         =   0   'False
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
       Left            =   9000
       TabIndex        =   49
@@ -101,6 +167,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.TextBox TxtDiferenca 
       Enabled         =   0   'False
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   12
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
       Left            =   9000
       TabIndex        =   47
@@ -109,6 +184,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.TextBox TxtValorRecebido 
       Enabled         =   0   'False
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
       Left            =   9000
       TabIndex        =   46
@@ -117,6 +201,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.TextBox TxtPagtoMinimo 
       Enabled         =   0   'False
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   12
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   405
       Left            =   9000
       TabIndex        =   43
@@ -124,6 +217,15 @@ Begin VB.Form FrmComEmissaoAluguel
       Width           =   1935
    End
    Begin VB.TextBox TxtCupomDesconto 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   285
       Left            =   2520
       TabIndex        =   17
@@ -131,6 +233,15 @@ Begin VB.Form FrmComEmissaoAluguel
       Width           =   1095
    End
    Begin VB.TextBox TxtCheque 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   285
       Left            =   1920
       TabIndex        =   15
@@ -138,6 +249,15 @@ Begin VB.Form FrmComEmissaoAluguel
       Width           =   1095
    End
    Begin VB.TextBox TxtCartaoCredito 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   285
       Left            =   1920
       TabIndex        =   12
@@ -145,6 +265,15 @@ Begin VB.Form FrmComEmissaoAluguel
       Width           =   1095
    End
    Begin VB.TextBox TxtCartaoDebito 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   285
       Left            =   1920
       TabIndex        =   10
@@ -153,12 +282,30 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.Frame FrameFormaPagto 
       Caption         =   "Forma de Pagamento"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   2775
       Left            =   240
       TabIndex        =   33
       Top             =   5400
       Width           =   6255
       Begin VB.TextBox TxtQuantCheque 
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   285
          Left            =   3480
          TabIndex        =   16
@@ -167,6 +314,15 @@ Begin VB.Form FrmComEmissaoAluguel
       End
       Begin VB.CommandButton CmdValidarCupom 
          Caption         =   "Validar Cupom"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   495
          Left            =   3480
          TabIndex        =   18
@@ -174,6 +330,15 @@ Begin VB.Form FrmComEmissaoAluguel
          Width           =   1095
       End
       Begin VB.ComboBox CmbBandeiraCD 
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   315
          ItemData        =   "FrmComEmissaoAluguel.frx":0000
          Left            =   3480
@@ -183,6 +348,15 @@ Begin VB.Form FrmComEmissaoAluguel
          Width           =   1215
       End
       Begin VB.ComboBox CmbBandeiraCC 
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   315
          ItemData        =   "FrmComEmissaoAluguel.frx":003D
          Left            =   3480
@@ -192,6 +366,15 @@ Begin VB.Form FrmComEmissaoAluguel
          Width           =   1215
       End
       Begin VB.TextBox TxtParcelasCC 
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   285
          Left            =   5520
          TabIndex        =   14
@@ -199,6 +382,15 @@ Begin VB.Form FrmComEmissaoAluguel
          Width           =   615
       End
       Begin VB.TextBox TxtDinheiro 
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   285
          Left            =   1680
          TabIndex        =   9
@@ -207,6 +399,15 @@ Begin VB.Form FrmComEmissaoAluguel
       End
       Begin VB.Label LblQuantCheque 
          Caption         =   "Quant."
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   255
          Left            =   2760
          TabIndex        =   51
@@ -215,6 +416,15 @@ Begin VB.Form FrmComEmissaoAluguel
       End
       Begin VB.Label LblBandeiraCC 
          Caption         =   "Bandeira"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   255
          Left            =   2760
          TabIndex        =   42
@@ -223,6 +433,15 @@ Begin VB.Form FrmComEmissaoAluguel
       End
       Begin VB.Label LblBandeiraCD 
          Caption         =   "Bandeira"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   255
          Left            =   2760
          TabIndex        =   41
@@ -231,6 +450,15 @@ Begin VB.Form FrmComEmissaoAluguel
       End
       Begin VB.Label LblParcelasCC 
          Caption         =   "Parcelas"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   255
          Left            =   4800
          TabIndex        =   40
@@ -239,6 +467,15 @@ Begin VB.Form FrmComEmissaoAluguel
       End
       Begin VB.Label LblCodCupomDesconto 
          Caption         =   "Cód. Cupom de Desconto"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   255
          Left            =   120
          TabIndex        =   39
@@ -247,6 +484,15 @@ Begin VB.Form FrmComEmissaoAluguel
       End
       Begin VB.Label LblCheque 
          Caption         =   "Cheque"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   375
          Left            =   120
          TabIndex        =   38
@@ -255,6 +501,15 @@ Begin VB.Form FrmComEmissaoAluguel
       End
       Begin VB.Label LblCartaoCredito 
          Caption         =   "Cartão de Crédito"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   375
          Left            =   120
          TabIndex        =   36
@@ -263,6 +518,15 @@ Begin VB.Form FrmComEmissaoAluguel
       End
       Begin VB.Label LblCartaoDebito 
          Caption         =   "Cartão de Débito"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   255
          Left            =   120
          TabIndex        =   35
@@ -271,6 +535,15 @@ Begin VB.Form FrmComEmissaoAluguel
       End
       Begin VB.Label LblDinheiro 
          Caption         =   "Dinheiro"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   255
          Left            =   120
          TabIndex        =   34
@@ -280,6 +553,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.CommandButton CmdCancelarPedido 
       Caption         =   "Cancelar Pedido"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   495
       Left            =   240
       TabIndex        =   32
@@ -288,6 +570,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.TextBox TxtValorTotal 
       Enabled         =   0   'False
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   495
       Left            =   9000
       TabIndex        =   30
@@ -295,6 +586,15 @@ Begin VB.Form FrmComEmissaoAluguel
       Width           =   1935
    End
    Begin VB.PictureBox PctFoto 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   1815
       Left            =   9120
       ScaleHeight     =   1755
@@ -314,6 +614,15 @@ Begin VB.Form FrmComEmissaoAluguel
       _Version        =   393216
    End
    Begin VB.TextBox TxtQuant 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
       Left            =   7080
       TabIndex        =   7
@@ -322,6 +631,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.CommandButton CmdInserir 
       Caption         =   "Inserir"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
       Left            =   8280
       TabIndex        =   8
@@ -329,6 +647,15 @@ Begin VB.Form FrmComEmissaoAluguel
       Width           =   1335
    End
    Begin VB.TextBox TxtCodProduto 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
       Left            =   1320
       TabIndex        =   6
@@ -337,6 +664,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.CommandButton CmdEmitirPedido 
       Caption         =   "Emitir Pedido"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   615
       Left            =   9120
       TabIndex        =   19
@@ -344,6 +680,16 @@ Begin VB.Form FrmComEmissaoAluguel
       Width           =   1815
    End
    Begin VB.TextBox TxtCodVendedor 
+      Enabled         =   0   'False
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
       Left            =   7440
       TabIndex        =   3
@@ -351,6 +697,16 @@ Begin VB.Form FrmComEmissaoAluguel
       Width           =   855
    End
    Begin VB.TextBox TxtCodCliente 
+      Enabled         =   0   'False
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
       Left            =   1560
       TabIndex        =   4
@@ -400,6 +756,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.Label LblDiasAlugados 
       Caption         =   "Dias Alugados"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   255
       Left            =   4320
       TabIndex        =   57
@@ -408,6 +773,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.Label LblVendedor 
       BorderStyle     =   1  'Fixed Single
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
       Left            =   8400
       TabIndex        =   54
@@ -416,6 +790,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.Label LblOBS 
       Caption         =   "OBS"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   255
       Left            =   240
       TabIndex        =   52
@@ -458,6 +841,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.Label LblDesconto 
       Caption         =   "Desconto R$"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   255
       Left            =   7680
       TabIndex        =   48
@@ -466,6 +858,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.Label LblValorRecebido 
       Caption         =   "Valor Recebido R$"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
       Left            =   7320
       TabIndex        =   45
@@ -492,6 +893,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.Label LblPgtoMinimo 
       Caption         =   "Pagamento Mínimo R$"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
       Left            =   6960
       TabIndex        =   37
@@ -517,6 +927,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.Label LblQuantProduto 
       Caption         =   "Quant."
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
       Left            =   6240
       TabIndex        =   27
@@ -525,6 +944,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.Label LblCodProduto 
       Caption         =   "Cód. Produto"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   255
       Left            =   240
       TabIndex        =   26
@@ -533,6 +961,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.Label LblDataLimiteDevolucao 
       Caption         =   "Data Limite Devolução"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
       Left            =   8400
       TabIndex        =   25
@@ -541,6 +978,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.Label LblDataEntrega 
       Caption         =   "Data Entrega"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
       Left            =   240
       TabIndex        =   24
@@ -549,6 +995,15 @@ Begin VB.Form FrmComEmissaoAluguel
    End
    Begin VB.Label LblCodVendedor 
       Caption         =   "Cód.Vendedor"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   255
       Left            =   6240
       TabIndex        =   23
@@ -595,6 +1050,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim VRECEBIDO, VTOTAL, DH, CD, CC, CH As Double
+Dim PAGTOMIN, DIFERENCA As Double
 Private Sub CmdBuscaProduto_Click()
  FrmComEmissaoAluguelBuscarProduto.Show
 End Sub
@@ -602,23 +1059,193 @@ End Sub
 Private Sub CmdBuscarNome_Click()
  FrmComEmissaoAluguelBuscarNome.Show
 End Sub
-Private Function ValidaCompos() As Boolean
+Private Function ValidaCampos() As Boolean
 
  If IsNumeric(TxtNumPedido.Text) <> Empty Then
 
- 
  ValidaCampos = True
+ 
+    If IsNumeric(TxtCodVendedor.Text) <> Empty Then
+    
+    ValidaCampos = True
+    
+        If IsNumeric(TxtCodCliente.Text) <> Empty Then
+        
+        ValidaCampos = True
+        
+            If IsDate(MskDataEntrega.Text) <> Empty Then
+            
+            ValidaCampos = True
+            
+                If TxtDiasAlugados.Text <> Empty Then
+                
+                ValidaCampos = True
+                
+                    If IsDate(MskDataLimiteDev.Text) <> Empty Then
+                    
+                    ValidaCampos = True
+                    
+                        If VTOTAL <> Empty And VTOTAL <> 0 Then
+                        
+                        ValidaCampos = True
+                        
+                        Else
+                        
+                        ValidaCampos = False
+                        
+                        End If
+                        
+                            If (PAGTOMIN + DIFERENCA) >= 0 Then
+                        
+                            ValidaCampos = True
+                            
+                                If (TxtCartaoDebito.Text <> Empty And CmbBandeiraCD <> Empty) Or TxtCartaoDebito = Empty Then
+                                
+                                ValidaCampos = True
+                                
+                                    If (TxtCartaoCredito.Text <> Empty And CmbBandeiraCC <> Empty And TxtParcelasCC.Text <> Empty) Or TxtCartaoCredito = Empty Then
+                                
+                                    ValidaCampos = True
+                                
+                                        If (TxtCheque.Text <> Empty And TxtQuantCheque <> Empty) Or TxtCheque = Empty Then
+                                
+                                        ValidaCampos = True
+                                
+                                        Else
+                                
+                                        ValidaCampos = False
+                                    
+                                        MsgBox "Verifique o campo de Cheque", vbExclamation, Atenção
+                                
+                                        End If
+                                
+                                    Else
+                                
+                                    ValidaCampos = False
+                                
+                                    MsgBox "Verifique o campo de Cartão de Crédito", vbExclamation, Atenção
+                                
+                                    End If
+                                
+                                Else
+                                
+                                ValidaCampos = False
+                                
+                                MsgBox "Verifique o campo de Cartão de Débito", vbExclamation, Atenção
+                                
+                                End If
+                                
+                            
+                            Else
+                        
+                            ValidaCampos = False
+                        
+                            MsgBox "O Pagamento Mínimo não foi alcançado!", vbExclamation, Atenção
+                        
+                            End If
+                    
+                    Else
+                    
+                    ValidaCampos = False
+                    
+                    End If
+                
+                Else
+                
+                ValidaCampos = False
+                
+                End If
+            
+            Else
+            
+            ValidaCampos = False
+            
+            End If
+                   
+        Else
+        
+        ValidaCampos = False
+        
+        End If
+    
+    Else
+    
+    ValidaCampos = False
+    
+    End If
  
  Else
  
  ValidaCampos = False
  
  End If
- Else
+ 
   
-
-
 End Function
+Private Sub limpa_campos()
+
+TxtNumPedido.Text = ""
+TxtNumPedido.Enabled = False
+TxtCodVendedor.Text = ""
+TxtCodVendedor.Enabled = False
+LblVendedor.Caption = ""
+TxtCodCliente.Text = ""
+TxtCodCliente.Enabled = False
+LblCliente.Caption = ""
+MskDataEntrega.Mask = ""
+MskDataEntrega.Text = ""
+MskDataEntrega.Mask = "##/##/####"
+MskDataEntrega.Enabled = False
+TxtDiasAlugados.Text = ""
+TxtDiasAlugados.Enabled = False
+MskDataLimiteDev.Mask = ""
+MskDataLimiteDev.Text = ""
+MskDataLimiteDev.Mask = "##/##/####"
+MskDataLimiteDev.Enabled = False
+TxtCodProduto.Text = ""
+LblProduto.Caption = ""
+TxtQuant.Text = ""
+TxtOBS.Text = ""
+TxtDinheiro.Text = ""
+TxtCartaoCredito.Text = ""
+TxtCartaoDebito.Text = ""
+TxtCheque.Text = ""
+CmbBandeiraCC.Text = ""
+CmbBandeiraCD.Text = ""
+TxtParcelasCC.Text = ""
+TxtQuantCheque.Text = ""
+TxtCupomDesconto.Text = ""
+TxtValorTotal.Text = ""
+TxtPagtoMinimo.Text = ""
+TxtValorRecebido.Text = ""
+TxtDesconto.Text = ""
+TxtDiferenca.Text = ""
+
+Call formata_flex
+
+End Sub
+
+Private Sub CmdCancelarPedido_Click()
+
+resultado = MsgBox("Deseja Cancelar o Pedido", vbYesNo, Confirmação)
+
+If resultado = vbYes Then
+
+Call limpa_campos
+MsgBox "Pedido Cancelado!", vbExclamation, Aviso
+
+End If
+
+End Sub
+
+Private Sub CmdEmitirPedido_Click()
+
+
+
+MsgBox ValidaCampos
+
+
+End Sub
 
 Private Sub CmdGerarNumeroPedido_Click()
 
@@ -640,6 +1267,7 @@ If TxtNumPedido.Text = Empty Then
  
  TxtNumPedido.Text = reg.Fields("UltNumPedido")
  TxtNumPedido.Enabled = False
+ TxtCodVendedor.Enabled = True
  TxtCodVendedor.SetFocus
  
  reg.Close
@@ -651,13 +1279,71 @@ If TxtNumPedido.Text = Empty Then
  End If
 End Sub
 
+Private Sub CmdInserir_Click()
+
+ If TxtCodProduto.Text <> Empty And TxtQuant.Text <> Empty Then
+
+ Dim TOTAL As Double
+ Set CN1 = New ADODB.Connection
+     CN1.Open STR_DSN
+     Set REG2 = New ADODB.Recordset
+     REG2.ActiveConnection = CN1
+ 
+ 
+ REG2.Open ("SELECT codprod,descricao,preco FROM PRODUTOS WHERE codprod = " & Trim(TxtCodProduto.Text) & "")
+    
+ TOTAL = REG2.Fields("preco") * TxtQuant.Text
+
+ MSFlexItens.AddItem (REG2.Fields("CodProd") & vbTab & _
+                        REG2.Fields("Descricao") & vbTab & _
+                        TxtQuant.Text & vbTab & _
+                        Format(REG2.Fields("preco"), "#,##0.00") & vbTab & _
+                        Format(TOTAL, "#,##0.00"))
+                                                
+     REG2.Close
+                         
+ TxtCodProduto.Text = ""
+ LblProduto.Caption = ""
+ TxtQuant.Text = ""
+ TxtCodProduto.SetFocus
+
+ For contador2 = 1 To MSFlexItens.Rows - 1
+    MSFlexItens.Row = contador2
+    MSFlexItens.Col = 4
+    VTOTAL = VTOTAL + CDbl(MSFlexItens.Text)
+ Next
+ 
+ TxtValorTotal.Text = Format(VTOTAL, "#,##0.00")
+ PAGTOMIN = VTOTAL * 0.5
+ TxtPagtoMinimo.Text = Format(PAGTOMIN, "#,##0.00")
+
+ Else
+ 
+ MsgBox "Prencha os campos do produto", vbExclamation
+ 
+
+ End If
+                         
+End Sub
+
+Private Sub CmdRemoverItem_Click()
+
+ If MSFlexItens.Rows = 2 Or MSFlexItens.Rows = 1 Then
+    
+    Call formata_flex
+ Else
+
+MSFlexItens.RemoveItem (MSFlexItens.RowSel)
+
+ End If
+
+End Sub
+
 Private Sub Form_Load()
     Me.Top = 100
     Me.Top = 100
-End Sub
-
-Private Sub MSFlexItens_Click()
-Call formata_flex
+    
+    Call formata_flex
 End Sub
 
 Public Sub TxtCodCliente_KeyPress(KeyAscii As Integer)
@@ -675,6 +1361,7 @@ Public Sub TxtCodCliente_KeyPress(KeyAscii As Integer)
  
  LblCliente.Caption = reg.Fields("Nome")
 
+ MskDataEntrega.Enabled = True
  MskDataEntrega.SetFocus
  
  Else
@@ -723,7 +1410,7 @@ End Sub
 
 Private Sub TxtCodVendedor_KeyPress(KeyAscii As Integer)
 
-If KeyAscii = 13 And IsNumeric(TxtCodVendedor.Text) <> Empty Then
+ If KeyAscii = 13 And IsNumeric(TxtCodVendedor.Text) <> Empty Then
 
  Set CN1 = New ADODB.Connection
  CN1.Open STR_DSN
@@ -736,6 +1423,7 @@ If KeyAscii = 13 And IsNumeric(TxtCodVendedor.Text) <> Empty Then
  
  LblVendedor.Caption = reg.Fields("Nome")
 
+ TxtCodCliente.Enabled = True
  TxtCodCliente.SetFocus
  
  Else
@@ -748,13 +1436,14 @@ If KeyAscii = 13 And IsNumeric(TxtCodVendedor.Text) <> Empty Then
  reg.Close
  
 
-End If
-
+ End If
+ 
 End Sub
 Private Sub MskDataEntrega_KeyPress(KeyAscii As Integer)
 
  If KeyAscii = 13 And IsDate(MskDataEntrega.Text) <> Empty Then
 
+ TxtDiasAlugados.Enabled = True
  TxtDiasAlugados.SetFocus
  
 
@@ -775,6 +1464,7 @@ I = DateAdd("d", CInt(TxtDiasAlugados.Text), MskDataEntrega.Text)
 MskDataLimiteDev.Text = I
 
 
+ TxtOBS.Enabled = True
  TxtOBS.SetFocus
 
  End If
@@ -782,9 +1472,31 @@ MskDataLimiteDev.Text = I
 End Sub
 Private Sub TxtDinheiro_KeyPress(KeyAscii As Integer)
 
+
  If KeyAscii = 13 Then
 
     TxtCartaoDebito.SetFocus
+    
+    If TxtDinheiro.Text <> Empty Then
+    
+    VRECEBIDO = VRECEBIDO - DH
+    DH = Replace(Replace(TxtDinheiro.Text, "R", ""), "$", "")
+    TxtValorRecebido.Text = Format(VRECEBIDO + DH, "#,##0.00")
+    VRECEBIDO = TxtValorRecebido.Text
+    DIFERENCA = VRECEBIDO - VTOTAL
+    TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
+    
+    Else
+    
+    VRECEBIDO = VRECEBIDO - DH
+    DH = 0
+    TxtValorRecebido.Text = Format(VRECEBIDO, "#,##0.00")
+    VRECEBIDO = TxtValorRecebido.Text
+    DIFERENCA = VRECEBIDO - VTOTAL
+    TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
+    
+    End If
+    
  End If
 
 End Sub
@@ -794,9 +1506,23 @@ If KeyAscii = 13 Then
 
  If TxtCartaoDebito.Text <> Empty Then
  
+    VRECEBIDO = VRECEBIDO - CD
+    CD = Replace(Replace(TxtCartaoDebito.Text, "R", ""), "$", "")
+    TxtValorRecebido.Text = Format(VRECEBIDO + CD, "#,##0.00")
+    VRECEBIDO = TxtValorRecebido.Text
+    DIFERENCA = VRECEBIDO - VTOTAL
+    TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
+    
     CmbBandeiraCD.SetFocus
     
  Else
+ 
+    VRECEBIDO = VRECEBIDO - CD
+    CD = 0
+    TxtValorRecebido.Text = Format(VRECEBIDO, "#,##0.00")
+    VRECEBIDO = TxtValorRecebido.Text
+    DIFERENCA = VRECEBIDO - VTOTAL
+    TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
     
     TxtCartaoCredito.SetFocus
     
@@ -811,9 +1537,24 @@ If KeyAscii = 13 Then
 
  If TxtCartaoCredito.Text <> Empty Then
  
+    
+    VRECEBIDO = VRECEBIDO - CC
+    CC = Replace(Replace(TxtCartaoCredito.Text, "R", ""), "$", "")
+    TxtValorRecebido.Text = Format(VRECEBIDO + CC, "#,##0.00")
+    VRECEBIDO = TxtValorRecebido.Text
+    DIFERENCA = VRECEBIDO - VTOTAL
+    TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
+    
     CmbBandeiraCC.SetFocus
     
  Else
+    
+    VRECEBIDO = VRECEBIDO - CC
+    CC = 0
+    TxtValorRecebido.Text = Format(VRECEBIDO, "#,##0.00")
+    VRECEBIDO = TxtValorRecebido.Text
+    DIFERENCA = VRECEBIDO - VTOTAL
+    TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
     
     TxtCheque.SetFocus
     
@@ -827,10 +1568,26 @@ Private Sub TxtCheque_KeyPress(KeyAscii As Integer)
 If KeyAscii = 13 Then
 
  If TxtCheque.Text <> Empty Then
- 
+    
+    VRECEBIDO = VRECEBIDO - CH
+    CH = Replace(Replace(TxtCheque.Text, "R", ""), "$", "")
+    VRECEBIDO = VRECEBIDO + CH
+    TxtValorRecebido.Text = Format(VRECEBIDO, "#,##0.00")
+    DIFERENCA = VRECEBIDO - VTOTAL
+    TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
+
+    
     TxtQuantCheque.SetFocus
     
  Else
+    
+    
+    VRECEBIDO = VRECEBIDO - CH
+    CH = 0
+    TxtValorRecebido.Text = Format(VRECEBIDO, "#,##0.00")
+    VRECEBIDO = TxtValorRecebido.Text
+    DIFERENCA = VRECEBIDO - VTOTAL
+    TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
     
     TxtCupomDesconto.SetFocus
     

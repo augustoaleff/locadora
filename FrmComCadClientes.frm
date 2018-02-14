@@ -635,24 +635,41 @@ Private Function ValidaCampos() As Boolean
         ValidaCampos = True
         
             If Len(Replace(Replace(Replace(Replace(TxtCPF.Text, ".", ""), "-", ""), "/", ""), "\", "")) = 11 Or Len(Replace(Replace(Replace(Replace(TxtCPF.Text, ".", ""), "-", ""), "/", ""), "\", "")) = 14 Then
+            
             ValidaCampos = True
+                
                 If IsDate(MskDataNasc.Text) = True Then
  
                 ValidaCampos = True
+                        
                         If Replace(Replace(Replace(Replace(Replace(MskCelular.Text, "(", ""), ")", ""), "-", ""), " ", ""), "_", "") <> Empty Then
+                        
                         ValidaCampos = True
+                            
                             If Replace(Replace(Replace(MskCEP.Text, "-", ""), " ", ""), "_", "") <> Empty Then
+                            
                             ValidaCampos = True
+                                
                                 If Trim(TxtEndereco.Text) <> Empty Or Trim(TxtBairro.Text) <> Empty Or Trim(TxtCidade.Text) <> Empty Or Trim(TxtCodMunicipio.Text) <> Empty Then
+                                
                                 ValidaCampos = True
+                                
                                 Else
+                                
                                 ValidaCampos = False
+                                
                                 End If
+                            
                             Else
+                            
                             ValidaCampos = False
+                            
                             End If
+                        
                         Else
+                        
                         ValidaCampos = False
+                        
                         End If
                 Else
    
@@ -661,8 +678,11 @@ Private Function ValidaCampos() As Boolean
                 End If
                 
             Else
+            
             ValidaCampos = False
+            
             End If
+        
         Else
         
         ValidaCampos = False
@@ -680,71 +700,6 @@ Private Function ValidaCampos() As Boolean
  ValidaCampos = False
   
  End If
- 
- 
-  'If IsNumeric(TxtCodigo.Text) <> Empty Then
-  
- ' ValidaCampos = True
-  
- 'Else
-  
-  'ValidaCampos = False
-  
- 'End If
- 
- 
-'If TxtNome.Text <> Empty Then
-  ' ValidaCampos = True
-' Else
- '  ValidaCampos = False
-' End If
- 
- 
- 'If Len(Replace(Replace(Replace(Replace(TxtCPF.Text, ".", ""), "-", ""), "/", ""), "\", "")) = 11 Or Len(Replace(Replace(Replace(Replace(TxtCPF.Text, ".", ""), "-", ""), "/", ""), "\", "")) = 14 Then
- '  ValidaCampos = True
-' Else
-'   ValidaCampos = False
-' End If
- 
- 
-' If IsDate(MskDataNasc.Text) = True Then
- 
-'   ValidaCampos = True
-   
-' Else
-   
-'   ValidaCampos = False
-
-' End If
- 
- 
- 'If Replace(Replace(Replace(Replace(Replace(MskTelefone.Text, "(", ""), ")", ""), "-", ""), " ", ""), "_", "") <> Empty Then
-'    ValidaCampos = True
-' Else
- '   ValidaCampos = False
-' End If
- 
-'  If Replace(Replace(Replace(Replace(Replace(MskCelular.Text, "(", ""), ")", ""), "-", ""), " ", ""), "_", "") <> Empty Then
- '   ValidaCampos = True
-' Else
-    'ValidaCampos = False
-' End If
- 
- 
-' If Replace(Replace(Replace(MskCEP.Text, "-", ""), " ", ""), "_", "") <> Empty Then
-   ' ValidaCampos = True
-' Else
-  '  ValidaCampos = False
- 'End If
- 
- 
-'If Trim(TxtEndereco.Text) <> Empty Or Trim(TxtBairro.Text) <> Empty Or Trim(TxtCidade.Text) <> Empty Or Trim(TxtCodMunicipio.Text) <> Empty Then
-'    ValidaCampos = True
- 'Else
- '   ValidaCampos = False
-' End If
- 
- 
   
 End Function
 

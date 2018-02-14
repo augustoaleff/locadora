@@ -723,7 +723,13 @@ If ValidaCampos = True Then
     Call limpa_campos
     
     reg.Close
+    
+ Else
+ 
+ MsgBox "Por favor Verifique os Campos", vbInformation, "Aviso"
+ 
  End If
+ 
 End Sub
 
 Private Sub CmdLimparTela_Click()
@@ -813,152 +819,142 @@ Private Function ValidaCampos() As Boolean
  
     ValidaCampos = True
     
- Else
+        If TxtNome.Text <> Empty Then
  
-    ValidaCampos = False
+        ValidaCampos = True
+        
+            If Len(Replace(Replace(Replace(Replace(Replace(TxtCPF.Text, "-", ""), ".", ""), "/", ""), "\", ""), " ", "")) = 11 Then
+ 
+            ValidaCampos = True
+            
+                If Len(Replace(Replace(Replace(Replace(Replace(TxtRG.Text, "-", ""), ".", ""), "/", ""), "\", ""), " ", "")) = 9 Then
     
- End If
+                ValidaCampos = True
+                
+                    If IsDate(MskDataNasc.Text) <> Empty Then
  
+                    ValidaCampos = True
+                    
+                        If Replace(Replace(Replace(Replace(MskTelefone.Text, "-", ""), "(", ""), ")", ""), " ", "") <> Empty Then
  
+                        ValidaCampos = True
+                        
+                            If Replace(Replace(Replace(Replace(MskCelular.Text, "-", ""), "(", ""), ")", ""), " ", "") <> Empty Then
  
- If TxtNome.Text <> Empty Then
+                            ValidaCampos = True
+                            
+                                If Replace(Replace(Replace(Replace(MskCEP.Text, "-", ""), "(", ""), ")", ""), " ", "") <> Empty Then
  
-    ValidaCampos = True
+                                ValidaCampos = True
+                                
+                                    If TxtEndereco.Text <> Empty Or TxtNumero.Text <> Empty Or TxtBairro.Text <> Empty Then
+ 
+                                    ValidaCampos = True
+                                    
+                                        If TxtCidade.Text <> Empty Or TxtCodMunicipio.Text <> Empty Or TxtUF.Text <> Empty Then
     
- Else
- 
-    ValidaCampos = False
-    
- End If
- 
- 
- If Len(Replace(Replace(Replace(Replace(Replace(TxtCPF.Text, "-", ""), ".", ""), "/", ""), "\", ""), " ", "")) = 11 Then
- 
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-    
- End If
- 
- 
- If Len(Replace(Replace(Replace(Replace(Replace(TxtRG.Text, "-", ""), ".", ""), "/", ""), "\", ""), " ", "")) = 9 Then
-    
-    ValidaCampos = True
- 
- Else
- 
-    ValidaCampos = False
-    
- End If
- 
- 
- If IsDate(MskDataNasc.Text) <> Empty Then
- 
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
+                                        ValidaCampos = True
+                                        
+                                            If TxtEmail <> Empty Then
 
- End If
- 
- 
- If Replace(Replace(Replace(Replace(MskTelefone.Text, "-", ""), "(", ""), ")", ""), " ", "") <> Empty Then
- 
-    ValidaCampos = True
+                                            ValidaCampos = True
+                                            
+                                                If IsDate(MskDataAdmissao.Text) <> Empty Then
     
- Else
- 
-    ValidaCampos = False
+                                                ValidaCampos = True
+                                                
+                                                    If IsDate(MskDataDemissao.Text) = True Then
     
- End If
+                                                    ValidaCampos = True
+                                                    
+                                                        If TxtCargo.Text <> Empty Then
  
- If Replace(Replace(Replace(Replace(MskCelular.Text, "-", ""), "(", ""), ")", ""), " ", "") <> Empty Then
+                                                        ValidaCampos = True
  
-    ValidaCampos = True
-    
- Else
+                                                        Else
  
-    ValidaCampos = False
-    
- End If
- 
- If Replace(Replace(Replace(Replace(MskCEP.Text, "-", ""), "(", ""), ")", ""), " ", "") <> Empty Then
- 
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-    
- End If
- 
- If TxtEndereco.Text <> Empty Or TxtNumero.Text <> Empty Or TxtBairro.Text <> Empty Then
- 
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-    
- End If
- 
- 
- 
- If TxtCidade.Text <> Empty Or TxtCodMunicipio.Text <> Empty Or TxtUF.Text <> Empty Then
-    
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-    
- End If
+                                                        ValidaCampos = False
 
+                                                        End If
+    
+                                                    Else
+ 
+                                                    ValidaCampos = False
+    
+                                                    End If
+    
+                                                Else
+ 
+                                                ValidaCampos = False
+                                                
+                                                End If
+    
+                                            Else
+ 
+                                            ValidaCampos = False
+    
+                                            End If
+    
+                                        Else
+ 
+                                        ValidaCampos = False
+    
+                                        End If
+    
+                                    Else
+ 
+                                    ValidaCampos = False
+    
+                                    End If
+ 
+    
+                                Else
+ 
+                                ValidaCampos = False
+    
+                                End If
+    
+                            Else
+ 
+                            ValidaCampos = False
+    
+                            End If
+    
+                        Else
+ 
+                        ValidaCampos = False
+    
+                        End If
+    
+                    Else
+ 
+                    ValidaCampos = False
 
-If TxtEmail <> Empty Then
-
-    ValidaCampos = True
+                    End If
+ 
+                Else
+ 
+                ValidaCampos = False
     
+                End If
+    
+            Else
+ 
+            ValidaCampos = False
+    
+            End If
+    
+        Else
+ 
+        ValidaCampos = False
+    
+        End If
+ 
  Else
  
     ValidaCampos = False
     
  End If
- 
- If IsDate(MskDataAdmissao.Text) <> Empty Then
-    
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-    
- End If
- 
- 
- If IsDate(MskDataDemissao.Text) = True Then
-    
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-    
- End If
- 
- If TxtCargo.Text <> Empty Then
- 
-    ValidaCampos = True
- 
- Else
- 
-    ValidaCampos = False
-
- End If
- 
  
 End Function
 

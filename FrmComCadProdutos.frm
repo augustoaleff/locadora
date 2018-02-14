@@ -391,7 +391,12 @@ reg.ActiveConnection = CN1
     
     reg.Close
     
+ Else
+ 
+ MsgBox "Por favor Verifique os Campos", vbInformation, "Aviso"
+    
  End If
+ 
 End Sub
 
 Private Sub CmdLimparTela_Click()
@@ -467,81 +472,80 @@ Private Function ValidaCampos() As Boolean
 
     ValidaCampos = True
     
+        If TxtDescricao.Text <> Empty Then
+
+        ValidaCampos = True
+   
+            If CmbTipo.Text <> Empty Then
+ 
+            ValidaCampos = True
+            
+                If CmbCategoria.Text <> Empty Then
+ 
+                ValidaCampos = True
+                
+                    If TxtLocalizacao.Text <> Empty Then
+ 
+                    ValidaCampos = True
+                    
+                        If Format(TxtPreco.Text, "#,##0.00") <> Empty Then
+ 
+                        ValidaCampos = True
+                        
+                            If IsNumeric(TxtCodForn.Text) <> Empty And LblForn.Caption <> Empty Then
+ 
+                            ValidaCampos = True
+                            
+                                If TxtCodBarras.Text <> Empty Then
+ 
+                                ValidaCampos = True
+    
+                                Else
+ 
+                                ValidaCampos = False
+    
+                                End If
+    
+                            Else
+ 
+                            ValidaCampos = False
+    
+                            End If
+    
+                        Else
+ 
+                        ValidaCampos = False
+    
+                        End If
+    
+                    Else
+ 
+                    ValidaCampos = False
+    
+                    End If
+    
+                Else
+ 
+                ValidaCampos = False
+    
+                End If
+    
+            Else
+ 
+            ValidaCampos = False
+    
+            End If
+            
+        Else
+
+        ValidaCampos = False
+   
+        End If
+ 
  Else
  
     ValidaCampos = False
  
- End If
- 
- If TxtDescricao.Text <> Empty Then
- 
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-    
- End If
- 
- 
- If CmbTipo.Text <> Empty Then
- 
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-    
- End If
- 
- If CmbCategoria.Text <> Empty Then
- 
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-    
- End If
- 
- If TxtLocalizacao.Text <> Empty Then
- 
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-    
- End If
- 
- If Format(TxtPreco.Text, "#,##0.00") <> Empty Then
- 
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-    
- End If
- 
- If IsNumeric(TxtCodForn.Text) <> Empty And LblForn.Caption <> Empty Then
- 
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-    
- End If
- 
- If TxtCodBarras.Text <> Empty Then
- 
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-    
  End If
 
 End Function

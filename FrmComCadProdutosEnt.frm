@@ -240,7 +240,7 @@ End Sub
 Private Sub CmdGravar_Click()
 Dim ENTRADA As Long
 
-If ValidaCampos = True Then
+ If ValidaCampos = True Then
 
 Set CN1 = New ADODB.Connection
 CN1.Open STR_DSN
@@ -258,7 +258,13 @@ CN1.Open STR_DSN
        
     Call limpa_campos
     
+    
+ Else
+ 
+ MsgBox "Por favor Verifique os Campos", vbInformation, "Aviso"
+ 
  End If
+ 
 End Sub
 
 Private Sub CmdLimparTela_Click()
@@ -292,46 +298,55 @@ Private Function ValidaCampos() As Boolean
  
     ValidaCampos = True
     
- Else
+        If IsNumeric(TxtCodForn.Text) <> Empty Then
  
-    ValidaCampos = False
+        ValidaCampos = True
+        
+            If IsNumeric(TxtQuantEnt.Text) <> Empty Then
+ 
+            ValidaCampos = True
+            
+                If IsNumeric(TxtCodProduto.Text) <> Empty Then
+ 
+                ValidaCampos = True
+                
+                    If TxtNumeroNfe.Text <> Empty Then
+ 
+                    ValidaCampos = True
+                    
+                        If IsDate(MskDataEnt.Text) <> Empty Then
+ 
+                        ValidaCampos = True
     
- End If
+                        Else
  
- 
- If IsNumeric(TxtCodForn.Text) <> Empty Then
- 
-    ValidaCampos = True
+                        ValidaCampos = False
     
- Else
- 
-    ValidaCampos = False
+                        End If
     
- End If
+                    Else
  
-  If IsNumeric(TxtQuantEnt.Text) <> Empty Then
- 
-    ValidaCampos = True
+                    ValidaCampos = False
     
- Else
- 
-    ValidaCampos = False
+                    End If
     
- End If
+                Else
  
-  If IsNumeric(TxtCodProduto.Text) <> Empty Then
- 
-    ValidaCampos = True
+                ValidaCampos = False
     
- Else
- 
-    ValidaCampos = False
+                End If
     
- End If
+            Else
  
- If TxtNumeroNfe.Text <> Empty Then
+            ValidaCampos = False
+    
+            End If
+    
+        Else
  
-    ValidaCampos = True
+        ValidaCampos = False
+    
+        End If
     
  Else
  
@@ -339,16 +354,6 @@ Private Function ValidaCampos() As Boolean
     
  End If
 
- If IsDate(MskDataEnt.Text) <> Empty Then
- 
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-    
- End If
- 
 End Function
 
 Public Sub TxtCodProduto_KeyPress(KeyAscii As Integer)

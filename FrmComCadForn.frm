@@ -572,6 +572,11 @@ If ValidaCampos = True Then
     Call LimpaCampos
     
     reg.Close
+    
+ Else
+ 
+ MsgBox "Por favor Verifique os Campos", vbInformation, "Aviso"
+ 
  End If
  
     
@@ -624,96 +629,81 @@ Private Function ValidaCampos() As Boolean
 
  If IsNumeric(TxtCodigo.Text) <> Empty Then
     
+ ValidaCampos = True
+    
+    If TxtRazaoSocial.Text <> Empty Then
+    
     ValidaCampos = True
     
-  Else
+        If TxtRepresentante.Text <> Empty Then
+    
+        ValidaCampos = True
+        
+            If Len(Replace(Replace(Replace(Replace(TxtCNPJ.Text, ".", ""), "-", ""), "/", ""), "\", "")) = 14 Then
+    
+            ValidaCampos = True
+            
+                If (Replace(Replace(Replace(Replace(TxtIE.Text, ".", ""), "-", ""), "/", ""), "\", "")) <> Empty Then
+    
+                ValidaCampos = True
+                
+                    If Replace(Replace(Replace(Replace(Replace(MskTelefone.Text, "-", ""), "(", ""), ")", ""), " ", ""), ".", "") <> Empty Then
+ 
+                    ValidaCampos = True
+                    
+                        If Replace(Replace(Replace(Replace(Replace(MskCelular.Text, "-", ""), "(", ""), ")", ""), " ", ""), ".", "") <> Empty Then
+ 
+                        ValidaCampos = True
+                        
+                            If Replace(Replace(Replace(Replace(Replace(MskCEP.Text, "-", ""), "(", ""), ")", ""), " ", ""), ".", "") <> Empty Then
+ 
+                            ValidaCampos = True
+    
+                            Else
+ 
+                            ValidaCampos = False
+
+                            End If
+    
+                        Else
+ 
+                        ValidaCampos = False
+
+                        End If
+    
+                    Else
+ 
+                    ValidaCampos = False
+
+                    End If
+ 
+                Else
+    
+                ValidaCampos = False
+    
+                End If
+    
+            Else
+ 
+            ValidaCampos = False
+ 
+            End If
+ 
+        Else
+    
+        ValidaCampos = False
+ 
+        End If
+
+    Else
+ 
+    ValidaCampos = False
+    
+    End If
+    
+ Else
   
-    ValidaCampos = False
-    
- End If
-
- If TxtRazaoSocial.Text <> Empty Then
-    
-    ValidaCampos = True
-
- Else
- 
-    ValidaCampos = False
-    
- End If
- 
- 
- If TxtRepresentante.Text <> Empty Then
-    
-    ValidaCampos = True
- 
- Else
-    
-    ValidaCampos = False
- 
- End If
- 
- 
- If Len(Replace(Replace(Replace(Replace(TxtCNPJ.Text, ".", ""), "-", ""), "/", ""), "\", "")) = 14 Then
-    
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
- 
- End If
- 
- 
- If (Replace(Replace(Replace(Replace(TxtIE.Text, ".", ""), "-", ""), "/", ""), "\", "")) <> Empty Then
-    
-    ValidaCampos = True
- 
- Else
-    
-    ValidaCampos = False
-    
- End If
- 
- If Replace(Replace(Replace(Replace(Replace(MskTelefone.Text, "-", ""), "(", ""), ")", ""), " ", ""), ".", "") <> Empty Then
- 
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-
- End If
- 
- 
- If Replace(Replace(Replace(Replace(Replace(MskCelular.Text, "-", ""), "(", ""), ")", ""), " ", ""), ".", "") <> Empty Then
- 
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-
- End If
- 
- 
- If Replace(Replace(Replace(Replace(Replace(MskCEP.Text, "-", ""), "(", ""), ")", ""), " ", ""), ".", "") <> Empty Then
- 
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
-
- End If
- 
- If TxtEndereco.Text <> Empty Or TxtNumero.Text <> Empty Or TxtBairro.Text <> Empty Or TxtCidade.Text <> Empty Or TxtCodMunicipio.Text <> Empty Then
- 
-    ValidaCampos = True
-    
- Else
- 
-    ValidaCampos = False
+ ValidaCampos = False
     
  End If
  

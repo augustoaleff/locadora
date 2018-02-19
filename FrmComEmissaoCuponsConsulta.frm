@@ -13,7 +13,7 @@ Begin VB.Form FrmComEmissaoCuponsConsulta
    MinButton       =   0   'False
    ScaleHeight     =   7365
    ScaleWidth      =   8595
-   Begin VB.CommandButton Command3 
+   Begin VB.CommandButton CmdLimparTela 
       Caption         =   "Limpar Tela"
       Height          =   495
       Left            =   3360
@@ -21,7 +21,7 @@ Begin VB.Form FrmComEmissaoCuponsConsulta
       Top             =   6600
       Width           =   2175
    End
-   Begin VB.CommandButton Command2 
+   Begin VB.CommandButton CmdImprimirRelat 
       Caption         =   "Imprimir Relatório"
       Height          =   495
       Left            =   120
@@ -29,7 +29,7 @@ Begin VB.Form FrmComEmissaoCuponsConsulta
       Top             =   6600
       Width           =   2415
    End
-   Begin VB.CommandButton Command1 
+   Begin VB.CommandButton CmdConsultar 
       Caption         =   "Consultar"
       Height          =   495
       Left            =   6360
@@ -37,7 +37,7 @@ Begin VB.Form FrmComEmissaoCuponsConsulta
       Top             =   6600
       Width           =   1935
    End
-   Begin MSFlexGridLib.MSFlexGrid MSFlexGrid1 
+   Begin MSFlexGridLib.MSFlexGrid MSFlexCupons 
       Height          =   4095
       Left            =   240
       TabIndex        =   10
@@ -47,35 +47,35 @@ Begin VB.Form FrmComEmissaoCuponsConsulta
       _ExtentY        =   7223
       _Version        =   393216
    End
-   Begin VB.TextBox Text3 
+   Begin VB.TextBox TxtPeriodoAte 
       Height          =   330
       Left            =   2880
       TabIndex        =   3
       Top             =   1320
       Width           =   1815
    End
-   Begin VB.TextBox Text2 
+   Begin VB.TextBox TxtPeriodoDe 
       Height          =   330
       Left            =   1080
       TabIndex        =   2
       Top             =   1320
       Width           =   1455
    End
-   Begin VB.TextBox Text1 
+   Begin VB.TextBox TxtCodCupom 
       Height          =   330
       Left            =   1080
       TabIndex        =   1
       Top             =   840
       Width           =   1215
    End
-   Begin VB.Frame Frame1 
+   Begin VB.Frame FramePesquisar 
       Caption         =   "Pesquisar"
       Height          =   615
       Left            =   120
       TabIndex        =   6
       Top             =   120
       Width           =   4695
-      Begin VB.OptionButton Option3 
+      Begin VB.OptionButton OptNaoUtilizados 
          Caption         =   "Não Utilizados"
          Height          =   255
          Left            =   3120
@@ -83,7 +83,7 @@ Begin VB.Form FrmComEmissaoCuponsConsulta
          Top             =   240
          Width           =   1335
       End
-      Begin VB.OptionButton Option2 
+      Begin VB.OptionButton OptUtilizados 
          Caption         =   "Utilizados"
          Height          =   255
          Left            =   1560
@@ -91,7 +91,7 @@ Begin VB.Form FrmComEmissaoCuponsConsulta
          Top             =   240
          Width           =   1095
       End
-      Begin VB.OptionButton Option1 
+      Begin VB.OptionButton OptTodos 
          Caption         =   "Todos"
          Height          =   255
          Left            =   360
@@ -101,7 +101,7 @@ Begin VB.Form FrmComEmissaoCuponsConsulta
          Width           =   1095
       End
    End
-   Begin VB.Label Label5 
+   Begin VB.Label LblA 
       Caption         =   "a"
       Height          =   255
       Left            =   2640
@@ -109,7 +109,7 @@ Begin VB.Form FrmComEmissaoCuponsConsulta
       Top             =   1440
       Width           =   135
    End
-   Begin VB.Label Label4 
+   Begin VB.Label LblValorTotal 
       BorderStyle     =   1  'Fixed Single
       Height          =   330
       Left            =   6360
@@ -117,7 +117,7 @@ Begin VB.Form FrmComEmissaoCuponsConsulta
       Top             =   1320
       Width           =   2055
    End
-   Begin VB.Label Label3 
+   Begin VB.Label LblValor 
       Caption         =   "Valor Total R$"
       Height          =   255
       Left            =   5160
@@ -125,7 +125,7 @@ Begin VB.Form FrmComEmissaoCuponsConsulta
       Top             =   1320
       Width           =   1095
    End
-   Begin VB.Label Label2 
+   Begin VB.Label LblPeriodo 
       Caption         =   "Período"
       Height          =   255
       Left            =   120
@@ -133,7 +133,7 @@ Begin VB.Form FrmComEmissaoCuponsConsulta
       Top             =   1320
       Width           =   735
    End
-   Begin VB.Label Label1 
+   Begin VB.Label LblCodCupom 
       Caption         =   "Cód Cupom"
       Height          =   255
       Left            =   120
@@ -147,3 +147,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Private Sub Label2_Click()
+
+End Sub

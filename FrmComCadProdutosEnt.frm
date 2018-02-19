@@ -356,6 +356,16 @@ Private Function ValidaCampos() As Boolean
 
 End Function
 
+Private Sub MskDataEnt_KeyPress(KeyAscii As Integer)
+
+ If KeyAscii = 13 And IsDate(MskDataEnt.Text) <> Empty Then
+
+ TxtNumeroNfe.SetFocus
+ 
+ End If
+ 
+End Sub
+
 Public Sub TxtCodProduto_KeyPress(KeyAscii As Integer)
 
  If KeyAscii = 13 And IsNumeric(TxtCodProduto.Text) <> Empty Then
@@ -429,5 +439,26 @@ REG2.Open ("SELECT RAZAOSOCIAL FROM FORNECEDORES WHERE CODFORN = " & Trim(TxtCod
  REG2.Close
  
  End If
+End Sub
+
+
+Private Sub TxtNumeroNfe_KeyPress(KeyAscii As Integer)
+
+ If KeyAscii = 13 And IsDate(MskDataEnt.Text) <> Empty Then
+
+ CmdGravar.SetFocus
+ 
+ End If
+ 
+End Sub
+
+Private Sub TxtQuantEnt_KeyPress(KeyAscii As Integer)
+
+ If KeyAscii = 13 And IsNumeric(TxtQuantEnt.Text) <> Empty Then
+
+ MskDataEnt.SetFocus
+ 
+ End If
+ 
 End Sub
 

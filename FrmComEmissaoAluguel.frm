@@ -612,6 +612,15 @@ Begin VB.Form FrmComEmissaoAluguel
       _ExtentX        =   15478
       _ExtentY        =   3413
       _Version        =   393216
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin VB.TextBox TxtQuant 
       BeginProperty Font 
@@ -627,7 +636,7 @@ Begin VB.Form FrmComEmissaoAluguel
       Left            =   7080
       TabIndex        =   7
       Top             =   2520
-      Width           =   975
+      Width           =   855
    End
    Begin VB.CommandButton CmdInserir 
       Caption         =   "Inserir"
@@ -641,7 +650,7 @@ Begin VB.Form FrmComEmissaoAluguel
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   8280
+      Left            =   8160
       TabIndex        =   8
       Top             =   2520
       Width           =   1335
@@ -657,7 +666,7 @@ Begin VB.Form FrmComEmissaoAluguel
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   1320
+      Left            =   1200
       TabIndex        =   6
       Top             =   2520
       Width           =   975
@@ -754,6 +763,40 @@ Begin VB.Form FrmComEmissaoAluguel
       Mask            =   "##/##/####"
       PromptChar      =   "_"
    End
+   Begin VB.Label LblQuantEst 
+      Caption         =   "Quant.Est"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Left            =   6000
+      TabIndex        =   61
+      Top             =   2280
+      Width           =   975
+   End
+   Begin VB.Label LblQuantEstoque 
+      BorderStyle     =   1  'Fixed Single
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   6000
+      TabIndex        =   60
+      Top             =   2520
+      Width           =   735
+   End
    Begin VB.Label LblDiasAlugados 
       Caption         =   "Dias Alugados"
       BeginProperty Font 
@@ -817,7 +860,7 @@ Begin VB.Form FrmComEmissaoAluguel
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   2400
+      Left            =   2280
       TabIndex        =   21
       Top             =   2520
       Width           =   3615
@@ -937,10 +980,10 @@ Begin VB.Form FrmComEmissaoAluguel
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   6240
+      Left            =   7080
       TabIndex        =   27
-      Top             =   2520
-      Width           =   735
+      Top             =   2280
+      Width           =   615
    End
    Begin VB.Label LblCodProduto 
       Caption         =   "Cód. Produto"
@@ -1051,292 +1094,501 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Dim VRECEBIDO, VTOTAL, DH, CD, CC, CH As Double
-Dim PAGTOMIN, DIFERENCA As Double
+Dim PAGTOMIN, DIFERENCA, DESCONTO As Double
+Dim CUPOM As Boolean
 Private Sub CmdBuscaProduto_Click()
- FrmComEmissaoAluguelBuscarProduto.Show
+    FrmComEmissaoAluguelBuscarProduto.Show
 End Sub
 
 Private Sub CmdBuscarNome_Click()
- FrmComEmissaoAluguelBuscarNome.Show
+    FrmComEmissaoAluguelBuscarNome.Show
 End Sub
 Private Function ValidaCampos() As Boolean
-
- If IsNumeric(TxtNumPedido.Text) <> Empty Then
-
- ValidaCampos = True
- 
-    If IsNumeric(TxtCodVendedor.Text) <> Empty Then
     
-    ValidaCampos = True
-    
-        If IsNumeric(TxtCodCliente.Text) <> Empty Then
+    If IsNumeric(TxtNumPedido.Text) <> Empty Then
         
         ValidaCampos = True
         
-            If IsDate(MskDataEntrega.Text) <> Empty Then
+        If IsNumeric(TxtCodVendedor.Text) <> Empty Then
             
             ValidaCampos = True
             
-                If TxtDiasAlugados.Text <> Empty Then
+            If IsNumeric(TxtCodCliente.Text) <> Empty Then
                 
                 ValidaCampos = True
                 
-                    If IsDate(MskDataLimiteDev.Text) <> Empty Then
+                If IsDate(MskDataEntrega.Text) <> Empty Then
                     
                     ValidaCampos = True
                     
-                        If VTOTAL <> Empty And VTOTAL <> 0 Then
+                    If TxtDiasAlugados.Text <> Empty Then
                         
                         ValidaCampos = True
                         
-                        Else
-                        
-                        ValidaCampos = False
-                        
-                        End If
-                        
-                            If (PAGTOMIN + DIFERENCA) >= 0 Then
-                        
+                        If IsDate(MskDataLimiteDev.Text) <> Empty Then
+                            
                             ValidaCampos = True
                             
-                                If (TxtCartaoDebito.Text <> Empty And CmbBandeiraCD <> Empty) Or TxtCartaoDebito = Empty Then
+                            If VTOTAL <> Empty And VTOTAL <> 0 Then
                                 
                                 ValidaCampos = True
                                 
-                                    If (TxtCartaoCredito.Text <> Empty And CmbBandeiraCC <> Empty And TxtParcelasCC.Text <> Empty) Or TxtCartaoCredito = Empty Then
-                                
-                                    ValidaCampos = True
-                                
-                                        If (TxtCheque.Text <> Empty And TxtQuantCheque <> Empty) Or TxtCheque = Empty Then
-                                
-                                        ValidaCampos = True
-                                
-                                        Else
-                                
-                                        ValidaCampos = False
+                                If (PAGTOMIN + DIFERENCA) >= 0 Then
                                     
-                                        MsgBox "Verifique o campo de Cheque", vbExclamation, Atenção
-                                
+                                    ValidaCampos = True
+                                    
+                                    If (TxtCartaoDebito.Text <> Empty And CmbBandeiraCD <> Empty) Or TxtCartaoDebito = Empty Then
+                                        
+                                        ValidaCampos = True
+                                        
+                                        If (TxtCartaoCredito.Text <> Empty And CmbBandeiraCC <> Empty And TxtParcelasCC.Text <> Empty) Or TxtCartaoCredito = Empty Then
+                                            
+                                            ValidaCampos = True
+                                            
+                                            If (TxtCheque.Text <> Empty And TxtQuantCheque <> Empty) Or TxtCheque = Empty Then
+                                                
+                                                ValidaCampos = True
+                                                
+                                            Else
+                                                
+                                                ValidaCampos = False
+                                                
+                                                MsgBox "Verifique o campo de Cheque", vbExclamation, Atenção
+                                                
+                                            End If
+                                            
+                                        Else
+                                            
+                                            ValidaCampos = False
+                                            
+                                            MsgBox "Verifique o campo de Cartão de Crédito", vbExclamation, Atenção
+                                            
                                         End If
-                                
+                                        
                                     Else
-                                
-                                    ValidaCampos = False
-                                
-                                    MsgBox "Verifique o campo de Cartão de Crédito", vbExclamation, Atenção
-                                
+                                        
+                                        ValidaCampos = False
+                                        
+                                        MsgBox "Verifique o campo de Cartão de Débito", vbExclamation, Atenção
+                                        
                                     End If
-                                
+                                    
                                 Else
+                                    
+                                    ValidaCampos = False
+                                    
+                                    MsgBox "O Pagamento Mínimo não foi alcançado!", vbExclamation, Atenção
+                                    
+                                End If
+                                
+                            Else
                                 
                                 ValidaCampos = False
                                 
-                                MsgBox "Verifique o campo de Cartão de Débito", vbExclamation, Atenção
-                                
-                                End If
-                                
-                            
-                            Else
-                        
-                            ValidaCampos = False
-                        
-                            MsgBox "O Pagamento Mínimo não foi alcançado!", vbExclamation, Atenção
-                        
                             End If
-                    
+                            
+                        Else
+                            
+                            ValidaCampos = False
+                            
+                        End If
+                        
                     Else
+                        
+                        ValidaCampos = False
+                        
+                    End If
+                    
+                Else
                     
                     ValidaCampos = False
                     
-                    End If
+                End If
                 
-                Else
+            Else
                 
                 ValidaCampos = False
                 
-                End If
+            End If
             
-            Else
+        Else
             
             ValidaCampos = False
             
-            End If
-                   
-        Else
+        End If
+        
+    Else
         
         ValidaCampos = False
         
-        End If
-    
-    Else
-    
-    ValidaCampos = False
-    
     End If
- 
- Else
- 
- ValidaCampos = False
- 
- End If
- 
-  
+    
+    
 End Function
 Private Sub limpa_campos()
-
-TxtNumPedido.Text = ""
-TxtNumPedido.Enabled = False
-TxtCodVendedor.Text = ""
-TxtCodVendedor.Enabled = False
-LblVendedor.Caption = ""
-TxtCodCliente.Text = ""
-TxtCodCliente.Enabled = False
-LblCliente.Caption = ""
-MskDataEntrega.Mask = ""
-MskDataEntrega.Text = ""
-MskDataEntrega.Mask = "##/##/####"
-MskDataEntrega.Enabled = False
-TxtDiasAlugados.Text = ""
-TxtDiasAlugados.Enabled = False
-MskDataLimiteDev.Mask = ""
-MskDataLimiteDev.Text = ""
-MskDataLimiteDev.Mask = "##/##/####"
-MskDataLimiteDev.Enabled = False
-TxtCodProduto.Text = ""
-LblProduto.Caption = ""
-TxtQuant.Text = ""
-TxtOBS.Text = ""
-TxtDinheiro.Text = ""
-TxtCartaoCredito.Text = ""
-TxtCartaoDebito.Text = ""
-TxtCheque.Text = ""
-CmbBandeiraCC.Text = ""
-CmbBandeiraCD.Text = ""
-TxtParcelasCC.Text = ""
-TxtQuantCheque.Text = ""
-TxtCupomDesconto.Text = ""
-TxtValorTotal.Text = ""
-TxtPagtoMinimo.Text = ""
-TxtValorRecebido.Text = ""
-TxtDesconto.Text = ""
-TxtDiferenca.Text = ""
-
-Call formata_flex
-
+    
+    TxtNumPedido.Text = ""
+    TxtNumPedido.Enabled = False
+    TxtCodVendedor.Text = ""
+    TxtCodVendedor.Enabled = False
+    LblVendedor.Caption = ""
+    TxtCodCliente.Text = ""
+    TxtCodCliente.Enabled = False
+    LblCliente.Caption = ""
+    MskDataEntrega.Mask = ""
+    MskDataEntrega.Text = ""
+    MskDataEntrega.Mask = "##/##/####"
+    MskDataEntrega.Enabled = False
+    TxtDiasAlugados.Text = ""
+    TxtDiasAlugados.Enabled = False
+    MskDataLimiteDev.Mask = ""
+    MskDataLimiteDev.Text = ""
+    MskDataLimiteDev.Mask = "##/##/####"
+    MskDataLimiteDev.Enabled = False
+    TxtCodProduto.Text = ""
+    LblProduto.Caption = ""
+    TxtQuant.Text = ""
+    TxtOBS.Text = ""
+    TxtDinheiro.Text = ""
+    TxtCartaoCredito.Text = ""
+    TxtCartaoDebito.Text = ""
+    TxtCheque.Text = ""
+    CmbBandeiraCC.Text = ""
+    CmbBandeiraCD.Text = ""
+    TxtParcelasCC.Text = ""
+    TxtQuantCheque.Text = ""
+    TxtCupomDesconto.Text = ""
+    TxtValorTotal.Text = ""
+    TxtPagtoMinimo.Text = ""
+    TxtValorRecebido.Text = ""
+    TxtDesconto.Text = ""
+    TxtDiferenca.Text = ""
+    LblQuantEstoque.Caption = ""
+    
+    VRECEBIDO = 0
+    VTOTAL = 0
+    DH = 0
+    CD = 0
+    CC = 0
+    CH = 0
+    PAGTOMIN = 0
+    DESCONTO = 0
+    DIFERENCA = 0
+    CUPOM = False
+    
+    Call formata_flex
+    
 End Sub
 
 Private Sub CmdCancelarPedido_Click()
-
-resultado = MsgBox("Deseja Cancelar o Pedido", vbYesNo, Confirmação)
-
-If resultado = vbYes Then
-
-Call limpa_campos
-MsgBox "Pedido Cancelado!", vbExclamation, Aviso
-
-End If
-
+    
+    resultado = MsgBox("Deseja Cancelar o Pedido", vbYesNo, Confirmação)
+    
+    If resultado = vbYes Then
+        
+        Call limpa_campos
+        MsgBox "Pedido Cancelado!", vbExclamation, Aviso
+        
+    End If
+    
 End Sub
 
 Private Sub CmdEmitirPedido_Click()
 
-
-
-MsgBox ValidaCampos
-
-
+    
+    resultado = MsgBox("Confima a emissao do pedido?", vbYesNo, Confirmação)
+    
+    If resultado = vbYes Then
+        
+        If ValidaCampos = True Then
+            
+            Dim QUANTEST, QUANTALUG As Integer
+            Set CN1 = New ADODB.Connection
+            CN1.Open STR_DSN
+            Set reg = New ADODB.Recordset
+            reg.ActiveConnection = CN1
+            
+           If CC = Empty Then
+           CC = 0
+           End If
+           
+           If DH = Empty Then
+           DH = 0
+           End If
+           
+           If CD = Empty Then
+           CD = 0
+           End If
+           
+           If CH = Empty Then
+           CH = 0
+           End If
+           
+           If TxtParcelasCC.Text = Empty Then
+           TxtParcelasCC.Text = "0"
+           End If
+           
+           If TxtQuantCheque.Text = Empty Then
+           TxtQuantCheque.Text = "0"
+           End If
+           
+            
+            CN1.Execute ("INSERT INTO PEDIDOS(NumPed,CodVend,CodCli,DataEntrega,DataLimDev,DataDev,OBS,ValorT,ValorP,Status,Usuario,DataEmissao)" & _
+            "VALUES(" & Trim(CInt(TxtNumPedido.Text)) & "," & Trim(CInt(TxtCodVendedor.Text)) & "," & Trim(CInt(TxtCodCliente.Text)) & ",'" & Format(MskDataEntrega.Text, "YYYYMMDD") & "','" & _
+            Format(MskDataLimiteDev.Text, "YYYYMMDD") & "','','" & Trim(StrConv(TxtOBS.Text, vbUpperCase)) & "'," & Replace(VTOTAL, ",", ".") & "," & Replace(VRECEBIDO, ",", ".") & ",'ALUGADO','','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+            
+            For contador = 1 To MSFlexItens.Rows - 1
+                
+                reg.Open ("SELECT QuantEst,QuantAlug FROM PRODUTOS WHERE codprod = " & MSFlexItens.TextMatrix(contador, 0) & "")
+                
+                CN1.Execute ("INSERT INTO ITENS(NumPed,CodProd,Quant,Status)" & _
+                "VALUES(" & Trim(TxtNumPedido.Text) & "," & MSFlexItens.TextMatrix(contador, 0) & ",'" & MSFlexItens.TextMatrix(contador, 2) & "','ALUGADO')")
+                
+                If reg.EOF = False Then
+                    
+                    QUANTEST = CInt(reg.Fields("QuantEst"))
+                    QUANTALUG = CInt(reg.Fields("QuantAlug"))
+                    
+                    QUANTEST = QUANTEST - CInt(MSFlexItens.TextMatrix(contador, 2))
+                    QUANTALUG = QUANTALUG + CInt(MSFlexItens.TextMatrix(contador, 2))
+                    
+                End If
+                
+                CN1.Execute ("UPDATE PRODUTOS SET QuantEst = '" & CStr(QUANTEST) & "',QuantAlug = '" & CStr(QUANTALUG) & _
+                "' WHERE codprod = " & MSFlexItens.TextMatrix(contador, 0) & "")
+                
+                
+                
+                reg.Close
+            Next
+            
+            If CUPOM = True Then
+                
+                CN1.Execute ("INSERT INTO PAGAMENTOS(NumPed,DataPagto,VDinheiro,VCDebito,VCCredito,VCheque,BandCD,BandCC,QuantCC,QuantCH,Juros,CodCupom) " & _
+                "VALUES (" & Trim(TxtNumPedido.Text) & ",'" & Format(Now, "YYYYMMDD hh:mm") & "'," & Replace(DH, ",", ".") & "," & Replace(CD, ",", ".") & "," & Replace(CC, ",", ".") & ", " & Replace(CH, ",", ".") & ",'" & StrConv(CmbBandeiraCD.Text, vbUpperCase) & "','" & _
+                StrConv(CmbBandeiraCC.Text, vbUpperCase) & "','" & Trim(CInt(TxtParcelasCC.Text)) & "','" & Trim(CInt(TxtQuantCheque.Text)) & "','','" & StrConv(Trim(TxtCupomDesconto.Text), vbUpperCase) & "')")
+                
+                CN1.Execute ("UPDATE CUPONS SET Status = 'UTILIZADO' " & _
+                "WHERE codCUPOM = '" & StrConv(Trim(TxtCupomDesconto.Text), vbUpperCase) & "'")
+                
+            Else
+                
+                
+                CN1.Execute ("INSERT INTO PAGAMENTOS(NumPed,DataPagto,VDinheiro,VCDebito,VCCredito,VCheque,BandCD,BandCC,QuantCC,QuantCH,Juros,CodCupom) " & _
+                "VALUES (" & Trim(TxtNumPedido.Text) & ",'" & Format(Now, "YYYYMMDD hh:mm") & "'," & Replace(DH, ",", ".") & "," & Replace(CD, ",", ".") & "," & Replace(CC, ",", ".") & ", " & Replace(CH, ",", ".") & ",'" & StrConv(CmbBandeiraCD.Text, vbUpperCase) & "','" & _
+                StrConv(CmbBandeiraCC.Text, vbUpperCase) & "','" & Trim(CInt(TxtParcelasCC.Text)) & "','" & Trim(CInt(TxtQuantCheque.Text)) & "','','')")
+                
+            End If
+            
+            MsgBox "Pedido " & TxtNumPedido.Text & " Emitido", vbInformation, Confimação
+            
+            Call limpa_campos
+            
+        Else
+            
+            MsgBox "Verifique os campos!", vbInformation, Aviso
+            
+        End If
+        
+        
+    End If
 End Sub
 
 Private Sub CmdGerarNumeroPedido_Click()
-
-If TxtNumPedido.Text = Empty Then
- 
- TxtNumPedido.Enabled = True
- 
- Dim QUERY As String
- 
- Set CN1 = New ADODB.Connection
- CN1.Open STR_DSN
- Set reg = New ADODB.Recordset
- reg.ActiveConnection = CN1
- 
- 
- CN1.Execute ("begin transaction")
- QUERY = "select UltNumPedido from parametros WITH (ROWLOCK);UPDATE PARAMETROS WITH(ROWLOCK) SET UltNumPedido = UltNumPedido+7;COMMIT"
- reg.Open (QUERY)
- 
- TxtNumPedido.Text = reg.Fields("UltNumPedido")
- TxtNumPedido.Enabled = False
- TxtCodVendedor.Enabled = True
- TxtCodVendedor.SetFocus
- 
- reg.Close
- 
- Else
- 
-  MsgBox "Emita ou Cancele o Pedido Atual para criar um Novo!", vbExclamation, "Aviso"
- 
- End If
+    
+    If TxtNumPedido.Text = Empty Then
+        
+        TxtNumPedido.Enabled = True
+        
+        Dim QUERY As String
+        
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
+        
+        
+        CN1.Execute ("begin transaction")
+        QUERY = "select UltNumPedido from parametros WITH (ROWLOCK);UPDATE PARAMETROS WITH(ROWLOCK) SET UltNumPedido = UltNumPedido+7;COMMIT"
+        reg.Open (QUERY)
+        
+        TxtNumPedido.Text = reg.Fields("UltNumPedido")
+        TxtNumPedido.Enabled = False
+        TxtCodVendedor.Enabled = True
+        TxtCodVendedor.SetFocus
+        
+        reg.Close
+        
+    Else
+        
+        MsgBox "Emita ou Cancele o Pedido Atual para criar um Novo!", vbExclamation, "Aviso"
+        
+    End If
 End Sub
 
 Private Sub CmdInserir_Click()
-
- If TxtCodProduto.Text <> Empty And TxtQuant.Text <> Empty Then
-
- Dim TOTAL As Double
- Set CN1 = New ADODB.Connection
-     CN1.Open STR_DSN
-     Set REG2 = New ADODB.Recordset
-     REG2.ActiveConnection = CN1
- 
- 
- REG2.Open ("SELECT codprod,descricao,preco FROM PRODUTOS WHERE codprod = " & Trim(TxtCodProduto.Text) & "")
     
- TOTAL = REG2.Fields("preco") * TxtQuant.Text
-
- MSFlexItens.AddItem (REG2.Fields("CodProd") & vbTab & _
-                        REG2.Fields("Descricao") & vbTab & _
-                        TxtQuant.Text & vbTab & _
-                        Format(REG2.Fields("preco"), "#,##0.00") & vbTab & _
-                        Format(TOTAL, "#,##0.00"))
-                                                
-     REG2.Close
-                         
- TxtCodProduto.Text = ""
- LblProduto.Caption = ""
- TxtQuant.Text = ""
- TxtCodProduto.SetFocus
-
- For contador2 = 1 To MSFlexItens.Rows - 1
-    MSFlexItens.Row = contador2
-    MSFlexItens.Col = 4
-    VTOTAL = VTOTAL + CDbl(MSFlexItens.Text)
- Next
- 
- TxtValorTotal.Text = Format(VTOTAL, "#,##0.00")
- PAGTOMIN = VTOTAL * 0.5
- TxtPagtoMinimo.Text = Format(PAGTOMIN, "#,##0.00")
-
- Else
- 
- MsgBox "Prencha os campos do produto", vbExclamation
- 
-
- End If
-                         
+    Dim TOTAL As Double
+    Set CN1 = New ADODB.Connection
+    CN1.Open STR_DSN
+    Set REG2 = New ADODB.Recordset
+    REG2.ActiveConnection = CN1
+    Set REG3 = New ADODB.Recordset
+    REG3.ActiveConnection = CN1
+    
+    
+    REG3.Open ("SELECT QuantEst FROM PRODUTOS WHERE codprod = " & Trim(TxtCodProduto.Text) & "")
+    
+    If CInt(REG3.Fields("QuantEst")) >= CInt(TxtQuant.Text) Then
+        
+        REG3.Close
+        
+        REG2.Open ("SELECT codprod,descricao,preco FROM PRODUTOS WHERE codprod = " & Trim(TxtCodProduto.Text) & "")
+        
+        TOTAL = REG2.Fields("preco") * TxtQuant.Text
+        
+        MSFlexItens.AddItem (REG2.Fields("CodProd") & vbTab & _
+        REG2.Fields("Descricao") & vbTab & _
+        TxtQuant.Text & vbTab & _
+        Format(REG2.Fields("preco"), "#,##0.00") & vbTab & _
+        Format(TOTAL, "#,##0.00"))
+        
+        REG2.Close
+        
+        TxtCodProduto.Text = ""
+        LblProduto.Caption = ""
+        TxtQuant.Text = ""
+        LblQuantEstoque.Caption = ""
+        TxtCodProduto.SetFocus
+        
+        VTOTAL = 0
+        
+        For contador2 = 1 To MSFlexItens.Rows - 1
+            MSFlexItens.Row = contador2
+            MSFlexItens.Col = 4
+            VTOTAL = VTOTAL + CDbl(MSFlexItens.Text)
+        Next
+        
+        TxtValorTotal.Text = Format(VTOTAL, "#,##0.00")
+        PAGTOMIN = VTOTAL * 0.5
+        TxtPagtoMinimo.Text = Format(PAGTOMIN, "#,##0.00")
+        
+        
+    Else
+        
+        MsgBox "Estoque menor que o solicitado!", vbInformation, Aviso
+        
+    End If
+    
 End Sub
 
 Private Sub CmdRemoverItem_Click()
-
- If MSFlexItens.Rows = 2 Or MSFlexItens.Rows = 1 Then
     
-    Call formata_flex
- Else
+    If MSFlexItens.Rows = 2 Or MSFlexItens.Rows = 1 Then
+        
+        Call formata_flex
+        
+        VTOTAL = 0
+        
+        TxtValorTotal.Text = Format(VTOTAL, "#,##0.00")
+        PAGTOMIN = VTOTAL * 0.5
+        TxtPagtoMinimo.Text = Format(PAGTOMIN, "#,##0.00")
+        
+    Else
+        
+        MSFlexItens.RemoveItem (MSFlexItens.RowSel)
+        
+        VTOTAL = 0
+        
+        For contador2 = 1 To MSFlexItens.Rows - 1
+            MSFlexItens.Row = contador2
+            MSFlexItens.Col = 4
+            VTOTAL = VTOTAL + CDbl(MSFlexItens.Text)
+        Next
+        
+        TxtValorTotal.Text = Format(VTOTAL, "#,##0.00")
+        PAGTOMIN = VTOTAL * 0.5
+        TxtPagtoMinimo.Text = Format(PAGTOMIN, "#,##0.00")
+        
+    End If
+    
+End Sub
 
-MSFlexItens.RemoveItem (MSFlexItens.RowSel)
-
- End If
-
+Private Sub CmdValidarCupom_Click()
+    
+    CUPOM = False
+    Dim I, F As Integer
+    
+    If TxtCupomDesconto.Text <> Empty Then
+        
+        
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
+        
+        
+        reg.Open ("SELECT * FROM CUPONS WHERE CODCUPOM = '" & TxtCupomDesconto.Text & "'")
+        
+        I = DateDiff("d", Now, reg.Fields("ValidadeAte"))
+        F = DateDiff("d", reg.Fields("ValidadeDe"), Now)
+        
+        If I >= 0 And F >= 0 Then
+        
+            If reg.EOF = False Then
+            
+                If reg.Fields("Tipo") = "V" And reg.Fields("Status") = "NAOUTILIZADO" Then
+            
+                
+                DESCONTO = CDbl(reg.Fields("Valor"))
+                MsgBox "Cupom Validado", vbInformation, CUPOM
+                TxtDesconto.Text = Format(DESCONTO, "#,##0.00")
+                DIFERENCA = VRECEBIDO - VTOTAL + DESCONTO
+                TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
+                CUPOM = True
+                
+                
+                Else
+                        If reg.Fields("Tipo") = "P" And reg.Fields("Status") = "NAOUTILIZADO" Then
+                    
+                        DESCONTO = VTOTAL * CDbl(reg.Fields("Valor"))
+                        MsgBox "Cupom Validado", vbInformation, CUPOM
+                        TxtDesconto.Text = Format(DESCONTO, "#,##0.00")
+                        DIFERENCA = VRECEBIDO - VTOTAL + DESCONTO
+                        TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
+                        CUPOM = True
+                    
+                        Else
+                    
+                        MsgBox "Cupom já Utilizado", vbInformation, Aviso
+                        
+                        End If
+                        
+                End If
+            
+    
+             
+            Else
+            
+            MsgBox "Cupom não encontrado", vbExclamation, Aviso
+            CUPOM = False
+            
+            End If
+        
+        Else
+        
+        MsgBox "O Período do Cupom é de " & Format(reg.Fields("ValidadeDe"), "DD/MM/YYYY") & " até " & Format(reg.Fields("ValidadeAte"), "DD/MM/YYYY") & " !", vbExclamation, Aviso
+        
+        End If
+        
+        
+    Else
+        
+        MsgBox "Digite o cupom", vbExclamation, Aviso
+        CUPOM = False
+    End If
+    
+    
 End Sub
 
 Private Sub Form_Load()
@@ -1344,358 +1596,364 @@ Private Sub Form_Load()
     Me.Top = 100
     
     Call formata_flex
+    
+    CUPOM = False
 End Sub
 
 Public Sub TxtCodCliente_KeyPress(KeyAscii As Integer)
-
- If KeyAscii = 13 And IsNumeric(TxtCodCliente.Text) <> Empty Then
-
- Set CN1 = New ADODB.Connection
- CN1.Open STR_DSN
- Set reg = New ADODB.Recordset
- reg.ActiveConnection = CN1
- 
- reg.Open ("SELECT Nome FROM CLIENTES WHERE CODCLI = " & Trim(TxtCodCliente.Text) & "")
- 
- If reg.EOF = False Then
- 
- LblCliente.Caption = reg.Fields("Nome")
-
- MskDataEntrega.Enabled = True
- MskDataEntrega.SetFocus
- 
- Else
- 
- MsgBox "Cliente Não Encontrado", vbExclamation, "Aviso"
- TxtCodCliente.SetFocus
- 
- End If
     
- reg.Close
- 
-
-End If
-
+    If KeyAscii = 13 And IsNumeric(TxtCodCliente.Text) <> Empty Then
+        
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
+        
+        reg.Open ("SELECT Nome FROM CLIENTES WHERE CODCLI = " & Trim(TxtCodCliente.Text) & "")
+        
+        If reg.EOF = False Then
+            
+            LblCliente.Caption = reg.Fields("Nome")
+            
+            MskDataEntrega.Enabled = True
+            MskDataEntrega.SetFocus
+            
+        Else
+            
+            MsgBox "Cliente Não Encontrado", vbExclamation, "Aviso"
+            TxtCodCliente.SetFocus
+            
+        End If
+        
+        reg.Close
+        
+        
+    End If
+    
 End Sub
 Public Sub TxtCodProduto_KeyPress(KeyAscii As Integer)
-
- If KeyAscii = 13 And IsNumeric(TxtCodProduto.Text) <> Empty Then
-
- Set CN1 = New ADODB.Connection
- CN1.Open STR_DSN
- Set reg = New ADODB.Recordset
- reg.ActiveConnection = CN1
- 
- reg.Open ("SELECT DESCRICAO FROM PRODUTOS WHERE CODPROD = " & Trim(TxtCodProduto.Text) & "")
- 
- If reg.EOF = False Then
- 
- LblProduto.Caption = reg.Fields("Descricao")
-
- TxtQuant.SetFocus
- 
- Else
- 
- MsgBox "Produto Não Encontrado", vbExclamation, "Aviso"
- TxtCodProduto.SetFocus
- 
- End If
     
- reg.Close
- 
-
-End If
-
+    If KeyAscii = 13 And IsNumeric(TxtCodProduto.Text) <> Empty Then
+        
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
+        
+        reg.Open ("SELECT DESCRICAO,quantest FROM PRODUTOS WHERE CODPROD = " & Trim(TxtCodProduto.Text) & "")
+        
+        If reg.EOF = False Then
+            
+            LblProduto.Caption = reg.Fields("Descricao")
+            LblQuantEstoque.Caption = reg.Fields("QuantEst")
+            
+            TxtQuant.SetFocus
+            
+        Else
+            
+            MsgBox "Produto Não Encontrado", vbExclamation, "Aviso"
+            TxtCodProduto.SetFocus
+            
+        End If
+        
+        reg.Close
+        
+        
+    End If
+    
 End Sub
 
 Private Sub TxtCodVendedor_KeyPress(KeyAscii As Integer)
-
- If KeyAscii = 13 And IsNumeric(TxtCodVendedor.Text) <> Empty Then
-
- Set CN1 = New ADODB.Connection
- CN1.Open STR_DSN
- Set reg = New ADODB.Recordset
- reg.ActiveConnection = CN1
- 
- reg.Open ("SELECT Nome FROM FUNCIONARIOS WHERE CODFUNC = " & Trim(TxtCodVendedor.Text) & " AND CARGO LIKE '%VEND%'")
- 
- If reg.EOF = False Then
- 
- LblVendedor.Caption = reg.Fields("Nome")
-
- TxtCodCliente.Enabled = True
- TxtCodCliente.SetFocus
- 
- Else
- 
- MsgBox "Vendedor Não Existe ou não é Vendedor", vbExclamation, "Aviso"
- TxtCodVendedor.SetFocus
- 
- End If
     
- reg.Close
- 
-
- End If
- 
-End Sub
-Private Sub MskDataEntrega_KeyPress(KeyAscii As Integer)
-
- If KeyAscii = 13 And IsDate(MskDataEntrega.Text) <> Empty Then
-
- TxtDiasAlugados.Enabled = True
- TxtDiasAlugados.SetFocus
- 
-
- End If
-
-End Sub
-Private Sub TxtDiasAlugados_KeyPress(KeyAscii As Integer)
-
- If KeyAscii = 13 And TxtDiasAlugados.Text <> Empty Then
- 
-Dim I As Date
-
-I = DateAdd("d", CInt(TxtDiasAlugados.Text), MskDataEntrega.Text)
-
-
-'I = DateDiff("d", MskDataEntrega.Text, MskDataLimiteDev)
-
-MskDataLimiteDev.Text = I
-
-
- TxtOBS.Enabled = True
- TxtOBS.SetFocus
-
- End If
- 
-End Sub
-Private Sub TxtDinheiro_KeyPress(KeyAscii As Integer)
-
-
- If KeyAscii = 13 Then
-
-    TxtCartaoDebito.SetFocus
-    
-    If TxtDinheiro.Text <> Empty Then
-    
-    VRECEBIDO = VRECEBIDO - DH
-    DH = Replace(Replace(TxtDinheiro.Text, "R", ""), "$", "")
-    TxtValorRecebido.Text = Format(VRECEBIDO + DH, "#,##0.00")
-    VRECEBIDO = TxtValorRecebido.Text
-    DIFERENCA = VRECEBIDO - VTOTAL
-    TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
-    
-    Else
-    
-    VRECEBIDO = VRECEBIDO - DH
-    DH = 0
-    TxtValorRecebido.Text = Format(VRECEBIDO, "#,##0.00")
-    VRECEBIDO = TxtValorRecebido.Text
-    DIFERENCA = VRECEBIDO - VTOTAL
-    TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
-    
+    If KeyAscii = 13 And IsNumeric(TxtCodVendedor.Text) <> Empty Then
+        
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
+        
+        reg.Open ("SELECT Nome FROM FUNCIONARIOS WHERE CODFUNC = " & Trim(TxtCodVendedor.Text) & " AND CARGO LIKE '%VEND%'")
+        
+        If reg.EOF = False Then
+            
+            LblVendedor.Caption = reg.Fields("Nome")
+            
+            TxtCodCliente.Enabled = True
+            TxtCodCliente.SetFocus
+            
+        Else
+            
+            MsgBox "Vendedor Não Existe ou não é Vendedor", vbExclamation, "Aviso"
+            TxtCodVendedor.SetFocus
+            
+        End If
+        
+        reg.Close
+        
+        
     End If
     
- End If
-
+End Sub
+Private Sub MskDataEntrega_KeyPress(KeyAscii As Integer)
+    
+    If KeyAscii = 13 And IsDate(MskDataEntrega.Text) <> Empty Then
+        
+        TxtDiasAlugados.Enabled = True
+        TxtDiasAlugados.SetFocus
+        
+        
+    End If
+    
+End Sub
+Private Sub TxtDiasAlugados_KeyPress(KeyAscii As Integer)
+    
+    If KeyAscii = 13 And TxtDiasAlugados.Text <> Empty Then
+        
+        Dim I As Date
+        
+        I = DateAdd("d", CInt(TxtDiasAlugados.Text), MskDataEntrega.Text)
+        
+        
+'I = DateDiff("d", MskDataEntrega.Text, MskDataLimiteDev)
+        
+        MskDataLimiteDev.Text = I
+        
+        
+        TxtOBS.Enabled = True
+        TxtOBS.SetFocus
+        
+    End If
+    
+End Sub
+Private Sub TxtDinheiro_KeyPress(KeyAscii As Integer)
+    
+    
+    If KeyAscii = 13 Then
+        
+        TxtCartaoDebito.SetFocus
+        
+        If TxtDinheiro.Text <> Empty Then
+            
+            VRECEBIDO = VRECEBIDO - DH
+            DH = Replace(Replace(TxtDinheiro.Text, "R", ""), "$", "")
+            VRECEBIDO = VRECEBIDO + DH
+            TxtValorRecebido.Text = Format(VRECEBIDO, "#,##0.00")
+            DIFERENCA = VRECEBIDO - VTOTAL + DESCONTO
+            TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
+            
+        Else
+            
+            VRECEBIDO = VRECEBIDO - DH
+            DH = 0
+            TxtValorRecebido.Text = Format(VRECEBIDO, "#,##0.00")
+            VRECEBIDO = TxtValorRecebido.Text
+            DIFERENCA = VRECEBIDO - VTOTAL + DESCONTO
+            TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
+            
+        End If
+        
+    End If
+    
 End Sub
 Private Sub TxtCartaoDebito_KeyPress(KeyAscii As Integer)
-
-If KeyAscii = 13 Then
-
- If TxtCartaoDebito.Text <> Empty Then
- 
-    VRECEBIDO = VRECEBIDO - CD
-    CD = Replace(Replace(TxtCartaoDebito.Text, "R", ""), "$", "")
-    TxtValorRecebido.Text = Format(VRECEBIDO + CD, "#,##0.00")
-    VRECEBIDO = TxtValorRecebido.Text
-    DIFERENCA = VRECEBIDO - VTOTAL
-    TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
     
-    CmbBandeiraCD.SetFocus
+    If KeyAscii = 13 Then
+        
+        If TxtCartaoDebito.Text <> Empty Then
+            
+            VRECEBIDO = VRECEBIDO - CD
+            CD = Replace(Replace(TxtCartaoDebito.Text, "R", ""), "$", "")
+            TxtValorRecebido.Text = Format(VRECEBIDO + CD, "#,##0.00")
+            VRECEBIDO = TxtValorRecebido.Text
+            DIFERENCA = VRECEBIDO - VTOTAL + DESCONTO
+            TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
+            
+            CmbBandeiraCD.SetFocus
+            
+        Else
+            
+            VRECEBIDO = VRECEBIDO - CD
+            CD = 0
+            TxtValorRecebido.Text = Format(VRECEBIDO, "#,##0.00")
+            VRECEBIDO = TxtValorRecebido.Text
+            DIFERENCA = VRECEBIDO - VTOTAL + DESCONTO
+            TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
+            
+            TxtCartaoCredito.SetFocus
+            
+        End If
+        
+    End If
     
- Else
- 
-    VRECEBIDO = VRECEBIDO - CD
-    CD = 0
-    TxtValorRecebido.Text = Format(VRECEBIDO, "#,##0.00")
-    VRECEBIDO = TxtValorRecebido.Text
-    DIFERENCA = VRECEBIDO - VTOTAL
-    TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
-    
-    TxtCartaoCredito.SetFocus
-    
- End If
- 
-End If
-
 End Sub
 Private Sub TxtCartaoCredito_KeyPress(KeyAscii As Integer)
-
-If KeyAscii = 13 Then
-
- If TxtCartaoCredito.Text <> Empty Then
- 
     
-    VRECEBIDO = VRECEBIDO - CC
-    CC = Replace(Replace(TxtCartaoCredito.Text, "R", ""), "$", "")
-    TxtValorRecebido.Text = Format(VRECEBIDO + CC, "#,##0.00")
-    VRECEBIDO = TxtValorRecebido.Text
-    DIFERENCA = VRECEBIDO - VTOTAL
-    TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
+    If KeyAscii = 13 Then
+        
+        If TxtCartaoCredito.Text <> Empty Then
+            
+            
+            VRECEBIDO = VRECEBIDO - CC
+            CC = Replace(Replace(TxtCartaoCredito.Text, "R", ""), "$", "")
+            TxtValorRecebido.Text = Format(VRECEBIDO + CC, "#,##0.00")
+            VRECEBIDO = TxtValorRecebido.Text
+            DIFERENCA = VRECEBIDO - VTOTAL + DESCONTO
+            TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
+            
+            CmbBandeiraCC.SetFocus
+            
+        Else
+            
+            VRECEBIDO = VRECEBIDO - CC
+            CC = 0
+            TxtValorRecebido.Text = Format(VRECEBIDO, "#,##0.00")
+            VRECEBIDO = TxtValorRecebido.Text
+            DIFERENCA = VRECEBIDO - VTOTAL + DESCONTO
+            TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
+            
+            TxtCheque.SetFocus
+            
+        End If
+        
+    End If
     
-    CmbBandeiraCC.SetFocus
-    
- Else
-    
-    VRECEBIDO = VRECEBIDO - CC
-    CC = 0
-    TxtValorRecebido.Text = Format(VRECEBIDO, "#,##0.00")
-    VRECEBIDO = TxtValorRecebido.Text
-    DIFERENCA = VRECEBIDO - VTOTAL
-    TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
-    
-    TxtCheque.SetFocus
-    
- End If
- 
-End If
-
 End Sub
 Private Sub TxtCheque_KeyPress(KeyAscii As Integer)
-
-If KeyAscii = 13 Then
-
- If TxtCheque.Text <> Empty Then
     
-    VRECEBIDO = VRECEBIDO - CH
-    CH = Replace(Replace(TxtCheque.Text, "R", ""), "$", "")
-    VRECEBIDO = VRECEBIDO + CH
-    TxtValorRecebido.Text = Format(VRECEBIDO, "#,##0.00")
-    DIFERENCA = VRECEBIDO - VTOTAL
-    TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
-
+    If KeyAscii = 13 Then
+        
+        If TxtCheque.Text <> Empty Then
+            
+            VRECEBIDO = VRECEBIDO - CH
+            CH = Replace(Replace(TxtCheque.Text, "R", ""), "$", "")
+            VRECEBIDO = VRECEBIDO + CH
+            TxtValorRecebido.Text = Format(VRECEBIDO, "#,##0.00")
+            DIFERENCA = VRECEBIDO - VTOTAL + DESCONTO
+            TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
+            
+            
+            TxtQuantCheque.SetFocus
+            
+        Else
+            
+            
+            VRECEBIDO = VRECEBIDO - CH
+            CH = 0
+            TxtValorRecebido.Text = Format(VRECEBIDO, "#,##0.00")
+            VRECEBIDO = TxtValorRecebido.Text
+            DIFERENCA = VRECEBIDO - VTOTAL + DESCONTO
+            TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
+            
+            TxtCupomDesconto.SetFocus
+            
+        End If
+        
+    End If
     
-    TxtQuantCheque.SetFocus
-    
- Else
-    
-    
-    VRECEBIDO = VRECEBIDO - CH
-    CH = 0
-    TxtValorRecebido.Text = Format(VRECEBIDO, "#,##0.00")
-    VRECEBIDO = TxtValorRecebido.Text
-    DIFERENCA = VRECEBIDO - VTOTAL
-    TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
-    
-    TxtCupomDesconto.SetFocus
-    
- End If
- 
-End If
-
 End Sub
 
 Private Sub CmbBandeiraCD_KeyPress(KeyAscii As Integer)
-
- If KeyAscii = 13 And CmbBandeiraCD.Text <> Empty Then
- 
-    TxtCartaoCredito.SetFocus
- 
- End If
-
+    
+    If KeyAscii = 13 And CmbBandeiraCD.Text <> Empty Then
+        
+        TxtCartaoCredito.SetFocus
+        
+    End If
+    
 End Sub
 Private Sub CmbBandeiraCC_KeyPress(KeyAscii As Integer)
-
- If KeyAscii = 13 And CmbBandeiraCC.Text <> Empty Then
- 
-    TxtParcelasCC.SetFocus
- 
- End If
-
+    
+    If KeyAscii = 13 And CmbBandeiraCC.Text <> Empty Then
+        
+        TxtParcelasCC.SetFocus
+        
+    End If
+    
 End Sub
 Private Sub TxtParcelasCC_KeyPress(KeyAscii As Integer)
-
- If KeyAscii = 13 And TxtParcelasCC.Text <> Empty Then
- 
-    TxtCheque.SetFocus
- 
- End If
-
+    
+    If KeyAscii = 13 And TxtParcelasCC.Text <> Empty Then
+        
+        TxtCheque.SetFocus
+        
+    End If
+    
 End Sub
 Private Sub TxtQuantCheque_KeyPress(KeyAscii As Integer)
-
- If KeyAscii = 13 And TxtQuantCheque.Text <> Empty Then
- 
-    TxtCupomDesconto.SetFocus
- 
- End If
-
+    
+    If KeyAscii = 13 And TxtQuantCheque.Text <> Empty Then
+        
+        TxtCupomDesconto.SetFocus
+        
+    End If
+    
 End Sub
 Private Sub TxtCupomDesconto_KeyPress(KeyAscii As Integer)
-
-If KeyAscii = 13 Then
-
- If TxtCupomDesconto.Text <> Empty Then
- 
-    CmdValidarCupom.SetFocus
     
- Else
+    If KeyAscii = 13 Then
+        
+        If TxtCupomDesconto.Text <> Empty Then
+            
+            CmdValidarCupom.SetFocus
+            
+        Else
+            
+            CmdEmitirPedido.SetFocus
+            
+        End If
+        
+    End If
     
-    CmdEmitirPedido.SetFocus
-    
- End If
- 
-End If
-
 End Sub
 
 Private Sub TxtOBS_KeyPress(KeyAscii As Integer)
-
- If KeyAscii = 13 Then
-
- TxtCodProduto.SetFocus
- 
- End If
-
+    
+    If KeyAscii = 13 Then
+        
+        TxtCodProduto.SetFocus
+        
+    End If
+    
 End Sub
 
 Private Sub TxtQuant_KeyPress(KeyAscii As Integer)
-
- If KeyAscii = 13 And (TxtQuant.Text) <> Empty Then
-
- CmdInserir.SetFocus
-
- End If
-
-
+    
+    If KeyAscii = 13 And (TxtQuant.Text) <> Empty Then
+        
+        CmdInserir.SetFocus
+        
+    End If
+    
+    
 End Sub
 Private Sub formata_flex()
- 
- MSFlexItens.Clear
- MSFlexItens.Cols = 5
- MSFlexItens.Rows = 1
-
- MSFlexItens.Col = 0
- MSFlexItens.Text = "Cód."
- MSFlexItens.ColWidth(0) = 700
- 
- MSFlexItens.Col = 1
- MSFlexItens.Text = "Descricao"
- MSFlexItens.ColWidth(1) = 4600
- 
- MSFlexItens.Col = 2
- MSFlexItens.Text = "Quant."
- MSFlexItens.ColWidth(2) = 900
- 
- MSFlexItens.Col = 3
- MSFlexItens.Text = "Valor Uni."
- MSFlexItens.ColWidth(3) = 900
- 
- MSFlexItens.Col = 4
- MSFlexItens.Text = "Valor Total"
- MSFlexItens.ColWidth(4) = 900
- 
+    
+    MSFlexItens.Clear
+    MSFlexItens.Cols = 5
+    MSFlexItens.Rows = 1
+    
+    MSFlexItens.Col = 0
+    MSFlexItens.Text = "Cód."
+    MSFlexItens.ColWidth(0) = 700
+    
+    MSFlexItens.Col = 1
+    MSFlexItens.Text = "Descricao"
+    MSFlexItens.ColWidth(1) = 4600
+    
+    MSFlexItens.Col = 2
+    MSFlexItens.Text = "Quant."
+    MSFlexItens.ColWidth(2) = 900
+    
+    MSFlexItens.Col = 3
+    MSFlexItens.Text = "Valor Uni."
+    MSFlexItens.ColWidth(3) = 900
+    
+    MSFlexItens.Col = 4
+    MSFlexItens.Text = "Valor Total"
+    MSFlexItens.ColWidth(4) = 900
+    
 End Sub
+
+
+
 

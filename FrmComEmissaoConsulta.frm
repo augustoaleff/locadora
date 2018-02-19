@@ -13,7 +13,7 @@ Begin VB.Form FrmComEmissaoConsulta
    MinButton       =   0   'False
    ScaleHeight     =   7575
    ScaleWidth      =   13020
-   Begin VB.CommandButton CmdComEmissaoConsultaImprimir 
+   Begin VB.CommandButton CmdImprimir 
       Caption         =   "Imprimir"
       Height          =   495
       Left            =   6000
@@ -21,7 +21,7 @@ Begin VB.Form FrmComEmissaoConsulta
       Top             =   6480
       Width           =   2295
    End
-   Begin VB.CommandButton CmdComEmissaoConsultaPesquisaNome 
+   Begin VB.CommandButton CmdPesquisaNome 
       Caption         =   "Buscar por Nome"
       Height          =   375
       Left            =   10440
@@ -29,7 +29,7 @@ Begin VB.Form FrmComEmissaoConsulta
       Top             =   360
       Width           =   2295
    End
-   Begin VB.CommandButton CmdComEmissaoConsultaConsultar 
+   Begin VB.CommandButton CmdConsultar 
       Caption         =   "Consultar"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -46,7 +46,7 @@ Begin VB.Form FrmComEmissaoConsulta
       Top             =   6360
       Width           =   1815
    End
-   Begin VB.CommandButton CmdComEmissaoConsultaLimparTela 
+   Begin VB.CommandButton CmdLimparTela 
       Caption         =   "Limpar Tela"
       Height          =   615
       Left            =   11040
@@ -54,7 +54,7 @@ Begin VB.Form FrmComEmissaoConsulta
       Top             =   6360
       Width           =   1815
    End
-   Begin VB.Frame FrmComEmissaoConsultaDetalharPedido 
+   Begin VB.Frame FrmDetalharPedido 
       Caption         =   "Detalhar Pedido"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -70,7 +70,7 @@ Begin VB.Form FrmComEmissaoConsulta
       TabIndex        =   15
       Top             =   6120
       Width           =   5415
-      Begin VB.CommandButton CmdComEmissaoConsultaDetalhar 
+      Begin VB.CommandButton CmdDetalhar 
          Caption         =   "Detalhar"
          Height          =   375
          Left            =   3360
@@ -78,7 +78,7 @@ Begin VB.Form FrmComEmissaoConsulta
          Top             =   480
          Width           =   1575
       End
-      Begin VB.TextBox TxtComEmissaoConsultaNumeroPedido 
+      Begin VB.TextBox TxtNumeroPedido 
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   9.75
@@ -94,7 +94,7 @@ Begin VB.Form FrmComEmissaoConsulta
          Top             =   480
          Width           =   2055
       End
-      Begin VB.Label LblComEmissaoConsultaNumeroPedido 
+      Begin VB.Label LblNumeroPedido 
          Caption         =   "Nª Pedido"
          Height          =   375
          Left            =   120
@@ -103,14 +103,14 @@ Begin VB.Form FrmComEmissaoConsulta
          Width           =   1095
       End
    End
-   Begin VB.Frame FrmComEmissaoConsultaStatusAluguel 
+   Begin VB.Frame FrmStatusAluguel 
       Caption         =   "Status Aluguel"
       Height          =   735
       Left            =   5520
       TabIndex        =   14
       Top             =   960
       Width           =   3975
-      Begin VB.OptionButton OptComEmissaoConsultaAguardandoDevolucao 
+      Begin VB.OptionButton OptAguardandoDevolucao 
          Caption         =   "Aguardando Devolução"
          Height          =   495
          Left            =   2520
@@ -118,7 +118,7 @@ Begin VB.Form FrmComEmissaoConsulta
          Top             =   120
          Width           =   1335
       End
-      Begin VB.OptionButton OptComEmissaoConsultaDevolvidos 
+      Begin VB.OptionButton OptDevolvidos 
          Caption         =   "Devolvidos"
          Height          =   255
          Left            =   1080
@@ -126,7 +126,7 @@ Begin VB.Form FrmComEmissaoConsulta
          Top             =   240
          Width           =   1095
       End
-      Begin VB.OptionButton OptComEmissaoConsultaTodos 
+      Begin VB.OptionButton OptTodos 
          Caption         =   "Todos"
          Height          =   255
          Left            =   120
@@ -136,7 +136,7 @@ Begin VB.Form FrmComEmissaoConsulta
          Width           =   1215
       End
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPeriodoAte 
+   Begin VB.TextBox TxtPeriodoAte 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -152,7 +152,7 @@ Begin VB.Form FrmComEmissaoConsulta
       Top             =   1200
       Width           =   1695
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPeriodoDe 
+   Begin VB.TextBox TxtPeriodoDe 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -168,7 +168,7 @@ Begin VB.Form FrmComEmissaoConsulta
       Top             =   1200
       Width           =   1815
    End
-   Begin MSFlexGridLib.MSFlexGrid MSFlexComEmissaoConsultaPedidos 
+   Begin MSFlexGridLib.MSFlexGrid MSFlexPedidos 
       Height          =   4095
       Left            =   240
       TabIndex        =   10
@@ -178,7 +178,7 @@ Begin VB.Form FrmComEmissaoConsulta
       _ExtentY        =   7223
       _Version        =   393216
    End
-   Begin VB.TextBox TxtComEmissaoConsultaCodCliente 
+   Begin VB.TextBox TxtCodCliente 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -194,7 +194,7 @@ Begin VB.Form FrmComEmissaoConsulta
       Top             =   480
       Width           =   1335
    End
-   Begin VB.Label LblComEmissaoConsultaValorTotal 
+   Begin VB.Label LblValorTotal 
       BorderStyle     =   1  'Fixed Single
       Enabled         =   0   'False
       BeginProperty Font 
@@ -212,7 +212,7 @@ Begin VB.Form FrmComEmissaoConsulta
       Top             =   1080
       Width           =   2055
    End
-   Begin VB.Label LblComEmissaoConsultaTotal 
+   Begin VB.Label LblTotal 
       Caption         =   "Total R$"
       Height          =   255
       Left            =   9720
@@ -220,7 +220,7 @@ Begin VB.Form FrmComEmissaoConsulta
       Top             =   1200
       Width           =   855
    End
-   Begin VB.Label LblComEmissaoConsultaA 
+   Begin VB.Label LblA 
       Caption         =   "à"
       Height          =   255
       Left            =   3000
@@ -228,7 +228,7 @@ Begin VB.Form FrmComEmissaoConsulta
       Top             =   1320
       Width           =   255
    End
-   Begin VB.Label LblComEmissaoConsultaPeriodo 
+   Begin VB.Label LblPeriodo 
       Caption         =   "Período"
       Height          =   375
       Left            =   240
@@ -236,7 +236,7 @@ Begin VB.Form FrmComEmissaoConsulta
       Top             =   1200
       Width           =   735
    End
-   Begin VB.Label LblComEmissaoConsultaCliente 
+   Begin VB.Label LblCliente 
       BorderStyle     =   1  'Fixed Single
       Enabled         =   0   'False
       BeginProperty Font 
@@ -254,7 +254,7 @@ Begin VB.Form FrmComEmissaoConsulta
       Top             =   480
       Width           =   6855
    End
-   Begin VB.Label LblComEmissaoConsultaCodCliente 
+   Begin VB.Label LblCodCliente 
       Caption         =   "Cód . Cliente"
       Height          =   315
       Left            =   240

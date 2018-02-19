@@ -14,7 +14,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
    MinButton       =   0   'False
    ScaleHeight     =   9165
    ScaleWidth      =   10335
-   Begin VB.CommandButton CmdComEmissaoConsultaPedidoImprimir 
+   Begin VB.CommandButton CmdImprimir 
       Caption         =   "Imprimir"
       Height          =   495
       Left            =   3720
@@ -22,7 +22,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   8400
       Width           =   2295
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPedidoDataDevolucao 
+   Begin VB.TextBox TxtDataDevolucao 
       Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -39,7 +39,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   1440
       Width           =   1575
    End
-   Begin VB.CommandButton CmdComEmissaoConsultaPedidoLimparTela 
+   Begin VB.CommandButton CmdLimparTela 
       Caption         =   "Limpar Tela"
       Height          =   615
       Left            =   7320
@@ -47,7 +47,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   8280
       Width           =   2775
    End
-   Begin VB.CommandButton CmdComEmissaoConsultaPedidoCancelarPedido 
+   Begin VB.CommandButton CmdCancelarPedido 
       Caption         =   "Cancelar Pedido"
       Height          =   375
       Left            =   240
@@ -56,14 +56,14 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   8400
       Width           =   2415
    End
-   Begin VB.Frame FrameComEmissaoConsultaPedidoFormaPagto 
+   Begin VB.Frame FrameFormaPagto 
       Caption         =   "Forma de Pagamento"
       Height          =   2415
       Left            =   1680
       TabIndex        =   28
       Top             =   5640
       Width           =   6975
-      Begin VB.TextBox TxtComEmissaoConsultaPedidoTotalDesconto 
+      Begin VB.TextBox TxtDesconto 
          Enabled         =   0   'False
          Height          =   285
          Left            =   1920
@@ -71,7 +71,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
          Top             =   1920
          Width           =   1575
       End
-      Begin MSFlexGridLib.MSFlexGrid MSFlexComEmissaoConsultaPedidoCupons 
+      Begin MSFlexGridLib.MSFlexGrid MSFlexCupons 
          Height          =   1695
          Left            =   3840
          TabIndex        =   38
@@ -81,7 +81,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
          _ExtentY        =   2990
          _Version        =   393216
       End
-      Begin VB.TextBox TxtComEmissaoConsultaPedidoTotalCheque 
+      Begin VB.TextBox TxtTotalCheque 
          Enabled         =   0   'False
          Height          =   285
          Left            =   1920
@@ -89,7 +89,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
          Top             =   1560
          Width           =   1575
       End
-      Begin VB.TextBox TxtComEmissaoConsultaPedidoTotalCC 
+      Begin VB.TextBox TxtTotalCC 
          Enabled         =   0   'False
          Height          =   285
          Left            =   1920
@@ -97,7 +97,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
          Top             =   1200
          Width           =   1575
       End
-      Begin VB.TextBox TxtComEmissaoConsultaPedidoTotalCD 
+      Begin VB.TextBox TxtTotalCD 
          Enabled         =   0   'False
          Height          =   285
          Left            =   1920
@@ -105,7 +105,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
          Top             =   840
          Width           =   1575
       End
-      Begin VB.TextBox TxtComEmissaoConsultaPedidoTotalDinheiro 
+      Begin VB.TextBox TxtTotalDinheiro 
          Enabled         =   0   'False
          Height          =   285
          Left            =   1920
@@ -113,7 +113,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
          Top             =   480
          Width           =   1575
       End
-      Begin VB.Label LblComEmissaoConsultaPedidoTotalDesconto 
+      Begin VB.Label LblTotalDesconto 
          Caption         =   "Total Desconto R$"
          Height          =   255
          Left            =   120
@@ -121,7 +121,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
          Top             =   1920
          Width           =   1575
       End
-      Begin VB.Label LblComEmissaoConsultaPedidoCuponsUtilizados 
+      Begin VB.Label LblCuponsUtilizados 
          Caption         =   "Cupons Utilizados"
          Height          =   375
          Left            =   4560
@@ -129,7 +129,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
          Top             =   240
          Width           =   1455
       End
-      Begin VB.Label LblComEmissaoConsultaPedidoTotalCheque 
+      Begin VB.Label LblTotalCheque 
          Caption         =   "Total Cheque R$"
          Height          =   255
          Left            =   120
@@ -137,7 +137,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
          Top             =   1560
          Width           =   1455
       End
-      Begin VB.Label LblComEmissaoConsultaPedidoTotalCC 
+      Begin VB.Label LblTotalCC 
          Caption         =   "Total Cartão Crédito R$"
          Height          =   255
          Left            =   120
@@ -145,7 +145,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
          Top             =   1200
          Width           =   1695
       End
-      Begin VB.Label LblComEmissaoConsultaPedidoTotalCD 
+      Begin VB.Label LblTotalCD 
          Caption         =   "Total Cartão Débito R$"
          Height          =   255
          Left            =   120
@@ -153,7 +153,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
          Top             =   840
          Width           =   1695
       End
-      Begin VB.Label LblComEmissaoConsultaPedidoTotalDinheiro 
+      Begin VB.Label LblTotalDinheiro 
          Caption         =   "Total Dinheiro R$"
          Height          =   255
          Left            =   120
@@ -162,7 +162,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
          Width           =   1575
       End
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPedidoStatusPedido 
+   Begin VB.TextBox TxtStatusPedido 
       Alignment       =   2  'Center
       BackColor       =   &H00C0FFFF&
       Enabled         =   0   'False
@@ -181,7 +181,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   360
       Width           =   2535
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPedidoValorAReceber 
+   Begin VB.TextBox TxtValorAReceber 
       Enabled         =   0   'False
       Height          =   285
       Left            =   8040
@@ -189,7 +189,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   5280
       Width           =   2055
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPedidoValorPago 
+   Begin VB.TextBox TxtValorPago 
       Enabled         =   0   'False
       Height          =   285
       Left            =   8040
@@ -197,7 +197,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   4920
       Width           =   2055
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPedidoOBS 
+   Begin VB.TextBox TxtOBS 
       Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -214,7 +214,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   1920
       Width           =   8895
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPedidoValorTotal 
+   Begin VB.TextBox TxtTotal 
       Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -232,7 +232,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Visible         =   0   'False
       Width           =   2415
    End
-   Begin MSFlexGridLib.MSFlexGrid MSFlexComEmissaoConsultaPedidoItens 
+   Begin MSFlexGridLib.MSFlexGrid MSFlexItens 
       Height          =   2295
       Left            =   120
       TabIndex        =   1
@@ -242,7 +242,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       _ExtentY        =   4048
       _Version        =   393216
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPedidoVendedor 
+   Begin VB.TextBox TxtVendedor 
       Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -259,7 +259,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   360
       Width           =   2175
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPedidoCodVendedor 
+   Begin VB.TextBox TxtCodVendedor 
       Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -276,7 +276,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   360
       Width           =   855
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPedidoDiasAtrasos 
+   Begin VB.TextBox TxtDiasAtraso 
       Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -293,7 +293,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   1440
       Width           =   975
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPedidoDataLimiteDevolucao 
+   Begin VB.TextBox TxtDataLimiteDev 
       Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -310,7 +310,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   1440
       Width           =   1575
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPedidoDataEntrega 
+   Begin VB.TextBox TxtDataEntrega 
       Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -327,7 +327,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   1440
       Width           =   1335
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPedidoDataEmissao 
+   Begin VB.TextBox TxtDataEmissao 
       Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -344,7 +344,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   960
       Width           =   1575
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPedidoCodCliente 
+   Begin VB.TextBox TxtCodCliente 
       Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -361,7 +361,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   960
       Width           =   1095
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPedidoCliente 
+   Begin VB.TextBox TxtCliente 
       Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -378,7 +378,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   960
       Width           =   4815
    End
-   Begin VB.TextBox TxtComEmissaoConsultaPedidoNumeroPedido 
+   Begin VB.TextBox TxtNumeroPedido 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -394,7 +394,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   360
       Width           =   1695
    End
-   Begin VB.Label LblComEmissaoConsultaPedidoDataDevolucao 
+   Begin VB.Label LblDataDevolucao 
       Alignment       =   2  'Center
       Caption         =   "Data Devolução"
       Height          =   375
@@ -403,7 +403,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   1440
       Width           =   975
    End
-   Begin VB.Label LblComEmissaoConsultaPedidosStatusPedido 
+   Begin VB.Label LblStatusPedido 
       Caption         =   "Status Pedido"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -420,7 +420,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   120
       Width           =   1335
    End
-   Begin VB.Label LblComEmissaoConsultaPedidoOBS 
+   Begin VB.Label LblOBS 
       Caption         =   "OBS"
       Height          =   255
       Left            =   240
@@ -428,7 +428,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   1920
       Width           =   495
    End
-   Begin VB.Label LblComEmissaoConsultaPedidoValorAReceber 
+   Begin VB.Label LblValorAReceber 
       Caption         =   "Valor À Receber R$"
       Height          =   255
       Left            =   6480
@@ -436,7 +436,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   5280
       Width           =   1455
    End
-   Begin VB.Label LblComEmissaoConsultaPedidoValorPago 
+   Begin VB.Label LblValorPago 
       Caption         =   "Valor Pago R$"
       Height          =   255
       Left            =   6480
@@ -444,7 +444,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   4920
       Width           =   1215
    End
-   Begin VB.Label LblComEmissaoConsultaPedidoValorTotal 
+   Begin VB.Label LblValorTotal 
       Caption         =   "Valor Total Pedido R$"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -461,7 +461,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   5040
       Width           =   2415
    End
-   Begin VB.Label LblComEmissaoConsultaPedidoVendedor 
+   Begin VB.Label LblPedidoVendedor 
       Caption         =   "Vendedor"
       Height          =   255
       Left            =   3360
@@ -469,7 +469,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   360
       Width           =   855
    End
-   Begin VB.Label LblComEmissaoConsultaPedidoDiasAtraso 
+   Begin VB.Label LblDiasAtraso 
       Caption         =   "Dias Atraso"
       Height          =   255
       Left            =   8400
@@ -477,7 +477,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   1440
       Width           =   855
    End
-   Begin VB.Label LblComEmissaoConsultaPedidoDataLimiteDevolucao 
+   Begin VB.Label LblDataLimiteDev 
       Caption         =   "Data Limite Devolução"
       Height          =   375
       Left            =   2640
@@ -485,7 +485,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   1440
       Width           =   975
    End
-   Begin VB.Label LblComEmissaoConsultaPedidoDataEntrega 
+   Begin VB.Label LblDataEntrega 
       Caption         =   "Data Entrega"
       Height          =   375
       Left            =   120
@@ -493,7 +493,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   1440
       Width           =   1095
    End
-   Begin VB.Label LblComEmissaoConsultaPedidoDataEmissao 
+   Begin VB.Label LblDataEmissao 
       Caption         =   "Data Emissão"
       Height          =   255
       Left            =   7560
@@ -501,7 +501,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   960
       Width           =   975
    End
-   Begin VB.Label LblComEmissaoConsultaPedidoCodCliente 
+   Begin VB.Label LblCodCliente 
       Caption         =   "Cód Cliente"
       Height          =   255
       Left            =   240
@@ -509,7 +509,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Top             =   960
       Width           =   975
    End
-   Begin VB.Label LblComEmissaoConsultaPedidoNumeroPedido 
+   Begin VB.Label LblNumeroPedido 
       Caption         =   "Pedido nº"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -536,3 +536,6 @@ Private Sub Label3_Click()
 
 End Sub
 
+Private Sub LblComEmissaoConsultaPedidoDiasAtraso_Click()
+
+End Sub

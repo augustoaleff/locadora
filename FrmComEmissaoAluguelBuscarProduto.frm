@@ -79,11 +79,11 @@ If ValidaCampos() = True Then
 
  If CBoxAleatorio.Value = vbChecked Then
       
-      reg.Open ("SELECT CODPROD,DESCRICAO FROM PRODUTOS WHERE DESCRICAO LIKE '%" & Trim(TxtDescricao.Text) & "%'")
+      reg.Open ("SELECT CODPROD,DESCRICAO,QuantEst FROM PRODUTOS WHERE DESCRICAO LIKE '%" & Trim(TxtDescricao.Text) & "%'")
       
  Else
        
-      reg.Open ("SELECT CODPROD,DESCRICAO FROM PRODUTOS WHERE DESCRICAO LIKE '" & Trim(TxtDescricao.Text) & "%'")
+      reg.Open ("SELECT CODPROD,DESCRICAO,QuantEst FROM PRODUTOS WHERE DESCRICAO LIKE '" & Trim(TxtDescricao.Text) & "%'")
      
  End If
 
@@ -93,7 +93,8 @@ If ValidaCampos() = True Then
  Do Until reg.EOF = True
     
   MSFlexPesquisa.AddItem (reg.Fields("codprod") & vbTab & _
-                         reg.Fields("descricao"))
+                         reg.Fields("descricao") & vbTab & _
+                         reg.Fields("QuantEst"))
                          
   reg.MoveNext
     
@@ -106,7 +107,7 @@ End Sub
 Private Sub formata_flex()
  
  MSFlexPesquisa.Clear
- MSFlexPesquisa.Cols = 2
+ MSFlexPesquisa.Cols = 3
  MSFlexPesquisa.Rows = 1
 
  MSFlexPesquisa.Col = 0
@@ -115,7 +116,11 @@ Private Sub formata_flex()
  
  MSFlexPesquisa.Col = 1
  MSFlexPesquisa.Text = "Descricao"
- MSFlexPesquisa.ColWidth(1) = 5400
+ MSFlexPesquisa.ColWidth(1) = 4700
+ 
+ MSFlexPesquisa.Col = 2
+ MSFlexPesquisa.Text = "Quant. Est."
+ MSFlexPesquisa.ColWidth(2) = 700
  
 End Sub
 Private Sub CmdLimparTela_Click()

@@ -103,141 +103,141 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub Form_Load()
- Me.Top = 1500
- Me.Left = 1500
+    Me.Top = 1500
+    Me.Left = 1500
 End Sub
 Private Function Valida_Campos() As Boolean
 
-If OptCNPJ.Value = True Or OptCEP.Value = True Then
+    If OptCNPJ.Value = True Or OptCEP.Value = True Then
 
-If IsNumeric(Replace(Replace(Replace(Replace(Replace(TxtNome.Text, ".", ""), " ", ""), "/", ""), "\", ""), "-", "")) <> Empty Then
-    Valida_Campos = True
-Else
-    Valida_Campos = False
-    MsgBox "Digite somente números", vbExclamation, "Aviso"
-End If
+        If IsNumeric(Replace(Replace(Replace(Replace(Replace(TxtNome.Text, ".", ""), " ", ""), "/", ""), "\", ""), "-", "")) <> Empty Then
+            Valida_Campos = True
+        Else
+            Valida_Campos = False
+            MsgBox "Digite somente números", vbExclamation, "Aviso"
+        End If
 
-Else
+    Else
 
-If TxtNome.Text <> Empty Then
-    Valida_Campos = True
-Else
-    Valida_Campos = False
-    
-End If
+        If TxtNome.Text <> Empty Then
+            Valida_Campos = True
+        Else
+            Valida_Campos = False
 
-End If
+        End If
+
+    End If
 
 
 End Function
 Private Sub TxtNome_KeyPress(KeyAscii As Integer)
 
     If KeyAscii = 13 And TxtNome.Text <> Empty Then
-    
-    Call CmdBuscar_Click
-    MSFlexPesquisa.SetFocus
-    
+
+        Call CmdBuscar_Click
+        MSFlexPesquisa.SetFocus
+
     End If
-    
+
 End Sub
 
 Private Sub CmdBuscar_Click()
 
-If Valida_Campos() = True Then
+    If Valida_Campos() = True Then
 
 
-    Set CN1 = New ADODB.Connection
-    CN1.Open STR_DSN
-    Set reg = New ADODB.Recordset
-    reg.ActiveConnection = CN1
- 
- 
- If OptNome.Value = True Then
-     
-    If CBoxAleatorio.Value = vbChecked Then
-      
-      reg.Open ("SELECT CodForn,RazaoSocial FROM FORNECEDORES WHERE RAZAOSOCIAL LIKE '%" & Trim(TxtNome.Text) & "%'")
-      
-     Else
-       
-      reg.Open ("SELECT CodForn,RazaoSocial FROM FORNECEDORES WHERE RAZAOSOCIAL LIKE '" & Trim(TxtNome.Text) & "%'")
-     
-     End If
-    
- End If
- 
- If OptCNPJ.Value = True Then
-    reg.Open ("SELECT CodForn,RazaoSocial FROM FORNECEDORES WHERE CNPJ LIKE '" & Replace(Replace(Replace(Replace(Replace(TxtNome.Text, ".", ""), " ", ""), "/", ""), "\", ""), "-", "") & "%'")
- End If
- 
- If OptIE.Value = True Then
-    reg.Open ("SELECT CodForn,RazaoSocial FROM FORNECEDORES WHERE IE LIKE '" & Replace(Replace(Replace(Replace(Replace(TxtNome.Text, ".", ""), " ", ""), "/", ""), "\", ""), "-", "") & "%'")
- End If
- 
- If OptCEP.Value = True Then
-    reg.Open ("SELECT CodForn,RazaoSocial FROM FORNECEDORES WHERE CEP LIKE '" & Replace(Replace(Replace(Replace(Replace(TxtNome.Text, ".", ""), " ", ""), "/", ""), "\", ""), "-", "") & "%'")
- End If
- 
- Call formata_flex
- 
- Do Until reg.EOF = True
-    
-  MSFlexPesquisa.AddItem (reg.Fields("codforn") & vbTab & _
-                         reg.Fields("razaosocial"))
-                         
-  reg.MoveNext
-    
- Loop
- 
- 
- reg.Close
- End If
- 
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
+
+
+        If OptNome.Value = True Then
+
+            If CBoxAleatorio.Value = vbChecked Then
+
+                reg.Open ("SELECT CodForn,RazaoSocial FROM FORNECEDORES WHERE RAZAOSOCIAL LIKE '%" & Trim(TxtNome.Text) & "%'")
+
+            Else
+
+                reg.Open ("SELECT CodForn,RazaoSocial FROM FORNECEDORES WHERE RAZAOSOCIAL LIKE '" & Trim(TxtNome.Text) & "%'")
+
+            End If
+
+        End If
+
+        If OptCNPJ.Value = True Then
+            reg.Open ("SELECT CodForn,RazaoSocial FROM FORNECEDORES WHERE CNPJ LIKE '" & Replace(Replace(Replace(Replace(Replace(TxtNome.Text, ".", ""), " ", ""), "/", ""), "\", ""), "-", "") & "%'")
+        End If
+
+        If OptIE.Value = True Then
+            reg.Open ("SELECT CodForn,RazaoSocial FROM FORNECEDORES WHERE IE LIKE '" & Replace(Replace(Replace(Replace(Replace(TxtNome.Text, ".", ""), " ", ""), "/", ""), "\", ""), "-", "") & "%'")
+        End If
+
+        If OptCEP.Value = True Then
+            reg.Open ("SELECT CodForn,RazaoSocial FROM FORNECEDORES WHERE CEP LIKE '" & Replace(Replace(Replace(Replace(Replace(TxtNome.Text, ".", ""), " ", ""), "/", ""), "\", ""), "-", "") & "%'")
+        End If
+
+        Call formata_flex
+
+        Do Until reg.EOF = True
+
+            MSFlexPesquisa.AddItem (reg.Fields("codforn") & vbTab & _
+                                    reg.Fields("razaosocial"))
+
+            reg.MoveNext
+
+        Loop
+
+
+        reg.Close
+    End If
+
 End Sub
 Private Sub formata_flex()
- 
- MSFlexPesquisa.Clear
- MSFlexPesquisa.Cols = 2
- MSFlexPesquisa.Rows = 1
 
- MSFlexPesquisa.Col = 0
- MSFlexPesquisa.Text = "Cód."
- MSFlexPesquisa.ColWidth(0) = 700
- 
- MSFlexPesquisa.Col = 1
- MSFlexPesquisa.Text = "Razão Social"
- MSFlexPesquisa.ColWidth(1) = 5400
- 
+    MSFlexPesquisa.Clear
+    MSFlexPesquisa.Cols = 2
+    MSFlexPesquisa.Rows = 1
+
+    MSFlexPesquisa.Col = 0
+    MSFlexPesquisa.Text = "Cód."
+    MSFlexPesquisa.ColWidth(0) = 700
+
+    MSFlexPesquisa.Col = 1
+    MSFlexPesquisa.Text = "Razão Social"
+    MSFlexPesquisa.ColWidth(1) = 5400
+
 End Sub
 Private Sub CmdLimparTela_Click()
- Call limpa_campos
+    Call limpa_campos
 End Sub
 Private Sub limpa_campos()
     OptNome.Value = True
     CBoxAleatorio.Value = vbUnchecked
     TxtNome.Text = ""
     Call formata_flex
-    
-    
+
+
     TxtNome.SetFocus
 End Sub
 
 Private Sub MSFlexPesquisa_KeyPress(KeyAscii As Integer)
- 
- Dim CODIGO As Long
- 
- If KeyAscii = 13 Then
-  
-  MSFlexPesquisa.Col = 0
-  CODIGO = Trim(MSFlexPesquisa.Text)
-  
-  
-  FrmComCadProdutosEnt.TxtCodForn.Text = CODIGO
-  FrmComCadProdutosEnt.TxtCodForn_KeyPress (13)
-  
-  Unload Me
-  
- End If
+
+    Dim CODIGO As Long
+
+    If KeyAscii = 13 Then
+
+        MSFlexPesquisa.Col = 0
+        CODIGO = Trim(MSFlexPesquisa.Text)
+
+
+        FrmComCadProdutosEnt.TxtCodForn.Text = CODIGO
+        FrmComCadProdutosEnt.TxtCodForn_KeyPress (13)
+
+        Unload Me
+
+    End If
 
 End Sub
 

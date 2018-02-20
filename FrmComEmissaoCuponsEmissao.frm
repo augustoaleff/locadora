@@ -238,128 +238,129 @@ Dim TIPO As String
 Dim VALOR As Double
 Private Sub limpa_campos()
 
- OptValor.Value = True
- TxtCodCupom.Text = ""
- TxtValor.Text = ""
- TxtPorcentagem.Text = ""
- MskValidoDe.Mask = ""
- MskValidoDe.Text = ""
- MskValidoDe.Mask = "##/##/####"
- MskValidoAte.Mask = ""
- MskValidoAte.Text = ""
- MskValidoAte.Mask = "##/##/####"
- TxtDescricao.Text = ""
- TxtCodCupom.SetFocus
+    OptValor.Value = True
+    TxtCodCupom.Text = ""
+    TxtValor.Text = ""
+    TxtPorcentagem.Text = ""
+    MskValidoDe.Mask = ""
+    MskValidoDe.Text = ""
+    MskValidoDe.Mask = "##/##/####"
+    MskValidoAte.Mask = ""
+    MskValidoAte.Text = ""
+    MskValidoAte.Mask = "##/##/####"
+    TxtDescricao.Text = ""
+    TxtCodCupom.SetFocus
 
 End Sub
 
 Private Sub CmdGerarCupom_Click()
 
-If ValidaCampos = True Then
+    If ValidaCampos = True Then
 
-Set CN1 = New ADODB.Connection
-    CN1.Open STR_DSN
-    
-
- If OptValor.Value = True And TxtValor.Text <> Empty Then
- 
-    TIPO = "V"
-    VALOR = CDbl(TxtValor.Text)
- Else
- If OptPorcentagem.Value = True And TxtPorcentagem.Text <> Empty Then
-
-    TIPO = "P"
-    VALOR = CDbl(TxtPorcentagem.Text) / 100
- End If
- End If
- 
- 
-    CN1.Execute ("INSERT INTO CUPONS(CodCupom,Tipo,Valor,ValidadeDe,ValidadeAte,Descricao,Status,Usuario,DataEmissao)" & _
-    " VALUES('" & StrConv(Trim(TxtCodCupom.Text), vbUpperCase) & "','" & TIPO & "'," & Replace(VALOR, ",", ".") & ",'" & _
-    Format(MskValidoDe.Text, "YYYYMMDD") & "','" & Format(MskValidoAte.Text, "YYYYMMDD") & "','" & Trim(StrConv(TxtDescricao.Text, vbUpperCase)) & "','NAOUTILIZADO','','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
 
 
-    MsgBox "Cupom Criado", vbInformation, Criação
-    Call limpa_campos
+        If OptValor.Value = True And TxtValor.Text <> Empty Then
 
-Else
+            TIPO = "V"
+            VALOR = CDbl(TxtValor.Text)
+        Else
+            If OptPorcentagem.Value = True And TxtPorcentagem.Text <> Empty Then
 
-MsgBox "Verifique os Campos", vbExclamation, Aviso
+                TIPO = "P"
+                VALOR = CDbl(TxtPorcentagem.Text) / 100
+            End If
+        End If
 
-End If
+
+        CN1.Execute ("INSERT INTO CUPONS(CodCupom,Tipo,Valor,ValidadeDe,ValidadeAte,Descricao,Status,Usuario,DataEmissao)" & _
+                   " VALUES('" & StrConv(Trim(TxtCodCupom.Text), vbUpperCase) & "','" & TIPO & "'," & Replace(VALOR, ",", ".") & ",'" & _
+                     Format(MskValidoDe.Text, "YYYYMMDD") & "','" & Format(MskValidoAte.Text, "YYYYMMDD") & "','" & Trim(StrConv(TxtDescricao.Text, vbUpperCase)) & "','NAOUTILIZADO','','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+        
+        
+
+        MsgBox "Cupom Criado", vbInformation, Criação
+        Call limpa_campos
+
+    Else
+
+        MsgBox "Verifique os Campos", vbExclamation, Aviso
+
+    End If
 
 
 End Sub
 Private Function ValidaCampos() As Boolean
 
-Set CN1 = New ADODB.Connection
+    Set CN1 = New ADODB.Connection
     CN1.Open STR_DSN
     Set REG2 = New ADODB.Recordset
     REG2.ActiveConnection = CN1
 
- If TxtCodCupom.Text <> Empty Then
-    
- REG2.Open ("SELECT CODCUPOM FROM CUPONS WHERE CODCUPOM = '" & Trim(TxtCodCupom.Text) & "'")
-    
-    If REG2.EOF = True Then
-     
-    ValidaCampos = True
-    
-        If OptValor.Value = True And TxtValor.Text <> Empty Or OptPorcentagem.Value = True And TxtPorcentagem.Text <> Empty Then
-        
-        ValidaCampos = True
-        
-                If IsDate(MskValidoDe.Text) <> Empty Then
-                
-                ValidaCampos = True
-                
-                    If IsDate(MskValidoAte.Text) <> Empty Then
-                
-                    ValidaCampos = True
-                    
-                        If TxtDescricao.Text <> Empty Then
-                        
-                        ValidaCampos = True
-                        
-                        Else
-                        
-                        ValidaCampos = False
-                        
-                        End If
-                
-                    Else
-                
-                    ValidaCampos = False
-                
-                    End If
-                
-                Else
-                
-                ValidaCampos = False
-                
-                End If
-            
-            Else
-        
-            ValidaCampos = False
-        
-            End If
-        
-    Else
-    
-    ValidaCampos = False
-    
-    MsgBox "Já existe um cupom com esse código", vbInformation, Aviso
-    
-    End If
-    
- Else
-    
- ValidaCampos = False
-    
- End If
+    If TxtCodCupom.Text <> Empty Then
 
- REG2.Close
+        REG2.Open ("SELECT CODCUPOM FROM CUPONS WHERE CODCUPOM = '" & Trim(TxtCodCupom.Text) & "'")
+
+        If REG2.EOF = True Then
+
+            ValidaCampos = True
+
+            If OptValor.Value = True And TxtValor.Text <> Empty Or OptPorcentagem.Value = True And TxtPorcentagem.Text <> Empty Then
+
+                ValidaCampos = True
+
+                If IsDate(MskValidoDe.Text) <> Empty Then
+
+                    ValidaCampos = True
+
+                    If IsDate(MskValidoAte.Text) <> Empty Then
+
+                        ValidaCampos = True
+
+                        If TxtDescricao.Text <> Empty Then
+
+                            ValidaCampos = True
+
+                        Else
+
+                            ValidaCampos = False
+
+                        End If
+
+                    Else
+
+                        ValidaCampos = False
+
+                    End If
+
+                Else
+
+                    ValidaCampos = False
+
+                End If
+
+            Else
+
+                ValidaCampos = False
+
+            End If
+
+        Else
+
+            ValidaCampos = False
+
+            MsgBox "Já existe um cupom com esse código", vbInformation, Aviso
+
+        End If
+
+    Else
+
+        ValidaCampos = False
+
+    End If
+
+    REG2.Close
 
 
 End Function
@@ -367,81 +368,81 @@ End Function
 
 Private Sub CmdLimparTela_Click()
 
- Call limpa_campos
- 
+    Call limpa_campos
+
 End Sub
 
 
 Private Sub Form_Load()
 
- Me.Left = 1500
- Me.Top = 1500
+    Me.Left = 1500
+    Me.Top = 1500
 
 End Sub
 
 Private Sub TxtCodCupom_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtCodCupom.Text <> Empty Then
+    If KeyAscii = 13 And TxtCodCupom.Text <> Empty Then
 
- If OptValor.Value = True Then
-    
-    TxtValor.SetFocus
-    
- Else
- 
- If OptPorcentagem.Value = True Then
- 
-    TxtPorcentagem.SetFocus
- End If
- End If
- End If
+        If OptValor.Value = True Then
+
+            TxtValor.SetFocus
+
+        Else
+
+            If OptPorcentagem.Value = True Then
+
+                TxtPorcentagem.SetFocus
+            End If
+        End If
+    End If
 
 End Sub
 
 
 Private Sub TxtValor_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtValor.Text <> Empty Then
+    If KeyAscii = 13 And TxtValor.Text <> Empty Then
 
-    MskValidoDe.SetFocus
-    
- End If
+        MskValidoDe.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtPorcentagem_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtPorcentagem.Text <> Empty Then
+    If KeyAscii = 13 And TxtPorcentagem.Text <> Empty Then
 
-    MskValidoDe.SetFocus
-    
- End If
+        MskValidoDe.SetFocus
+        
+    End If
 
 End Sub
 Private Sub MskValidoDe_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And IsDate(MskValidoDe.Text) Then
+    If KeyAscii = 13 And IsDate(MskValidoDe.Text) Then
 
-    MskValidoAte.SetFocus
-    
- End If
+        MskValidoAte.SetFocus
+
+    End If
 
 End Sub
 Private Sub MskValidoAte_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And IsDate(MskValidoAte.Text) Then
+    If KeyAscii = 13 And IsDate(MskValidoAte.Text) Then
 
-    TxtDescricao.SetFocus
-    
- End If
+        TxtDescricao.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtDescricao_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtDescricao.Text <> Empty Then
+    If KeyAscii = 13 And TxtDescricao.Text <> Empty Then
 
-    CmdGerarCupom.SetFocus
-    
- End If
+        CmdGerarCupom.SetFocus
+
+    End If
 
 End Sub
 

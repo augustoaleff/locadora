@@ -573,189 +573,197 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Public Sub TxtNumeroPedido_KeyPress(KeyAscii As Integer)
-Dim I As Integer
-Dim X, DH, CD, CC, CH, DESCONTO, JUROS As Double
-Dim VAREC As Double
-DH = 0
-CD = 0
-CC = 0
-CH = 0
+    Dim I As Integer
+    Dim X, DH, CD, CC, CH, DESCONTO, JUROS As Double
+    Dim VAREC As Double
+    DH = 0
+    CD = 0
+    CC = 0
+    CH = 0
 
- If KeyAscii = 13 And IsNumeric(TxtNumeroPedido.Text) <> Empty Then
+    If KeyAscii = 13 And IsNumeric(TxtNumeroPedido.Text) <> Empty Then
 
-    TxtNumeroPedido.Enabled = False
-    
-    Set CN1 = New ADODB.Connection
-    CN1.Open STR_DSN
-    Set reg = New ADODB.Recordset
-    reg.ActiveConnection = CN1
-    Set REG2 = New ADODB.Recordset
-    REG2.ActiveConnection = CN1
-    Set REG3 = New ADODB.Recordset
-    REG3.ActiveConnection = CN1
-    
-    
-    reg.Open ("SELECT P.NumPed,P.CodVend,F.Nome AS Vendedor,P.Status,P.CodCli,C.Nome AS Cliente,P.DataEmissao,P.DataEntrega,P.DataLimDev,P.DataDev,P.OBS,P.ValorT,P.ValorP FROM PEDIDOS AS P " & _
-    "INNER JOIN FUNCIONARIOS AS F ON P.CodVend = F.CodFunc " & _
-    "INNER JOIN CLIENTES AS C ON C.CodCli =P.CodCli " & _
-    "WHERE NumPed = " & Trim(TxtNumeroPedido.Text) & "")
-    
-    REG2.Open ("SELECT I.CodProd,P.Descricao,P.Preco,Quant,I.Status FROM ITENS AS I " & _
-    "INNER JOIN PRODUTOS AS P on I.CodProd = P.CodProd WHERE NUMPED = " & Trim(TxtNumeroPedido.Text) & "")
-    
-    REG3.Open ("SELECT P.VDinheiro,P.VCCredito,P.VCDebito,P.VCheque,P.Juros,P.CodCupom,C.Tipo,C.Valor FROM PAGAMENTOS AS P " & _
-    "INNER JOIN CUPONS AS C ON P.CodCupom=C.CodCupom " & _
-    "WHERE NUMPED = " & Trim(TxtNumeroPedido.Text) & "")
-    
+        TxtNumeroPedido.Enabled = False
 
-    If reg.EOF = False Then
-    
-    TxtCodVendedor.Text = reg.Fields("CodVend")
-    LblNomeVendedor.Caption = reg.Fields("Vendedor")
-    TxtStatusPedido.Text = reg.Fields("Status")
-    TxtCodCliente.Text = reg.Fields("CodCli")
-    LblCliente.Caption = reg.Fields("Cliente")
-    MskDataEmissao.Text = Format(reg.Fields("DataEmissao"), "DD/MM/YYYY")
-    MskDataEntrega.Text = Format(reg.Fields("DataEntrega"), "DD/MM/YYYY")
-    MskDataLimDev.Text = Format(reg.Fields("DataLimDev"), "DD/MM/YYYY")
-    TxtValorPago.Text = Format(reg.Fields("ValorP"), "#,##0.00")
-    TxtValorTotal.Text = Format(reg.Fields("ValorT"), "#,##0.00")
-    
-    VAREC = CDbl(TxtValorTotal.Text) - CDbl(TxtValorPago.Text)
-    TxtValorAReceber = Format(VAREC, "#,##0.00")
-    
-    
-        If reg.Fields("DataDev") = "01/01/1900" Then
-        
-        
-        MskDataDev.Mask = ""
-        MskDataDev.Text = ""
-        MskDataDev.Mask = "##/##/####"
-        I = DateDiff("d", Format(reg.Fields("DataLimDev"), "DD/MM/YYYY"), Now)
-            If I < 0 Then
-            I = 0
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
+        Set REG2 = New ADODB.Recordset
+        REG2.ActiveConnection = CN1
+        Set REG3 = New ADODB.Recordset
+        REG3.ActiveConnection = CN1
+
+
+        reg.Open ("SELECT P.NumPed,P.CodVend,F.Nome AS Vendedor,P.Status,P.CodCli,C.Nome AS Cliente,P.DataEmissao,P.DataEntrega,P.DataLimDev,P.DataDev,P.OBS,P.ValorT,P.ValorP FROM PEDIDOS AS P " & _
+                  "INNER JOIN FUNCIONARIOS AS F ON P.CodVend = F.CodFunc " & _
+                  "INNER JOIN CLIENTES AS C ON C.CodCli =P.CodCli " & _
+                  "WHERE NumPed = " & Trim(TxtNumeroPedido.Text) & "")
+
+        REG2.Open ("SELECT I.CodProd,P.Descricao,P.Preco,Quant,I.Status FROM ITENS AS I " & _
+                   "INNER JOIN PRODUTOS AS P on I.CodProd = P.CodProd WHERE NUMPED = " & Trim(TxtNumeroPedido.Text) & "")
+
+        REG3.Open ("SELECT P.VDinheiro,P.VCCredito,P.VCDebito,P.VCheque,P.Juros,P.CodCupom,C.Tipo,C.Valor FROM PAGAMENTOS AS P " & _
+                   "INNER JOIN CUPONS AS C ON P.CodCupom=C.CodCupom " & _
+                   "WHERE NUMPED = " & Trim(TxtNumeroPedido.Text) & "")
+
+
+        If reg.EOF = False Then
+
+            TxtCodVendedor.Text = reg.Fields("CodVend")
+            LblNomeVendedor.Caption = reg.Fields("Vendedor")
+            TxtStatusPedido.Text = reg.Fields("Status")
+            TxtCodCliente.Text = reg.Fields("CodCli")
+            LblCliente.Caption = reg.Fields("Cliente")
+            MskDataEmissao.Text = Format(reg.Fields("DataEmissao"), "DD/MM/YYYY")
+            MskDataEntrega.Text = Format(reg.Fields("DataEntrega"), "DD/MM/YYYY")
+            MskDataLimDev.Text = Format(reg.Fields("DataLimDev"), "DD/MM/YYYY")
+            TxtValorPago.Text = Format(reg.Fields("ValorP"), "#,##0.00")
+            TxtValorTotal.Text = Format(reg.Fields("ValorT"), "#,##0.00")
+
+            VAREC = CDbl(TxtValorTotal.Text) - CDbl(TxtValorPago.Text)
+            TxtValorAReceber = Format(VAREC, "#,##0.00")
+
+
+            If reg.Fields("DataDev") = "01/01/1900" Then
+
+
+                MskDataDev.Mask = ""
+                MskDataDev.Text = ""
+                MskDataDev.Mask = "##/##/####"
+                I = DateDiff("d", Format(reg.Fields("DataLimDev"), "DD/MM/YYYY"), Now)
+                If I < 0 Then
+                    I = 0
+                End If
+
+            Else
+
+                MskDataDev.Text = Format(reg.Fields("DataDev"), "DD/MM/YYYY")
+                I = DateDiff("d", Format(reg.Fields("DataLimDev"), "DD/MM/YYYY"), Format(reg.Fields("DataDev"), "DD/MM/YYYY"))
+                If I < 0 Then
+                    I = 0
+                End If
+
             End If
-        
+
+            TxtDiasAtraso.Text = I
+            TxtOBS.Text = reg.Fields("OBS")
+
+            Call formata_flex
+
+            Do Until REG2.EOF = True
+
+                X = REG2.Fields("Quant") * REG2.Fields("preco")
+
+                MSFlexItens.AddItem (REG2.Fields("codProd") & vbTab & _
+                                     REG2.Fields("Descricao") & vbTab & _
+                                     REG2.Fields("Quant") & vbTab & _
+                                     Format(REG2.Fields("Preco"), "#,##0.00") & vbTab & _
+                                     Format(X, "#,##0.00"))
+
+
+                REG2.MoveNext
+
+            Loop
+
+
+            Do Until REG3.EOF = True
+
+                DH = DH + REG3.Fields("VDinheiro")
+                CD = CD + REG3.Fields("VCDebito")
+                CC = CC + REG3.Fields("VCCredito")
+                CH = CH + REG3.Fields("VCheque")
+                JUROS = JUROS + REG3("Juros")
+
+
+                If REG3.Fields("Codcupom") <> Empty Then
+
+                    If REG3.Fields("Tipo") = "V" Then
+                        DESCONTO = DESCONTO + REG3.Fields("Valor")
+                        Call formata_flex2
+                        MSFlexCupons.AddItem (REG3.Fields("CodCupom") & vbTab & _
+                                              "R$ " & Format(REG3.Fields("Valor"), "#,##0.00"))
+
+                    Else
+                        DESCONTO = DESCONTO + (REG3.Fields("Valor") * CDbl(TxtValorTotal.Text))
+
+
+                        Call formata_flex2
+                        MSFlexCupons.AddItem (REG3.Fields("CodCupom") & vbTab & _
+                                              Format((REG3.Fields("Valor") * 100), "#,##0.00") & " %")
+
+                    End If
+                End If
+
+
+                REG3.MoveNext
+
+            Loop
+
+            TxtTotalDinheiro = Format(DH, "#,##0.00")
+            TxtTotalCD = Format(CD, "#,##0.00")
+            TxtTotalCheque = Format(CH, "#,##0.00")
+            TxtTotalCC = Format(CC, "#,##0.00")
+            TxtJuros.Text = Format(JUROS, "#,##0.00")
+            TxtDesconto.Text = Format(DESCONTO, "#,##0.00")
+
+
         Else
-        
-        MskDataDev.Text = Format(reg.Fields("DataDev"), "DD/MM/YYYY")
-        I = DateDiff("d", Format(reg.Fields("DataLimDev"), "DD/MM/YYYY"), Format(reg.Fields("DataDev"), "DD/MM/YYYY"))
-        
+
+            MsgBox "Pedido não encontrado", vbInformation, Aviso
+
         End If
-        
-   TxtDiasAtraso.Text = I
-   TxtOBS.Text = reg.Fields("OBS")
-   
-   Call formata_flex
-   
-   Do Until REG2.EOF = True
-   
-   X = REG2.Fields("Quant") * REG2.Fields("preco")
-   
-   MSFlexItens.AddItem (REG2.Fields("codProd") & vbTab & _
-                       REG2.Fields("Descricao") & vbTab & _
-                       REG2.Fields("Quant") & vbTab & _
-                       Format(REG2.Fields("Preco"), "#,##0.00") & vbTab & _
-                       Format(X, "#,##0.00"))
-   
-   
-   REG2.MoveNext
-   
-   Loop
-   
-  
-   Do Until REG3.EOF = True
-   
-   DH = DH + REG3.Fields("VDinheiro")
-   CD = CD + REG3.Fields("VCDebito")
-   CC = CC + REG3.Fields("VCCredito")
-   CH = CH + REG3.Fields("VCheque")
-   JUROS = JUROS + REG3("Juros")
-   
-   
-   If REG3.Fields("Codcupom") <> Empty Then
-   
-   If REG3.Fields("Tipo") = "V" Then
-   DESCONTO = DESCONTO + REG3.Fields("Valor")
-   Else
-   DESCONTO = DESCONTO + (REG3.Fields("Valor") * CDbl(TxtValorTotal.Text))
-   End If
-   
-   Call formata_flex2
-   MSFlexCupons.AddItem (REG3.Fields("CodCupom") & vbTab & _
-                        Format(REG3.Fields("Valor"), "#,##0.00"))
 
-   End If
+        reg.Close
+        REG2.Close
+        REG3.Close
 
-   
-   REG3.MoveNext
-   
-   Loop
-   
-   TxtTotalDinheiro = Format(DH, "#,##0.00")
-   TxtTotalCD = Format(CD, "#,##0.00")
-   TxtTotalCheque = Format(CH, "#,##0.00")
-   TxtTotalCC = Format(CC, "#,##0.00")
-   TxtJuros.Text = Format(JUROS, "#,##0.00")
-   TxtDesconto.Text = Format(DESCONTO, "#,##0.00")
-   
-   
-   Else
-   
-   MsgBox "Pedido não encontrado", vbInformation, Aviso
-   
-   End If
-   
-   reg.Close
-   REG2.Close
-   REG3.Close
+    End If
 
- End If
- 
- 
+
 End Sub
 Private Sub formata_flex()
 
-MSFlexItens.Clear
-MSFlexItens.Cols = 5
-MSFlexItens.Rows = 1
+    MSFlexItens.Clear
+    MSFlexItens.Cols = 5
+    MSFlexItens.Rows = 1
 
-MSFlexItens.Col = 0
-MSFlexItens.Text = "Cód."
-MSFlexItens.ColWidth(0) = 700
+    MSFlexItens.Col = 0
+    MSFlexItens.Text = "Cód."
+    MSFlexItens.ColWidth(0) = 700
 
-MSFlexItens.Col = 1
-MSFlexItens.Text = "Descrição"
-MSFlexItens.ColWidth(1) = 4500
+    MSFlexItens.Col = 1
+    MSFlexItens.Text = "Descrição"
+    MSFlexItens.ColWidth(1) = 4500
 
-MSFlexItens.Col = 2
-MSFlexItens.Text = "Qtd"
-MSFlexItens.ColWidth(2) = 750
+    MSFlexItens.Col = 2
+    MSFlexItens.Text = "Qtd"
+    MSFlexItens.ColWidth(2) = 750
 
 
-MSFlexItens.Col = 3
-MSFlexItens.Text = "Valor Unit."
-MSFlexItens.ColWidth(3) = 1000
+    MSFlexItens.Col = 3
+    MSFlexItens.Text = "Valor Unit."
+    MSFlexItens.ColWidth(3) = 1000
 
-MSFlexItens.Col = 4
-MSFlexItens.Text = "valor Total"
-MSFlexItens.ColWidth(4) = 1000
+    MSFlexItens.Col = 4
+    MSFlexItens.Text = "valor Total"
+    MSFlexItens.ColWidth(4) = 1000
 
 
 End Sub
 Private Sub formata_flex2()
 
-MSFlexCupons.Clear
-MSFlexCupons.Cols = 2
-MSFlexCupons.Rows = 1
+    MSFlexCupons.Clear
+    MSFlexCupons.Cols = 2
+    MSFlexCupons.Rows = 1
 
-MSFlexCupons.Col = 0
-MSFlexCupons.Text = "Cód."
-MSFlexCupons.ColWidth(0) = 1000
+    MSFlexCupons.Col = 0
+    MSFlexCupons.Text = "Cód."
+    MSFlexCupons.ColWidth(0) = 1000
 
-MSFlexCupons.Col = 1
-MSFlexCupons.Text = "Valor"
-MSFlexCupons.ColWidth(1) = 1000
+    MSFlexCupons.Col = 1
+    MSFlexCupons.Text = "Valor"
+    MSFlexCupons.ColWidth(1) = 1000
 
 
 End Sub

@@ -160,118 +160,118 @@ Attribute VB_Exposed = False
 
 Private Sub CmdBuscar_Click()
 
- Set CN1 = New ADODB.Connection
+    Set CN1 = New ADODB.Connection
     CN1.Open STR_DSN
     Set reg = New ADODB.Recordset
     reg.ActiveConnection = CN1
-    
+
     reg.Open ("SELECT NumPed,DataEntrega,Status,ValorT FROM PEDIDOS WHERE CODCLI= " & TxtCodCliente.Text & " and DataEntrega between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' AND '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "'")
-         
+
     Call formata_flex
- 
+
     Do Until reg.EOF = True
-    
-    MSFlexPedidos.AddItem (reg.Fields("NumPed") & vbTab & _
-                            reg.Fields("DataEntrega") & vbTab & _
-                            Format(reg.Fields("ValorT"), "#,##0.00") & vbTab & _
-                            reg.Fields("Status"))
-                         
-    reg.MoveNext
-    
+
+        MSFlexPedidos.AddItem (reg.Fields("NumPed") & vbTab & _
+                               reg.Fields("DataEntrega") & vbTab & _
+                               Format(reg.Fields("ValorT"), "#,##0.00") & vbTab & _
+                               reg.Fields("Status"))
+
+        reg.MoveNext
+
     Loop
- 
+
     reg.Close
 
 End Sub
 Private Sub MSFlexPedidos_KeyPress(KeyAscii As Integer)
- 
- Dim CODIGO As Long
- 
- If KeyAscii = 13 Then
-  
-  MSFlexPedidos.Col = 0
-  CODIGO = Trim(MSFlexPedidos.Text)
-  
-  FrmComEmissaoDevolucao.TxtNumPedido.Text = CODIGO
-  FrmComEmissaoDevolucao.TxtNumPedido_KeyPress (13)
-  Unload Me
 
- End If
+    Dim CODIGO As Long
+
+    If KeyAscii = 13 Then
+
+        MSFlexPedidos.Col = 0
+        CODIGO = Trim(MSFlexPedidos.Text)
+
+        FrmComEmissaoDevolucao.TxtNumPedido.Text = CODIGO
+        FrmComEmissaoDevolucao.TxtNumPedido_KeyPress (13)
+        Unload Me
+
+    End If
 
 End Sub
 
 
 Private Sub CmdBuscarNome_Click()
-FrmComEmissaoDevolucaoBuscarPedidoBuscarNome.Show
+    FrmComEmissaoDevolucaoBuscarPedidoBuscarNome.Show
 End Sub
 
 Private Sub MskPeriodoDe_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And IsDate(MskPeriodoDe.Text) <> Empty Then
+    If KeyAscii = 13 And IsDate(MskPeriodoDe.Text) <> Empty Then
 
-MskPeriodoAte.SetFocus
+        MskPeriodoAte.SetFocus
 
- End If
- 
+    End If
+
 End Sub
 Private Sub MskPeriodoAte_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And IsDate(MskPeriodoAte.Text) <> Empty Then
- 
- CmdBuscar.SetFocus
+    If KeyAscii = 13 And IsDate(MskPeriodoAte.Text) <> Empty Then
 
- End If
- 
+        CmdBuscar.SetFocus
+
+    End If
+
 End Sub
 
 Public Sub TxtCodCliente_KeyPress(KeyAscii As Integer)
-  
-  If KeyAscii = 13 And IsNumeric(TxtCodCliente.Text) <> Empty Then
-  
-  Set CN1 = New ADODB.Connection
-    CN1.Open STR_DSN
-    Set reg = New ADODB.Recordset
-    reg.ActiveConnection = CN1
-    
-    reg.Open ("SELECT NOME FROM CLIENTES WHERE CODCLI = " & TxtCodCliente.Text & "")
-    
-    If reg.EOF = False Then
-    
-    LblCliente.Caption = reg.Fields("Nome")
-    MskPeriodoDe.SetFocus
-    
-    Else
-    
-    MsgBox "Cliente Não Encontrado", vbInformation, Aviso
-    
-    End If
-    
-    reg.Close
-    
+
+    If KeyAscii = 13 And IsNumeric(TxtCodCliente.Text) <> Empty Then
+
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
+
+        reg.Open ("SELECT NOME FROM CLIENTES WHERE CODCLI = " & TxtCodCliente.Text & "")
+
+        If reg.EOF = False Then
+
+            LblCliente.Caption = reg.Fields("Nome")
+            MskPeriodoDe.SetFocus
+
+        Else
+
+            MsgBox "Cliente Não Encontrado", vbInformation, Aviso
+
+        End If
+
+        reg.Close
+
     End If
 
 End Sub
 Private Sub formata_flex()
 
-MSFlexPedidos.Clear
-MSFlexPedidos.Cols = 4
-MSFlexPedidos.Rows = 1
+    MSFlexPedidos.Clear
+    MSFlexPedidos.Cols = 4
+    MSFlexPedidos.Rows = 1
 
-MSFlexPedidos.Col = 0
-MSFlexPedidos.Text = "Nº Pedido"
-MSFlexPedidos.ColWidth(0) = 1000
+    MSFlexPedidos.Col = 0
+    MSFlexPedidos.Text = "Nº Pedido"
+    MSFlexPedidos.ColWidth(0) = 1000
 
-MSFlexPedidos.Col = 1
-MSFlexPedidos.Text = "Data"
-MSFlexPedidos.ColWidth(1) = 1000
+    MSFlexPedidos.Col = 1
+    MSFlexPedidos.Text = "Data"
+    MSFlexPedidos.ColWidth(1) = 1000
 
-MSFlexPedidos.Col = 2
-MSFlexPedidos.Text = "Valor total"
-MSFlexPedidos.ColWidth(2) = 1000
+    MSFlexPedidos.Col = 2
+    MSFlexPedidos.Text = "Valor total"
+    MSFlexPedidos.ColWidth(2) = 1000
 
-MSFlexPedidos.Col = 3
-MSFlexPedidos.Text = "Status"
-MSFlexPedidos.ColWidth(3) = 1000
+    MSFlexPedidos.Col = 3
+    MSFlexPedidos.Text = "Status"
+    MSFlexPedidos.ColWidth(3) = 1000
 
 
 End Sub

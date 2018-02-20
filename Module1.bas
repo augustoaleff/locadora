@@ -2,7 +2,7 @@ Attribute VB_Name = "Module1"
 Option Explicit
 
 'Declare Function SearchTreeForFile Lib "IMAGEHLP.DLL" (ByVal lpRootPath As String, _
-'ByVal lpInputName As String, ByVal lpOutputName As String) As Long
+ 'ByVal lpInputName As String, ByVal lpOutputName As String) As Long
 
 'Public Declare Function GetComputerName Lib "kernel32" Alias "GetComputerNameA" (ByVal sBuffer As String, lSize As Long) As Long
 

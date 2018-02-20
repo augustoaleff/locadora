@@ -666,551 +666,551 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub CmdConsultaNome_Click()
- FrmComCadFuncPesquisa.Show
+    FrmComCadFuncPesquisa.Show
 End Sub
 
 Private Sub CmdGravar_Click()
 
-If ValidaCampos = True Then
+    If ValidaCampos = True Then
 
-    Set CN1 = New ADODB.Connection
-    CN1.Open STR_DSN
-    Set reg = New ADODB.Recordset
-    reg.ActiveConnection = CN1
-    Dim DATA_DEMISSAO As String
-    
-    
-    If TxtCodGerente.Text = "" Then
-     TxtCodGerente.Text = "0"
-    End If
-        
-    reg.Open ("SELECT * FROM FUNCIONARIOS WHERE CODFUNC = " & Trim(TxtCodigo.Text) & "")
-          
-    'USO O INSERT
-    If reg.EOF = True Then
-   
- 
-      CN1.Execute ("INSERT INTO FUNCIONARIOS(CodFunc,Nome,CPF,RG,DataNasc,Telefone,Celular,CEP,Endereco,NumEnd,Complemento,Bairro,Cidade,CodMun,UF,Email,DataAdm,DataDem,Cargo,CodGerente,OBS,Usuario,DataCad) " & _
-      "VALUES (" & Trim(TxtCodigo.Text) & ",'" & StrConv(TxtNome.Text, vbUpperCase) & "','" & Replace(Replace(Replace(Replace(Replace(TxtCPF.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "") & "','" & _
-      Replace(Replace(Replace(Replace(Replace(TxtRG.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "") & "','" & Format(MskDataNasc.Text, "YYYYMMDD") & "','" & _
-      Replace(Replace(Replace(Replace(Replace(Replace(MskTelefone.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "','" & _
-      Replace(Replace(Replace(Replace(Replace(Replace(MskCelular.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "', '" & _
-      Replace(Replace(Replace(Replace(Replace(Replace(MskCEP.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "','" & _
-      StrConv(Trim(TxtEndereco.Text), vbUpperCase) & "','" & StrConv(Trim(TxtNumero.Text), vbUpperCase) & "','" & StrConv(Trim(TxtComplemento.Text), vbUpperCase) & "','" & _
-      StrConv(Trim(TxtBairro.Text), vbUpperCase) & "','" & StrConv(Trim(TxtCidade.Text), vbUpperCase) & "','" & StrConv(Trim(TxtCodMunicipio.Text), vbUpperCase) & "', '" & _
-      StrConv(TxtUF.Text, vbUpperCase) & "','" & StrConv(TxtEmail.Text, vbLowerCase) & "','" & Format(MskDataAdmissao.Text, "YYYYMMDD") & "','" & Format(Replace(Replace(MskDataDemissao.Text, "_", ""), "/", ""), "YYYYMMDD") & "','" & _
-      StrConv(TxtCargo.Text, vbUpperCase) & "'," & Trim(TxtCodGerente.Text) & ",'" & StrConv(TxtOBS.Text, vbUpperCase) & "','','" & Format(Now, "YYYYMMDD hh:mm") & "') ")
-     
-      
-      MsgBox "Funcionário Cadastro com Sucesso", vbInformation, "Aviso"
-    'USO O UPDATE
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
+        Dim DATA_DEMISSAO As String
+
+
+        If TxtCodGerente.Text = "" Then
+            TxtCodGerente.Text = "0"
+        End If
+
+        reg.Open ("SELECT * FROM FUNCIONARIOS WHERE CODFUNC = " & Trim(TxtCodigo.Text) & "")
+
+        'USO O INSERT
+        If reg.EOF = True Then
+
+
+            CN1.Execute ("INSERT INTO FUNCIONARIOS(CodFunc,Nome,CPF,RG,DataNasc,Telefone,Celular,CEP,Endereco,NumEnd,Complemento,Bairro,Cidade,CodMun,UF,Email,DataAdm,DataDem,Cargo,CodGerente,OBS,Usuario,DataCad) " & _
+                         "VALUES (" & Trim(TxtCodigo.Text) & ",'" & StrConv(TxtNome.Text, vbUpperCase) & "','" & Replace(Replace(Replace(Replace(Replace(TxtCPF.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "") & "','" & _
+                         Replace(Replace(Replace(Replace(Replace(TxtRG.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "") & "','" & Format(MskDataNasc.Text, "YYYYMMDD") & "','" & _
+                         Replace(Replace(Replace(Replace(Replace(Replace(MskTelefone.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "','" & _
+                         Replace(Replace(Replace(Replace(Replace(Replace(MskCelular.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "', '" & _
+                         Replace(Replace(Replace(Replace(Replace(Replace(MskCEP.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "','" & _
+                         StrConv(Trim(TxtEndereco.Text), vbUpperCase) & "','" & StrConv(Trim(TxtNumero.Text), vbUpperCase) & "','" & StrConv(Trim(TxtComplemento.Text), vbUpperCase) & "','" & _
+                         StrConv(Trim(TxtBairro.Text), vbUpperCase) & "','" & StrConv(Trim(TxtCidade.Text), vbUpperCase) & "','" & StrConv(Trim(TxtCodMunicipio.Text), vbUpperCase) & "', '" & _
+                         StrConv(TxtUF.Text, vbUpperCase) & "','" & StrConv(TxtEmail.Text, vbLowerCase) & "','" & Format(MskDataAdmissao.Text, "YYYYMMDD") & "','" & Format(Replace(Replace(MskDataDemissao.Text, "_", ""), "/", ""), "YYYYMMDD") & "','" & _
+                         StrConv(TxtCargo.Text, vbUpperCase) & "'," & Trim(TxtCodGerente.Text) & ",'" & StrConv(TxtOBS.Text, vbUpperCase) & "','','" & Format(Now, "YYYYMMDD hh:mm") & "') ")
+
+
+            MsgBox "Funcionário Cadastro com Sucesso", vbInformation, "Aviso"
+            'USO O UPDATE
+        Else
+
+            CN1.Execute ("UPDATE FUNCIONARIOS SET Nome = '" & StrConv(TxtNome.Text, vbUpperCase) & "',CPF='" & Replace(Replace(Replace(Replace(Replace(TxtCPF.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "") & "',RG = '" & _
+                         Replace(Replace(Replace(Replace(Replace(TxtRG.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "") & "',DataNasc='" & Format(MskDataNasc.Text, "YYYYMMDD") & "',Telefone = '" & _
+                         Replace(Replace(Replace(Replace(Replace(Replace(MskTelefone.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "',Celular = '" & _
+                         Replace(Replace(Replace(Replace(Replace(Replace(MskCelular.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "', CEP = '" & _
+                         Replace(Replace(Replace(Replace(Replace(Replace(MskCEP.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "',Endereco = '" & _
+                         StrConv(Trim(TxtEndereco.Text), vbUpperCase) & "',NumEnd='" & StrConv(Trim(TxtNumero.Text), vbUpperCase) & "',Complemento='" & StrConv(Trim(TxtComplemento.Text), vbUpperCase) & "',Bairro='" & _
+                         StrConv(Trim(TxtBairro.Text), vbUpperCase) & "',Cidade='" & StrConv(Trim(TxtCidade.Text), vbUpperCase) & "',CodMun='" & StrConv(Trim(TxtCodMunicipio.Text), vbUpperCase) & "',UF= '" & _
+                         StrConv(TxtUF.Text, vbUpperCase) & "',Email='" & StrConv(TxtEmail.Text, vbLowerCase) & "',DataAdm='" & Format(MskDataAdmissao.Text, "YYYYMMDD") & "',DataDem='" & Format(Replace(Replace(MskDataDemissao.Text, "/", ""), "_", ""), "YYYYMMDD") & "',Cargo='" & _
+                         StrConv(TxtCargo.Text, vbUpperCase) & "',CodGerente = " & Trim(TxtCodGerente.Text) & ",OBS='" & StrConv(TxtOBS.Text, vbUpperCase) & "' WHERE CODFUNC = " & Trim(TxtCodigo.Text) & "")
+
+            MsgBox "Funcionário Atualizado com Sucesso", vbInformation, "Aviso"
+
+        End If
+
+        Call limpa_campos
+
+        reg.Close
+
     Else
 
-      CN1.Execute ("UPDATE FUNCIONARIOS SET Nome = '" & StrConv(TxtNome.Text, vbUpperCase) & "',CPF='" & Replace(Replace(Replace(Replace(Replace(TxtCPF.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "") & "',RG = '" & _
-      Replace(Replace(Replace(Replace(Replace(TxtRG.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "") & "',DataNasc='" & Format(MskDataNasc.Text, "YYYYMMDD") & "',Telefone = '" & _
-      Replace(Replace(Replace(Replace(Replace(Replace(MskTelefone.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "',Celular = '" & _
-      Replace(Replace(Replace(Replace(Replace(Replace(MskCelular.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "', CEP = '" & _
-      Replace(Replace(Replace(Replace(Replace(Replace(MskCEP.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "',Endereco = '" & _
-      StrConv(Trim(TxtEndereco.Text), vbUpperCase) & "',NumEnd='" & StrConv(Trim(TxtNumero.Text), vbUpperCase) & "',Complemento='" & StrConv(Trim(TxtComplemento.Text), vbUpperCase) & "',Bairro='" & _
-      StrConv(Trim(TxtBairro.Text), vbUpperCase) & "',Cidade='" & StrConv(Trim(TxtCidade.Text), vbUpperCase) & "',CodMun='" & StrConv(Trim(TxtCodMunicipio.Text), vbUpperCase) & "',UF= '" & _
-      StrConv(TxtUF.Text, vbUpperCase) & "',Email='" & StrConv(TxtEmail.Text, vbLowerCase) & "',DataAdm='" & Format(MskDataAdmissao.Text, "YYYYMMDD") & "',DataDem='" & Format(Replace(Replace(MskDataDemissao.Text, "/", ""), "_", ""), "YYYYMMDD") & "',Cargo='" & _
-      StrConv(TxtCargo.Text, vbUpperCase) & "',CodGerente = " & Trim(TxtCodGerente.Text) & ",OBS='" & StrConv(TxtOBS.Text, vbUpperCase) & "' WHERE CODFUNC = " & Trim(TxtCodigo.Text) & "")
-    
-      MsgBox "Funcionário Atualizado com Sucesso", vbInformation, "Aviso"
-      
+        MsgBox "Por favor Verifique os Campos", vbInformation, "Aviso"
+
     End If
-       
-    Call limpa_campos
-    
-    reg.Close
-    
- Else
- 
- MsgBox "Por favor Verifique os Campos", vbInformation, "Aviso"
- 
- End If
- 
+
 End Sub
 
 Private Sub CmdLimparTela_Click()
- Call limpa_campos
+    Call limpa_campos
 End Sub
 
 Private Sub CmdNovoCod_Click()
 
-If TxtCodigo.Enabled = True Then
- 
- Dim QUERY As String
- 
- Set CN1 = New ADODB.Connection
- CN1.Open STR_DSN
- Set reg = New ADODB.Recordset
- reg.ActiveConnection = CN1
- 
- 
- CN1.Execute ("begin transaction")
- QUERY = "select UltCodFunc from parametros WITH (ROWLOCK);UPDATE PARAMETROS WITH(ROWLOCK) SET UltCodFunc = UltCodFunc+1;COMMIT"
- reg.Open (QUERY)
- 
- TxtCodigo.Text = reg.Fields("UltCodFunc")
- TxtCodigo.Enabled = False
- TxtNome.SetFocus
- 
- reg.Close
- 
- Else
- 
-  MsgBox "Limpe a Tela Antes de Criar um Novo Código", vbExclamation, "Aviso"
- 
- End If
+    If TxtCodigo.Enabled = True Then
+
+        Dim QUERY As String
+
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
+
+
+        CN1.Execute ("begin transaction")
+        QUERY = "select UltCodFunc from parametros WITH (ROWLOCK);UPDATE PARAMETROS WITH(ROWLOCK) SET UltCodFunc = UltCodFunc+1;COMMIT"
+        reg.Open (QUERY)
+
+        TxtCodigo.Text = reg.Fields("UltCodFunc")
+        TxtCodigo.Enabled = False
+        TxtNome.SetFocus
+
+        reg.Close
+
+    Else
+
+        MsgBox "Limpe a Tela Antes de Criar um Novo Código", vbExclamation, "Aviso"
+
+    End If
 End Sub
 
 Private Sub Form_Load()
- Me.Top = 1000
- Me.Left = 1000
- 
+    Me.Top = 1000
+    Me.Left = 1000
+
 End Sub
 Private Sub limpa_campos()
-    
- TxtCodigo.Enabled = True
- 
- TxtCodigo.Text = ""
- TxtNome.Text = ""
- TxtCPF.Text = ""
- TxtRG.Text = ""
- MskDataNasc.Mask = ""
- MskDataNasc.Text = ""
- MskDataNasc.Mask = "##/##/####"
- MskTelefone.Mask = ""
- MskTelefone.Text = ""
- MskTelefone.Mask = "(##) ####-####"
- MskCelular.Mask = ""
- MskCelular.Text = ""
- MskCelular.Mask = "(##) #####-####"
- MskCEP.Mask = ""
- MskCEP.Text = ""
- MskCEP.Mask = "#####-###"
- TxtEndereco.Text = ""
- TxtNumero.Text = ""
- TxtComplemento.Text = ""
- TxtBairro.Text = ""
- TxtCidade.Text = ""
- TxtCodMunicipio.Text = ""
- TxtUF.Text = ""
- TxtEmail.Text = ""
- MskDataAdmissao.Mask = ""
- MskDataAdmissao.Text = ""
- MskDataAdmissao.Mask = "##/##/####"
- MskDataDemissao.Mask = ""
- MskDataDemissao.Text = ""
- MskDataDemissao.Mask = "##/##/####"
- TxtCargo.Text = ""
- TxtCodGerente.Text = ""
- LblGerente.Caption = ""
- TxtOBS.Text = ""
- 
- TxtCodigo.SetFocus
- 
-    
+
+    TxtCodigo.Enabled = True
+
+    TxtCodigo.Text = ""
+    TxtNome.Text = ""
+    TxtCPF.Text = ""
+    TxtRG.Text = ""
+    MskDataNasc.Mask = ""
+    MskDataNasc.Text = ""
+    MskDataNasc.Mask = "##/##/####"
+    MskTelefone.Mask = ""
+    MskTelefone.Text = ""
+    MskTelefone.Mask = "(##) ####-####"
+    MskCelular.Mask = ""
+    MskCelular.Text = ""
+    MskCelular.Mask = "(##) #####-####"
+    MskCEP.Mask = ""
+    MskCEP.Text = ""
+    MskCEP.Mask = "#####-###"
+    TxtEndereco.Text = ""
+    TxtNumero.Text = ""
+    TxtComplemento.Text = ""
+    TxtBairro.Text = ""
+    TxtCidade.Text = ""
+    TxtCodMunicipio.Text = ""
+    TxtUF.Text = ""
+    TxtEmail.Text = ""
+    MskDataAdmissao.Mask = ""
+    MskDataAdmissao.Text = ""
+    MskDataAdmissao.Mask = "##/##/####"
+    MskDataDemissao.Mask = ""
+    MskDataDemissao.Text = ""
+    MskDataDemissao.Mask = "##/##/####"
+    TxtCargo.Text = ""
+    TxtCodGerente.Text = ""
+    LblGerente.Caption = ""
+    TxtOBS.Text = ""
+
+    TxtCodigo.SetFocus
+
+
 End Sub
 Private Function ValidaCampos() As Boolean
 
- If IsNumeric(TxtCodigo) <> Empty Then
- 
-    ValidaCampos = True
-    
-        If TxtNome.Text <> Empty Then
- 
+    If IsNumeric(TxtCodigo) <> Empty Then
+
         ValidaCampos = True
-        
-            If Len(Replace(Replace(Replace(Replace(Replace(TxtCPF.Text, "-", ""), ".", ""), "/", ""), "\", ""), " ", "")) = 11 Then
- 
+
+        If TxtNome.Text <> Empty Then
+
             ValidaCampos = True
-            
-                If Len(Replace(Replace(Replace(Replace(Replace(TxtRG.Text, "-", ""), ".", ""), "/", ""), "\", ""), " ", "")) = 9 Then
-    
+
+            If Len(Replace(Replace(Replace(Replace(Replace(TxtCPF.Text, "-", ""), ".", ""), "/", ""), "\", ""), " ", "")) = 11 Then
+
                 ValidaCampos = True
-                
-                    If IsDate(MskDataNasc.Text) <> Empty Then
- 
+
+                If Len(Replace(Replace(Replace(Replace(Replace(TxtRG.Text, "-", ""), ".", ""), "/", ""), "\", ""), " ", "")) = 9 Then
+
                     ValidaCampos = True
-                    
-                        If Replace(Replace(Replace(Replace(MskTelefone.Text, "-", ""), "(", ""), ")", ""), " ", "") <> Empty Then
- 
+
+                    If IsDate(MskDataNasc.Text) <> Empty Then
+
                         ValidaCampos = True
-                        
-                            If Replace(Replace(Replace(Replace(MskCelular.Text, "-", ""), "(", ""), ")", ""), " ", "") <> Empty Then
- 
+
+                        If Replace(Replace(Replace(Replace(MskTelefone.Text, "-", ""), "(", ""), ")", ""), " ", "") <> Empty Then
+
                             ValidaCampos = True
-                            
-                                If Replace(Replace(Replace(Replace(MskCEP.Text, "-", ""), "(", ""), ")", ""), " ", "") <> Empty Then
- 
+
+                            If Replace(Replace(Replace(Replace(MskCelular.Text, "-", ""), "(", ""), ")", ""), " ", "") <> Empty Then
+
                                 ValidaCampos = True
-                                
-                                    If TxtEndereco.Text <> Empty Or TxtNumero.Text <> Empty Or TxtBairro.Text <> Empty Then
- 
+
+                                If Replace(Replace(Replace(Replace(MskCEP.Text, "-", ""), "(", ""), ")", ""), " ", "") <> Empty Then
+
                                     ValidaCampos = True
-                                    
-                                        If TxtCidade.Text <> Empty Or TxtCodMunicipio.Text <> Empty Or TxtUF.Text <> Empty Then
-    
+
+                                    If TxtEndereco.Text <> Empty Or TxtNumero.Text <> Empty Or TxtBairro.Text <> Empty Then
+
                                         ValidaCampos = True
-                                        
-                                            If TxtEmail <> Empty Then
+
+                                        If TxtCidade.Text <> Empty Or TxtCodMunicipio.Text <> Empty Or TxtUF.Text <> Empty Then
 
                                             ValidaCampos = True
-                                            
-                                                If IsDate(MskDataAdmissao.Text) <> Empty Then
-    
+
+                                            If TxtEmail <> Empty Then
+
                                                 ValidaCampos = True
-                                                
-                                                    If IsDate(MskDataDemissao.Text) = True Then
-    
+
+                                                If IsDate(MskDataAdmissao.Text) <> Empty Then
+
                                                     ValidaCampos = True
-                                                    
-                                                        If TxtCargo.Text <> Empty Then
- 
+
+                                                    If IsDate(MskDataDemissao.Text) = True Then
+
                                                         ValidaCampos = True
- 
+
+                                                        If TxtCargo.Text <> Empty Then
+
+                                                            ValidaCampos = True
+
                                                         Else
- 
-                                                        ValidaCampos = False
+
+                                                            ValidaCampos = False
 
                                                         End If
-    
+
                                                     Else
- 
-                                                    ValidaCampos = False
-    
+
+                                                        ValidaCampos = False
+
                                                     End If
-    
+
                                                 Else
- 
-                                                ValidaCampos = False
-                                                
+
+                                                    ValidaCampos = False
+
                                                 End If
-    
+
                                             Else
- 
-                                            ValidaCampos = False
-    
+
+                                                ValidaCampos = False
+
                                             End If
-    
+
                                         Else
- 
-                                        ValidaCampos = False
-    
+
+                                            ValidaCampos = False
+
                                         End If
-    
+
                                     Else
- 
-                                    ValidaCampos = False
-    
+
+                                        ValidaCampos = False
+
                                     End If
- 
-    
+
+
                                 Else
- 
-                                ValidaCampos = False
-    
+
+                                    ValidaCampos = False
+
                                 End If
-    
+
                             Else
- 
-                            ValidaCampos = False
-    
+
+                                ValidaCampos = False
+
                             End If
-    
+
                         Else
- 
-                        ValidaCampos = False
-    
+
+                            ValidaCampos = False
+
                         End If
-    
+
                     Else
- 
-                    ValidaCampos = False
+
+                        ValidaCampos = False
 
                     End If
- 
+
                 Else
- 
-                ValidaCampos = False
-    
+
+                    ValidaCampos = False
+
                 End If
-    
+
             Else
- 
-            ValidaCampos = False
-    
+
+                ValidaCampos = False
+
             End If
-    
+
         Else
- 
-        ValidaCampos = False
-    
+
+            ValidaCampos = False
+
         End If
- 
- Else
- 
-    ValidaCampos = False
-    
- End If
- 
+
+    Else
+
+        ValidaCampos = False
+
+    End If
+
 End Function
 
 Public Sub TxtCodigo_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And IsNumeric(TxtCodigo.Text) <> Empty Then
+    If KeyAscii = 13 And IsNumeric(TxtCodigo.Text) <> Empty Then
 
- Set CN1 = New ADODB.Connection
-     CN1.Open STR_DSN
-     Set reg = New ADODB.Recordset
-     reg.ActiveConnection = CN1
-     Set REG2 = New ADODB.Recordset
-     REG2.ActiveConnection = CN1
- 
-     reg.Open ("SELECT * FROM FUNCIONARIOS WHERE CODFUNC = " & Trim(TxtCodigo.Text) & "")
-     
- 
- If reg.EOF = False Then
- 
- TxtCodigo.Enabled = False
- 
- TxtNome.Text = reg.Fields("Nome")
- TxtCPF.Text = Format(reg.Fields("CPF"), "@@@.@@@.@@@-@@")
- TxtRG.Text = Format(reg.Fields("RG"), "@@.@@@.@@@-@")
- MskDataNasc.Text = Format(reg.Fields("DataNasc"), "DD/MM/YYYY")
- MskTelefone.Text = Format(reg.Fields("Telefone"), "(@@) @@@@-@@@@")
- MskCelular.Text = Format(reg.Fields("Celular"), "(@@) @@@@@-@@@@")
- MskCEP.Text = Format(reg.Fields("CEP"), "@@@@@-@@@")
- TxtEndereco.Text = reg.Fields("Endereco")
- TxtNumero.Text = reg.Fields("NumEnd")
- TxtComplemento.Text = reg.Fields("Complemento")
- TxtBairro.Text = reg.Fields("Bairro")
- TxtCidade.Text = reg.Fields("Cidade")
- TxtCodMunicipio.Text = reg.Fields("CodMun")
- TxtUF.Text = reg.Fields("UF")
- TxtEmail.Text = reg.Fields("Email")
- MskDataAdmissao.Text = Format(reg.Fields("DataAdm"), "DD/MM/YYYY")
- TxtCodGerente.Text = reg.Fields("CodGerente")
- TxtCodGerente_KeyPress (13)
- 
- If Format(reg.Fields("DataDem"), "DD/MM/YYYY") = "01/01/1900" Then
-     MskDataDemissao.Text = "__/__/____"
- Else
-    MskDataDemissao.Text = Format(reg.Fields("DataDem"), "DD/MM/YYYY")
- End If
- 
- TxtCargo.Text = reg.Fields("Cargo")
- TxtOBS.Text = reg.Fields("OBS")
- 
- 'x = Format(VALOR, "#,##0.00")
- 
- reg.Close
- 
- TxtNome.SetFocus
- 
- Else
- 
- MsgBox "Código Não Existe", vbExclamation, "Aviso"
- CmdNovoCod.SetFocus
- 
- End If
-    
- End If
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
+        Set REG2 = New ADODB.Recordset
+        REG2.ActiveConnection = CN1
+
+        reg.Open ("SELECT * FROM FUNCIONARIOS WHERE CODFUNC = " & Trim(TxtCodigo.Text) & "")
+
+
+        If reg.EOF = False Then
+
+            TxtCodigo.Enabled = False
+
+            TxtNome.Text = reg.Fields("Nome")
+            TxtCPF.Text = Format(reg.Fields("CPF"), "@@@.@@@.@@@-@@")
+            TxtRG.Text = Format(reg.Fields("RG"), "@@.@@@.@@@-@")
+            MskDataNasc.Text = Format(reg.Fields("DataNasc"), "DD/MM/YYYY")
+            MskTelefone.Text = Format(reg.Fields("Telefone"), "(@@) @@@@-@@@@")
+            MskCelular.Text = Format(reg.Fields("Celular"), "(@@) @@@@@-@@@@")
+            MskCEP.Text = Format(reg.Fields("CEP"), "@@@@@-@@@")
+            TxtEndereco.Text = reg.Fields("Endereco")
+            TxtNumero.Text = reg.Fields("NumEnd")
+            TxtComplemento.Text = reg.Fields("Complemento")
+            TxtBairro.Text = reg.Fields("Bairro")
+            TxtCidade.Text = reg.Fields("Cidade")
+            TxtCodMunicipio.Text = reg.Fields("CodMun")
+            TxtUF.Text = reg.Fields("UF")
+            TxtEmail.Text = reg.Fields("Email")
+            MskDataAdmissao.Text = Format(reg.Fields("DataAdm"), "DD/MM/YYYY")
+            TxtCodGerente.Text = reg.Fields("CodGerente")
+            TxtCodGerente_KeyPress (13)
+
+            If Format(reg.Fields("DataDem"), "DD/MM/YYYY") = "01/01/1900" Then
+                MskDataDemissao.Text = "__/__/____"
+            Else
+                MskDataDemissao.Text = Format(reg.Fields("DataDem"), "DD/MM/YYYY")
+            End If
+
+            TxtCargo.Text = reg.Fields("Cargo")
+            TxtOBS.Text = reg.Fields("OBS")
+
+            'x = Format(VALOR, "#,##0.00")
+
+            reg.Close
+
+            TxtNome.SetFocus
+
+        Else
+
+            MsgBox "Código Não Existe", vbExclamation, "Aviso"
+            CmdNovoCod.SetFocus
+
+        End If
+
+    End If
 End Sub
 
 Private Sub TxtNome_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtNome.Text <> Empty Then
+    If KeyAscii = 13 And TxtNome.Text <> Empty Then
 
- TxtCPF.SetFocus
- 
- End If
+        TxtCPF.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtCPF_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And Len(Replace(Replace(Replace(Replace(Replace(TxtCPF.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "")) = 11 Then
+    If KeyAscii = 13 And Len(Replace(Replace(Replace(Replace(Replace(TxtCPF.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "")) = 11 Then
 
- TxtRG.SetFocus
- 
- End If
+        TxtRG.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtRG_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And Len(Replace(Replace(Replace(Replace(Replace(TxtRG.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "")) = 8 Or Len(Replace(Replace(Replace(Replace(Replace(TxtRG.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "")) = 9 Then
+    If KeyAscii = 13 And Len(Replace(Replace(Replace(Replace(Replace(TxtRG.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "")) = 8 Or Len(Replace(Replace(Replace(Replace(Replace(TxtRG.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "")) = 9 Then
 
- MskDataNasc.SetFocus
- 
- End If
+        MskDataNasc.SetFocus
+
+    End If
 
 End Sub
 Private Sub MskDataNasc_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And IsDate(MskDataNasc.Text) = True Then
+    If KeyAscii = 13 And IsDate(MskDataNasc.Text) = True Then
 
- MskTelefone.SetFocus
- 
- End If
+        MskTelefone.SetFocus
+
+    End If
 
 End Sub
 Private Sub MskTelefone_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And Len(Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(MskTelefone.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", ""), ")", ""), "(", ""), "_", "")) = 10 Then
+    If KeyAscii = 13 And Len(Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(MskTelefone.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", ""), ")", ""), "(", ""), "_", "")) = 10 Then
 
- MskCelular.SetFocus
- 
- End If
+        MskCelular.SetFocus
+
+    End If
 
 End Sub
 Private Sub MskCelular_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And Len(Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(MskCelular.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", ""), ")", ""), "(", ""), "_", "")) = 11 Then
+    If KeyAscii = 13 And Len(Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(MskCelular.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", ""), ")", ""), "(", ""), "_", "")) = 11 Then
 
- MskCEP.SetFocus
- 
- End If
+        MskCEP.SetFocus
+
+    End If
 
 End Sub
 Private Sub MskCEP_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And Len(Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(MskCEP.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", ""), ")", ""), "(", ""), "_", "")) = 8 Then
+    If KeyAscii = 13 And Len(Replace(Replace(Replace(Replace(Replace(Replace(Replace(Replace(MskCEP.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", ""), ")", ""), "(", ""), "_", "")) = 8 Then
 
- TxtEndereco.SetFocus
- 
- End If
+        TxtEndereco.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtEndereco_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtEndereco.Text <> Empty Then
+    If KeyAscii = 13 And TxtEndereco.Text <> Empty Then
 
- TxtNumero.SetFocus
- 
- End If
+        TxtNumero.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtNumero_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtNumero.Text <> Empty Then
+    If KeyAscii = 13 And TxtNumero.Text <> Empty Then
 
- TxtComplemento.SetFocus
- 
- End If
+        TxtComplemento.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtComplemento_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtComplemento.Text <> Empty Then
+    If KeyAscii = 13 And TxtComplemento.Text <> Empty Then
 
- TxtBairro.SetFocus
- 
- End If
+        TxtBairro.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtBairro_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtBairro.Text <> Empty Then
+    If KeyAscii = 13 And TxtBairro.Text <> Empty Then
 
- TxtCidade.SetFocus
- 
- End If
+        TxtCidade.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtCidade_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtCidade.Text <> Empty Then
+    If KeyAscii = 13 And TxtCidade.Text <> Empty Then
 
- TxtCodMunicipio.SetFocus
- 
- End If
+        TxtCodMunicipio.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtCodMunicipio_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtCodMunicipio.Text <> Empty Then
+    If KeyAscii = 13 And TxtCodMunicipio.Text <> Empty Then
 
- TxtUF.SetFocus
- 
- End If
+        TxtUF.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtUF_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtUF.Text <> Empty Then
+    If KeyAscii = 13 And TxtUF.Text <> Empty Then
 
- TxtEmail.SetFocus
- 
- End If
+        TxtEmail.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtEmail_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtEmail.Text <> Empty Then
+    If KeyAscii = 13 And TxtEmail.Text <> Empty Then
 
- MskDataAdmissao.SetFocus
- 
- End If
+        MskDataAdmissao.SetFocus
+
+    End If
 
 End Sub
 Private Sub MskDataAdmissao_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And IsDate(MskDataAdmissao.Text) = True Then
+    If KeyAscii = 13 And IsDate(MskDataAdmissao.Text) = True Then
 
- TxtCargo.SetFocus
- 
- End If
+        TxtCargo.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtCargo_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtCargo.Text <> Empty Then
+    If KeyAscii = 13 And TxtCargo.Text <> Empty Then
 
- TxtCodGerente.SetFocus
- 
- End If
+        TxtCodGerente.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtCodGerente_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 Then
- 
- If TxtCodGerente.Text <> "" Then
- 
- Set CN1 = New ADODB.Connection
-     CN1.Open STR_DSN
-     Set REG2 = New ADODB.Recordset
-     REG2.ActiveConnection = CN1
-    
-   REG2.Open ("SELECT CodFunc,Nome FROM FUNCIONARIOS WHERE CODFUNC = " & Trim(TxtCodGerente.Text) & "")
-   
-  If REG2.EOF = False Then
-   
-  LblGerente.Caption = REG2.Fields("Nome")
-  Else
-  
- LblGerente.Caption = ""
- TxtCodGerente.Text = ""
-  
-  End If
-   
-   REG2.Close
- End If
- 
+    If KeyAscii = 13 Then
 
- TxtOBS.SetFocus
- 
- End If
+        If TxtCodGerente.Text <> "" Then
+
+            Set CN1 = New ADODB.Connection
+            CN1.Open STR_DSN
+            Set REG2 = New ADODB.Recordset
+            REG2.ActiveConnection = CN1
+
+            REG2.Open ("SELECT CodFunc,Nome FROM FUNCIONARIOS WHERE CODFUNC = " & Trim(TxtCodGerente.Text) & "")
+
+            If REG2.EOF = False Then
+
+                LblGerente.Caption = REG2.Fields("Nome")
+            Else
+
+                LblGerente.Caption = ""
+                TxtCodGerente.Text = ""
+
+            End If
+
+            REG2.Close
+        End If
+
+
+        TxtOBS.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtOBS_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtOBS.Text <> Empty Then
+    If KeyAscii = 13 And TxtOBS.Text <> Empty Then
 
- CmdGravar.SetFocus
- 
- End If
+        CmdGravar.SetFocus
+
+    End If
 
 End Sub

@@ -230,235 +230,235 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 Private Sub CmdBuscarDescricao_Click()
- FrmComCadProdutosEntPesquisaDescricao.Show
+    FrmComCadProdutosEntPesquisaDescricao.Show
 End Sub
 
 Private Sub CmdBuscarForn_Click()
- FrmComCadProdutosEntPesquisaForn.Show
+    FrmComCadProdutosEntPesquisaForn.Show
 End Sub
 
 Private Sub CmdGravar_Click()
-Dim ENTRADA As Long
+    Dim ENTRADA As Long
 
- If ValidaCampos = True Then
+    If ValidaCampos = True Then
 
-Set CN1 = New ADODB.Connection
-CN1.Open STR_DSN
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
 
-     CN1.Execute ("INSERT INTO ENTRADAS(CodProd,CodForn,QuantEnt,DataEnt,NumNfe) " & _
-     "VALUES(" & Trim(TxtCodProduto.Text) & "," & Trim(TxtCodForn.Text) & ",'" & CInt(TxtQuantEnt.Text) & "','" & _
-     Format(MskDataEnt.Text, "YYYYMMDD") & "','" & Trim(TxtNumeroNfe.Text) & "')")
-    
-    
-     CN1.Execute ("update PRODUTOS set QuantEst = QuantEst + " & CInt(TxtQuantEnt.Text) & " where codProd = " & Trim(TxtCodProduto.Text) & "")
-      
-      
-    MsgBox "Entrada Realizada com Sucesso", vbInformation, "Aviso"
+        CN1.Execute ("INSERT INTO ENTRADAS(CodProd,CodForn,QuantEnt,DataEnt,NumNfe) " & _
+                     "VALUES(" & Trim(TxtCodProduto.Text) & "," & Trim(TxtCodForn.Text) & ",'" & CInt(TxtQuantEnt.Text) & "','" & _
+                     Format(MskDataEnt.Text, "YYYYMMDD") & "','" & Trim(TxtNumeroNfe.Text) & "')")
 
-       
-    Call limpa_campos
-    
-    
- Else
- 
- MsgBox "Por favor Verifique os Campos", vbInformation, "Aviso"
- 
- End If
- 
+
+        CN1.Execute ("update PRODUTOS set QuantEst = QuantEst + " & CInt(TxtQuantEnt.Text) & " where codProd = " & Trim(TxtCodProduto.Text) & "")
+
+
+        MsgBox "Entrada Realizada com Sucesso", vbInformation, "Aviso"
+
+
+        Call limpa_campos
+
+
+    Else
+
+        MsgBox "Por favor Verifique os Campos", vbInformation, "Aviso"
+
+    End If
+
 End Sub
 
 Private Sub CmdLimparTela_Click()
- Call limpa_campos
+    Call limpa_campos
 End Sub
 
 Private Sub Form_Load()
- Me.Top = 1000
- Me.Left = 1000
+    Me.Top = 1000
+    Me.Left = 1000
 End Sub
 
 Private Sub limpa_campos()
 
- TxtCodProduto.Text = ""
- TxtCodForn.Text = ""
- LblProduto.Caption = ""
- LblFornecedor.Caption = ""
- TxtQuantEnt.Text = ""
- TxtNumeroNfe.Text = ""
- LblEstoque.Caption = ""
- MskDataEnt.Mask = ""
- MskDataEnt.Text = ""
- MskDataEnt.Mask = "##/##/####"
- 
- TxtCodProduto.SetFocus
+    TxtCodProduto.Text = ""
+    TxtCodForn.Text = ""
+    LblProduto.Caption = ""
+    LblFornecedor.Caption = ""
+    TxtQuantEnt.Text = ""
+    TxtNumeroNfe.Text = ""
+    LblEstoque.Caption = ""
+    MskDataEnt.Mask = ""
+    MskDataEnt.Text = ""
+    MskDataEnt.Mask = "##/##/####"
+
+    TxtCodProduto.SetFocus
 
 End Sub
 Private Function ValidaCampos() As Boolean
 
- If IsNumeric(TxtCodProduto.Text) <> Empty Then
- 
-    ValidaCampos = True
-    
-        If IsNumeric(TxtCodForn.Text) <> Empty Then
- 
+    If IsNumeric(TxtCodProduto.Text) <> Empty Then
+
         ValidaCampos = True
-        
-            If IsNumeric(TxtQuantEnt.Text) <> Empty Then
- 
+
+        If IsNumeric(TxtCodForn.Text) <> Empty Then
+
             ValidaCampos = True
-            
-                If IsNumeric(TxtCodProduto.Text) <> Empty Then
- 
+
+            If IsNumeric(TxtQuantEnt.Text) <> Empty Then
+
                 ValidaCampos = True
-                
-                    If TxtNumeroNfe.Text <> Empty Then
- 
+
+                If IsNumeric(TxtCodProduto.Text) <> Empty Then
+
                     ValidaCampos = True
-                    
-                        If IsDate(MskDataEnt.Text) <> Empty Then
- 
+
+                    If TxtNumeroNfe.Text <> Empty Then
+
                         ValidaCampos = True
-    
+
+                        If IsDate(MskDataEnt.Text) <> Empty Then
+
+                            ValidaCampos = True
+
                         Else
- 
-                        ValidaCampos = False
-    
+
+                            ValidaCampos = False
+
                         End If
-    
+
                     Else
- 
-                    ValidaCampos = False
-    
+
+                        ValidaCampos = False
+
                     End If
-    
+
                 Else
- 
-                ValidaCampos = False
-    
+
+                    ValidaCampos = False
+
                 End If
-    
+
             Else
- 
-            ValidaCampos = False
-    
+
+                ValidaCampos = False
+
             End If
-    
+
         Else
- 
-        ValidaCampos = False
-    
+
+            ValidaCampos = False
+
         End If
-    
- Else
- 
-    ValidaCampos = False
-    
- End If
+
+    Else
+
+        ValidaCampos = False
+
+    End If
 
 End Function
 
 Private Sub MskDataEnt_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And IsDate(MskDataEnt.Text) <> Empty Then
+    If KeyAscii = 13 And IsDate(MskDataEnt.Text) <> Empty Then
 
- TxtNumeroNfe.SetFocus
- 
- End If
- 
+        TxtNumeroNfe.SetFocus
+
+    End If
+
 End Sub
 
 Public Sub TxtCodProduto_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And IsNumeric(TxtCodProduto.Text) <> Empty Then
- 
-Set CN1 = New ADODB.Connection
-CN1.Open STR_DSN
-Set REG2 = New ADODB.Recordset
-REG2.ActiveConnection = CN1
- 
-REG2.Open ("SELECT DESCRICAO FROM PRODUTOS WHERE CODPROD = " & Trim(TxtCodProduto.Text) & "")
- 
- If REG2.EOF = False Then
- 
- LblProduto.Caption = REG2.Fields("Descricao")
- 
- TxtCodForn.SetFocus
- 
-Set CN1 = New ADODB.Connection
-CN1.Open STR_DSN
-Set REG3 = New ADODB.Recordset
-REG3.ActiveConnection = CN1
+    If KeyAscii = 13 And IsNumeric(TxtCodProduto.Text) <> Empty Then
 
- 
- REG3.Open ("SELECT QUANTEST FROM PRODUTOS WHERE CODPROD = " & Trim(TxtCodProduto.Text) & "")
- 
- If REG3.EOF = False Then
- 
- LblEstoque.Caption = REG3.Fields("QuantEst")
- 
- End If
- 
- REG3.Close
- 
- Else
- 
- MsgBox "Produto não Encontrado", vbExclamation, "Aviso"
- TxtCodProduto.SetFocus
- 
- End If
- 
- REG2.Close
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set REG2 = New ADODB.Recordset
+        REG2.ActiveConnection = CN1
 
- End If
- 
+        REG2.Open ("SELECT DESCRICAO FROM PRODUTOS WHERE CODPROD = " & Trim(TxtCodProduto.Text) & "")
+
+        If REG2.EOF = False Then
+
+            LblProduto.Caption = REG2.Fields("Descricao")
+
+            TxtCodForn.SetFocus
+
+            Set CN1 = New ADODB.Connection
+            CN1.Open STR_DSN
+            Set REG3 = New ADODB.Recordset
+            REG3.ActiveConnection = CN1
+
+
+            REG3.Open ("SELECT QUANTEST FROM PRODUTOS WHERE CODPROD = " & Trim(TxtCodProduto.Text) & "")
+
+            If REG3.EOF = False Then
+
+                LblEstoque.Caption = REG3.Fields("QuantEst")
+
+            End If
+
+            REG3.Close
+
+        Else
+
+            MsgBox "Produto não Encontrado", vbExclamation, "Aviso"
+            TxtCodProduto.SetFocus
+
+        End If
+
+        REG2.Close
+
+    End If
+
 End Sub
 
 Public Sub TxtCodForn_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And IsNumeric(TxtCodProduto.Text) <> Empty Then
- 
-Set CN1 = New ADODB.Connection
-CN1.Open STR_DSN
-Set REG2 = New ADODB.Recordset
-REG2.ActiveConnection = CN1
- 
-REG2.Open ("SELECT RAZAOSOCIAL FROM FORNECEDORES WHERE CODFORN = " & Trim(TxtCodForn.Text) & "")
- 
- If REG2.EOF = False Then
- 
- LblFornecedor.Caption = REG2.Fields("RazaoSocial")
- 
- TxtQuantEnt.SetFocus
- 
- Else
- 
- MsgBox "Produto não Encontrado", vbExclamation, "Aviso"
- TxtCodForn.SetFocus
- 
- End If
- 
- REG2.Close
- 
- End If
+    If KeyAscii = 13 And IsNumeric(TxtCodProduto.Text) <> Empty Then
+
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set REG2 = New ADODB.Recordset
+        REG2.ActiveConnection = CN1
+
+        REG2.Open ("SELECT RAZAOSOCIAL FROM FORNECEDORES WHERE CODFORN = " & Trim(TxtCodForn.Text) & "")
+
+        If REG2.EOF = False Then
+
+            LblFornecedor.Caption = REG2.Fields("RazaoSocial")
+
+            TxtQuantEnt.SetFocus
+
+        Else
+
+            MsgBox "Produto não Encontrado", vbExclamation, "Aviso"
+            TxtCodForn.SetFocus
+
+        End If
+
+        REG2.Close
+
+    End If
 End Sub
 
 
 Private Sub TxtNumeroNfe_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And IsDate(MskDataEnt.Text) <> Empty Then
+    If KeyAscii = 13 And IsDate(MskDataEnt.Text) <> Empty Then
 
- CmdGravar.SetFocus
- 
- End If
- 
+        CmdGravar.SetFocus
+
+    End If
+
 End Sub
 
 Private Sub TxtQuantEnt_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And IsNumeric(TxtQuantEnt.Text) <> Empty Then
+    If KeyAscii = 13 And IsNumeric(TxtQuantEnt.Text) <> Empty Then
 
- MskDataEnt.SetFocus
- 
- End If
- 
+        MskDataEnt.SetFocus
+
+    End If
+
 End Sub
 

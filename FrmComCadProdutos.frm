@@ -351,92 +351,92 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 Private Sub CmdGravar_Click()
-If ValidaCampos = True Then
+    If ValidaCampos = True Then
 
-Set CN1 = New ADODB.Connection
-CN1.Open STR_DSN
-Set reg = New ADODB.Recordset
-reg.ActiveConnection = CN1
-    
-    reg.Open ("SELECT * FROM PRODUTOS WHERE CODPROD = " & Trim(TxtCodigo.Text) & "")
-          
-    'USO O INSERT
-    
-    If reg.EOF = True Then
-    
-     TxtDisponivel.Text = 0
-     TxtAlugados.Text = 0
-    
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
 
-     CN1.Execute ("INSERT INTO PRODUTOS(CodProd,Descricao,Tipo,Categoria,Localizacao,Preco,CodForn,CodBarras,QuantEst,QuantAlug,Usuario,DataCad) " & _
-     "VALUES (" & Trim(TxtCodigo.Text) & ",'" & StrConv(Trim(TxtDescricao.Text), vbUpperCase) & "','" & StrConv(Trim(CmbTipo.Text), vbUpperCase) & "','" & _
-     StrConv(Trim(CmbCategoria.Text), vbUpperCase) & "','" & StrConv(Trim(TxtLocalizacao.Text), vbUpperCase) & "'," & Replace(Replace(Replace(Replace(Format(Trim(TxtPreco.Text), "#,##0.00"), "R", ""), "$", ""), " ", ""), ",", ".") & "," & _
-     Trim(TxtCodForn.Text) & ",'" & Trim(TxtCodBarras.Text) & "','" & Trim(TxtDisponivel.Text) & "','" & Trim(TxtAlugados.Text) & "','','" & Format(Now, "YYYYMMDD hh:mm") & "')")
-      
-      MsgBox "Produto Cadastro com Sucesso", vbInformation, "Aviso"
-      
-    'USO O UPDATE
+        reg.Open ("SELECT * FROM PRODUTOS WHERE CODPROD = " & Trim(TxtCodigo.Text) & "")
+
+        'USO O INSERT
+
+        If reg.EOF = True Then
+
+            TxtDisponivel.Text = 0
+            TxtAlugados.Text = 0
+
+
+            CN1.Execute ("INSERT INTO PRODUTOS(CodProd,Descricao,Tipo,Categoria,Localizacao,Preco,CodForn,CodBarras,QuantEst,QuantAlug,Usuario,DataCad) " & _
+                         "VALUES (" & Trim(TxtCodigo.Text) & ",'" & StrConv(Trim(TxtDescricao.Text), vbUpperCase) & "','" & StrConv(Trim(CmbTipo.Text), vbUpperCase) & "','" & _
+                         StrConv(Trim(CmbCategoria.Text), vbUpperCase) & "','" & StrConv(Trim(TxtLocalizacao.Text), vbUpperCase) & "'," & Replace(Replace(Replace(Replace(Format(Trim(TxtPreco.Text), "#,##0.00"), "R", ""), "$", ""), " ", ""), ",", ".") & "," & _
+                         Trim(TxtCodForn.Text) & ",'" & Trim(TxtCodBarras.Text) & "','" & Trim(TxtDisponivel.Text) & "','" & Trim(TxtAlugados.Text) & "','','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+
+            MsgBox "Produto Cadastro com Sucesso", vbInformation, "Aviso"
+
+            'USO O UPDATE
+        Else
+
+            CN1.Execute ("UPDATE PRODUTOS SET Descricao='" & StrConv(Trim(TxtDescricao.Text), vbUpperCase) & "',Tipo='" & StrConv(Trim(CmbTipo.Text), vbUpperCase) & "',Categoria='" & _
+                         StrConv(Trim(CmbCategoria.Text), vbUpperCase) & "',Localizacao='" & StrConv(Trim(TxtLocalizacao.Text), vbUpperCase) & "',Preco='" & Replace(Replace(Replace(Replace(Format(Trim(TxtPreco.Text), "#,##0.00"), "R", ""), "$", ""), " ", ""), ",", ".") & "',CodForn=" & _
+                         Trim(TxtCodForn.Text) & ",CodBarras='" & Trim(TxtCodBarras.Text) & "',QuantEst='" & Trim(TxtDisponivel.Text) & "',QuantAlug='" & Trim(TxtAlugados.Text) & _
+                         "' WHERE CODPROD = " & Trim(TxtCodigo.Text) & " ")
+
+            MsgBox "Produto Atualizado com Sucesso", vbInformation, "Aviso"
+
+        End If
+
+        Call limpa_campos
+
+        reg.Close
+
     Else
 
-     CN1.Execute ("UPDATE PRODUTOS SET Descricao='" & StrConv(Trim(TxtDescricao.Text), vbUpperCase) & "',Tipo='" & StrConv(Trim(CmbTipo.Text), vbUpperCase) & "',Categoria='" & _
-     StrConv(Trim(CmbCategoria.Text), vbUpperCase) & "',Localizacao='" & StrConv(Trim(TxtLocalizacao.Text), vbUpperCase) & "',Preco='" & Replace(Replace(Replace(Replace(Format(Trim(TxtPreco.Text), "#,##0.00"), "R", ""), "$", ""), " ", ""), ",", ".") & "',CodForn=" & _
-     Trim(TxtCodForn.Text) & ",CodBarras='" & Trim(TxtCodBarras.Text) & "',QuantEst='" & Trim(TxtDisponivel.Text) & "',QuantAlug='" & Trim(TxtAlugados.Text) & _
-     "' WHERE CODPROD = " & Trim(TxtCodigo.Text) & " ")
-     
-      MsgBox "Produto Atualizado com Sucesso", vbInformation, "Aviso"
-      
+        MsgBox "Por favor Verifique os Campos", vbInformation, "Aviso"
+
     End If
-       
-    Call limpa_campos
-    
-    reg.Close
-    
- Else
- 
- MsgBox "Por favor Verifique os Campos", vbInformation, "Aviso"
-    
- End If
- 
+
 End Sub
 
 Private Sub CmdLimparTela_Click()
 
-Call limpa_campos
+    Call limpa_campos
 
 
 End Sub
 
 Private Sub CmdNovoCodigo_Click()
 
- If TxtCodigo.Enabled = True Then
- 
- Dim QUERY As String
- 
- Set CN1 = New ADODB.Connection
- CN1.Open STR_DSN
- Set reg = New ADODB.Recordset
- reg.ActiveConnection = CN1
- 
- 
- CN1.Execute ("begin transaction")
- QUERY = "select UltCodProd from parametros WITH (ROWLOCK);UPDATE PARAMETROS WITH(ROWLOCK) SET UltCodProd = UltCodProd+1;COMMIT"
- reg.Open (QUERY)
- 
- TxtCodigo.Text = reg.Fields("UltCodProd")
- TxtCodigo.Enabled = False
- TxtDescricao.SetFocus
- 
- reg.Close
- 
- Else
- 
-  MsgBox "Limpe a Tela Antes de Criar um Novo Código", vbExclamation, "Aviso"
- 
- End If
+    If TxtCodigo.Enabled = True Then
+
+        Dim QUERY As String
+
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
+
+
+        CN1.Execute ("begin transaction")
+        QUERY = "select UltCodProd from parametros WITH (ROWLOCK);UPDATE PARAMETROS WITH(ROWLOCK) SET UltCodProd = UltCodProd+1;COMMIT"
+        reg.Open (QUERY)
+
+        TxtCodigo.Text = reg.Fields("UltCodProd")
+        TxtCodigo.Enabled = False
+        TxtDescricao.SetFocus
+
+        reg.Close
+
+    Else
+
+        MsgBox "Limpe a Tela Antes de Criar um Novo Código", vbExclamation, "Aviso"
+
+    End If
 End Sub
 
 Private Sub CmdPesquisaDescricao_Click()
- FrmComCadProdutosNovoPesquisa.Show
+    FrmComCadProdutosNovoPesquisa.Show
 End Sub
 
 Private Sub Form_Load()
@@ -445,238 +445,238 @@ Private Sub Form_Load()
 End Sub
 Private Sub limpa_campos()
 
- TxtCodigo.Enabled = True
- 
- TxtCodigo.Text = ""
- TxtDescricao.Text = ""
- CmbTipo.Text = ""
- CmbCategoria.Text = ""
- TxtLocalizacao.Text = ""
- TxtPreco.Text = ""
- TxtCodForn.Text = ""
- LblForn.Caption = ""
- TxtCodBarras.Text = ""
- TxtDisponivel.Enabled = True
- TxtDisponivel.Text = ""
- TxtAlugados.Enabled = True
- TxtAlugados.Text = ""
- 
- TxtAlugados.Enabled = False
- TxtDisponivel.Enabled = False
- 
- TxtCodigo.SetFocus
+    TxtCodigo.Enabled = True
+
+    TxtCodigo.Text = ""
+    TxtDescricao.Text = ""
+    CmbTipo.Text = ""
+    CmbCategoria.Text = ""
+    TxtLocalizacao.Text = ""
+    TxtPreco.Text = ""
+    TxtCodForn.Text = ""
+    LblForn.Caption = ""
+    TxtCodBarras.Text = ""
+    TxtDisponivel.Enabled = True
+    TxtDisponivel.Text = ""
+    TxtAlugados.Enabled = True
+    TxtAlugados.Text = ""
+
+    TxtAlugados.Enabled = False
+    TxtDisponivel.Enabled = False
+
+    TxtCodigo.SetFocus
 End Sub
 Private Function ValidaCampos() As Boolean
 
- If IsNumeric(TxtCodigo.Text) <> Empty Then
-
-    ValidaCampos = True
-    
-        If TxtDescricao.Text <> Empty Then
+    If IsNumeric(TxtCodigo.Text) <> Empty Then
 
         ValidaCampos = True
-   
-            If CmbTipo.Text <> Empty Then
- 
+
+        If TxtDescricao.Text <> Empty Then
+
             ValidaCampos = True
-            
-                If CmbCategoria.Text <> Empty Then
- 
+
+            If CmbTipo.Text <> Empty Then
+
                 ValidaCampos = True
-                
-                    If TxtLocalizacao.Text <> Empty Then
- 
+
+                If CmbCategoria.Text <> Empty Then
+
                     ValidaCampos = True
-                    
-                        If Format(TxtPreco.Text, "#,##0.00") <> Empty Then
- 
+
+                    If TxtLocalizacao.Text <> Empty Then
+
                         ValidaCampos = True
-                        
-                            If IsNumeric(TxtCodForn.Text) <> Empty And LblForn.Caption <> Empty Then
- 
+
+                        If Format(TxtPreco.Text, "#,##0.00") <> Empty Then
+
                             ValidaCampos = True
-                            
-                                If TxtCodBarras.Text <> Empty Then
- 
+
+                            If IsNumeric(TxtCodForn.Text) <> Empty And LblForn.Caption <> Empty Then
+
                                 ValidaCampos = True
-    
+
+                                If TxtCodBarras.Text <> Empty Then
+
+                                    ValidaCampos = True
+
                                 Else
- 
-                                ValidaCampos = False
-    
+
+                                    ValidaCampos = False
+
                                 End If
-    
+
                             Else
- 
-                            ValidaCampos = False
-    
+
+                                ValidaCampos = False
+
                             End If
-    
+
                         Else
- 
-                        ValidaCampos = False
-    
+
+                            ValidaCampos = False
+
                         End If
-    
+
                     Else
- 
-                    ValidaCampos = False
-    
+
+                        ValidaCampos = False
+
                     End If
-    
+
                 Else
- 
-                ValidaCampos = False
-    
+
+                    ValidaCampos = False
+
                 End If
-    
+
             Else
- 
-            ValidaCampos = False
-    
+
+                ValidaCampos = False
+
             End If
-            
+
         Else
 
-        ValidaCampos = False
-   
+            ValidaCampos = False
+
         End If
- 
- Else
- 
-    ValidaCampos = False
- 
- End If
+
+    Else
+
+        ValidaCampos = False
+
+    End If
 
 End Function
 
 
 Public Sub TxtCodForn_KeyPress(KeyAscii As Integer)
 
-If KeyAscii = 13 And IsNumeric(TxtCodForn.Text) Then
+    If KeyAscii = 13 And IsNumeric(TxtCodForn.Text) Then
 
-Set CN1 = New ADODB.Connection
-CN1.Open STR_DSN
-Set REG2 = New ADODB.Recordset
-REG2.ActiveConnection = CN1
- 
-REG2.Open ("SELECT RazaoSocial FROM FORNECEDORES WHERE CODFORN = " & Trim(TxtCodForn.Text) & "")
- 
- If REG2.EOF = False Then
- 
- LblForn.Caption = REG2.Fields("RazaoSocial")
- 
- TxtCodBarras.SetFocus
- 
- Else
- 
- MsgBox "Fornecedor não Encontrado", vbExclamation, "Aviso"
- TxtCodForn.SetFocus
- 
- End If
- 
- REG2.Close
- 
- End If
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set REG2 = New ADODB.Recordset
+        REG2.ActiveConnection = CN1
+
+        REG2.Open ("SELECT RazaoSocial FROM FORNECEDORES WHERE CODFORN = " & Trim(TxtCodForn.Text) & "")
+
+        If REG2.EOF = False Then
+
+            LblForn.Caption = REG2.Fields("RazaoSocial")
+
+            TxtCodBarras.SetFocus
+
+        Else
+
+            MsgBox "Fornecedor não Encontrado", vbExclamation, "Aviso"
+            TxtCodForn.SetFocus
+
+        End If
+
+        REG2.Close
+
+    End If
 
 End Sub
 
 Public Sub TxtCodigo_KeyPress(KeyAscii As Integer)
 
-If KeyAscii = 13 And IsNumeric(TxtCodigo.Text) <> Empty Then
+    If KeyAscii = 13 And IsNumeric(TxtCodigo.Text) <> Empty Then
 
- Set CN1 = New ADODB.Connection
-     CN1.Open STR_DSN
-     Set reg = New ADODB.Recordset
-     reg.ActiveConnection = CN1
- 
-     reg.Open ("SELECT * FROM PRODUTOS WHERE CODPROD = " & Trim(TxtCodigo.Text) & "")
- 
- If reg.EOF = False Then
- 
- TxtCodigo.Enabled = False
- TxtDisponivel.Enabled = True
- TxtAlugados.Enabled = True
- 
- TxtDescricao.Text = reg.Fields("Descricao")
- CmbTipo.Text = reg.Fields("Tipo")
- CmbCategoria.Text = reg.Fields("Categoria")
- TxtLocalizacao.Text = reg.Fields("Localizacao")
- TxtPreco.Text = Format(reg.Fields("Preco"), "#,##0.00")
- TxtCodForn.Text = reg.Fields("CodForn")
- TxtCodForn_KeyPress (13)
- TxtCodBarras.Text = reg.Fields("CodBarras")
- TxtAlugados.Text = reg.Fields("QuantAlug")
- TxtDisponivel.Text = reg.Fields("QuantEst")
- 
- reg.Close
- 
- TxtDisponivel.Enabled = False
- TxtAlugados.Enabled = False
- TxtDescricao.SetFocus
- 
- Else
- 
- MsgBox "Código Não Existe", vbExclamation, "Aviso"
- CmdNovoCodigo.SetFocus
- 
- End If
-    
- End If
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
+
+        reg.Open ("SELECT * FROM PRODUTOS WHERE CODPROD = " & Trim(TxtCodigo.Text) & "")
+
+        If reg.EOF = False Then
+
+            TxtCodigo.Enabled = False
+            TxtDisponivel.Enabled = True
+            TxtAlugados.Enabled = True
+
+            TxtDescricao.Text = reg.Fields("Descricao")
+            CmbTipo.Text = reg.Fields("Tipo")
+            CmbCategoria.Text = reg.Fields("Categoria")
+            TxtLocalizacao.Text = reg.Fields("Localizacao")
+            TxtPreco.Text = Format(reg.Fields("Preco"), "#,##0.00")
+            TxtCodForn.Text = reg.Fields("CodForn")
+            TxtCodForn_KeyPress (13)
+            TxtCodBarras.Text = reg.Fields("CodBarras")
+            TxtAlugados.Text = reg.Fields("QuantAlug")
+            TxtDisponivel.Text = reg.Fields("QuantEst")
+
+            reg.Close
+
+            TxtDisponivel.Enabled = False
+            TxtAlugados.Enabled = False
+            TxtDescricao.SetFocus
+
+        Else
+
+            MsgBox "Código Não Existe", vbExclamation, "Aviso"
+            CmdNovoCodigo.SetFocus
+
+        End If
+
+    End If
 
 End Sub
 Private Sub TxtDescricao_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtDescricao.Text <> Empty Then
- 
- CmbTipo.SetFocus
- 
- End If
+    If KeyAscii = 13 And TxtDescricao.Text <> Empty Then
+
+        CmbTipo.SetFocus
+
+    End If
 
 End Sub
 Private Sub CmbTipo_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And CmbTipo.Text <> Empty Then
- 
- CmbCategoria.SetFocus
- 
- End If
+    If KeyAscii = 13 And CmbTipo.Text <> Empty Then
+
+        CmbCategoria.SetFocus
+
+    End If
 
 End Sub
 Private Sub CmbCategoria_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And CmbCategoria.Text <> Empty Then
- 
- TxtLocalizacao.SetFocus
- 
- End If
+    If KeyAscii = 13 And CmbCategoria.Text <> Empty Then
+
+        TxtLocalizacao.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtLocalizacao_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtLocalizacao.Text <> Empty Then
- 
- TxtPreco.SetFocus
- 
- End If
+    If KeyAscii = 13 And TxtLocalizacao.Text <> Empty Then
+
+        TxtPreco.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtPreco_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And Format(TxtPreco.Text, "#,##0.00") <> Empty Then
- 
- TxtCodForn.SetFocus
- 
- End If
+    If KeyAscii = 13 And Format(TxtPreco.Text, "#,##0.00") <> Empty Then
+
+        TxtCodForn.SetFocus
+
+    End If
 
 End Sub
 Private Sub TxtCodBarras_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And TxtCodBarras.Text <> Empty Then
- 
- CmdGravar.SetFocus
- 
- End If
+    If KeyAscii = 13 And TxtCodBarras.Text <> Empty Then
+
+        CmdGravar.SetFocus
+
+    End If
 
 End Sub
 

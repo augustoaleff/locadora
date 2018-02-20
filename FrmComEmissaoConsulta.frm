@@ -282,250 +282,275 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub CmdConsultar_Click()
-Dim VTOTAL As Double
+    Dim VTOTAL As Double
 
 
- Dim DATADEV As Date
- Set CN1 = New ADODB.Connection
+    Dim DATADEV As Date
+    Set CN1 = New ADODB.Connection
     CN1.Open STR_DSN
     Set reg = New ADODB.Recordset
     reg.ActiveConnection = CN1
-    
+
     If IsNumeric(TxtCodCliente.Text) <> Empty Then
-    
-    If Replace(Replace(MskPeriodoDe.Text, "_", ""), "/", "") = "" Or Replace(Replace(MskPeriodoAte.Text, "_", ""), "/", "") = "" Then
-    
-        If OptDevolvidos.Value = True Then
-    
-        reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and Status = 'DEVOLVIDO' order by dataentrega")
-    
-        Else
-    
-            If OptAguardandoDevolucao.Value = True Then
-    
-            reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and Status = 'ALUGADO' order by dataentrega")
-    
+
+        If Replace(Replace(MskPeriodoDe.Text, "_", ""), "/", "") = "" Or Replace(Replace(MskPeriodoAte.Text, "_", ""), "/", "") = "" Then
+
+            If OptDevolvidos.Value = True Then
+
+                reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and Status = 'DEVOLVIDO' order by dataentrega")
+
             Else
-        
-            reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " order by dataentrega")
-        
+
+                If OptAguardandoDevolucao.Value = True Then
+
+                    reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and Status = 'ALUGADO' order by dataentrega")
+
+                Else
+
+                    reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " order by dataentrega")
+
+                End If
+
             End If
-            
+
+
+        Else
+
+            If OptDevolvidos.Value = True Then
+
+                reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and dataentrega between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' and Status = 'DEVOLVIDO' order by dataentrega")
+
+            Else
+
+                If OptAguardandoDevolucao.Value = True Then
+
+                    reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and dataentrega between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' and Status = 'ALUGADO' order by dataentrega")
+
+                Else
+
+                    reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and dataentrega between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' order by dataentrega")
+
+                End If
+
+            End If
+
         End If
-        
+
+        Call formata_flex
+
+        Do Until reg.EOF = True
+
+            If reg.Fields("DataDev") = "01/01/1900" Then
+
+                MSFlexPedidos.AddItem (reg.Fields("NumPed") & vbTab & _
+                                       reg.Fields("CodVend") & vbTab & _
+                                       reg.Fields("Codcli") & vbTab & _
+                                       Format(reg.Fields("DataEntrega"), "DD/MM/YYYY") & vbTab & _
+                                       Format(reg.Fields("DataLimdev"), "DD/MM/YYYY") & vbTab & _
+                                       "" & vbTab & _
+                                       Format(reg.Fields("valorT"), "#,##0.00") & vbTab & _
+                                       Format(reg.Fields("valorp"), "#,##0.00") & vbTab & _
+                                       reg.Fields("status"))
+
+            Else
+
+                MSFlexPedidos.AddItem (reg.Fields("NumPed") & vbTab & _
+                                       reg.Fields("CodVend") & vbTab & _
+                                       reg.Fields("Codcli") & vbTab & _
+                                       Format(reg.Fields("DataEntrega"), "DD/MM/YYYY") & vbTab & _
+                                       Format(reg.Fields("DataLimdev"), "DD/MM/YYYY") & vbTab & _
+                                       Format(reg.Fields("DataDev"), "DD/MM/YYYY") & vbTab & _
+                                       Format(reg.Fields("valorT"), "#,##0.00") & vbTab & _
+                                       Format(reg.Fields("valorp"), "#,##0.00") & vbTab & _
+                                       reg.Fields("status"))
+
+            End If
+
+            reg.MoveNext
+
+        Loop
+
+        reg.Close
+
+        VTOTAL = 0
+
+
+        For contador = 1 To MSFlexPedidos.Rows - 1
+
+            VTOTAL = VTOTAL + MSFlexPedidos.TextMatrix(contador, 6)
+
+        Next
+
+        LblValorTotal.Caption = Format(VTOTAL, "#,##0.00")
 
     Else
-    
-         If OptDevolvidos.Value = True Then
-    
-        reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and dataentrega between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' and Status = 'DEVOLVIDO' order by dataentrega")
-    
-        Else
-    
-            If OptAguardandoDevolucao.Value = True Then
-    
-            reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and dataentrega between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' and Status = 'ALUGADO' order by dataentrega")
-    
-            Else
-        
-            reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and dataentrega between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' order by dataentrega")
-        
-            End If
-            
-        End If
-    
+
+        MsgBox "Digite o Código do Cliente", vbInformation, Aviso
+
     End If
-    
-    Call formata_flex
-    
-    Do Until reg.EOF = True
-    
-    If reg.Fields("DataDev") = "01/01/1900" Then
-    
-    MSFlexPedidos.AddItem (reg.Fields("NumPed") & vbTab & _
-                          reg.Fields("CodVend") & vbTab & _
-                          reg.Fields("Codcli") & vbTab & _
-                          Format(reg.Fields("DataEntrega"), "DD/MM/YYYY") & vbTab & _
-                          Format(reg.Fields("DataLimdev"), "DD/MM/YYYY") & vbTab & _
-                          "" & vbTab & _
-                          Format(reg.Fields("valorT"), "#,##0.00") & vbTab & _
-                          Format(reg.Fields("valorp"), "#,##0.00") & vbTab & _
-                          reg.Fields("status"))
-                          
-    Else
-    
-    MSFlexPedidos.AddItem (reg.Fields("NumPed") & vbTab & _
-                          reg.Fields("CodVend") & vbTab & _
-                          reg.Fields("Codcli") & vbTab & _
-                          Format(reg.Fields("DataEntrega"), "DD/MM/YYYY") & vbTab & _
-                          Format(reg.Fields("DataLimdev"), "DD/MM/YYYY") & vbTab & _
-                          Format(reg.Fields("DataDev"), "DD/MM/YYYY") & vbTab & _
-                          Format(reg.Fields("valorT"), "#,##0.00") & vbTab & _
-                          Format(reg.Fields("valorp"), "#,##0.00") & vbTab & _
-                          reg.Fields("status"))
-                          
-    End If
-    
-    reg.MoveNext
- 
-    Loop
-    
-    reg.Close
-    
-    VTOTAL = 0
-    
-    
-    For contador = 1 To MSFlexPedidos.Rows - 1
-    
-    VTOTAL = VTOTAL + MSFlexPedidos.TextMatrix(contador, 6)
-    
-    Next
-    
-    LblValorTotal.Caption = Format(VTOTAL, "#,##0.00")
-    
-    Else
-    
-    MsgBox "Digite o Código do Cliente", vbInformation, Aviso
-    
-    End If
-    
+
 End Sub
 
 Private Sub CmdDetalhar_Click()
- Dim NUMPED As Long
+    Dim NUMPED As Long
 
- If IsNumeric(TxtNumeroPedido.Text) <> Empty Then
- 
- NUMPED = TxtNumeroPedido.Text
- FrmComEmissaoConsultaPedido.TxtNumeroPedido.Text = NUMPED
- FrmComEmissaoConsultaPedido.TxtNumeroPedido_KeyPress (13)
- 
- End If
- 
+    If IsNumeric(TxtNumeroPedido.Text) <> Empty Then
+
+        NUMPED = TxtNumeroPedido.Text
+        FrmComEmissaoConsultaPedido.TxtNumeroPedido.Text = NUMPED
+        FrmComEmissaoConsultaPedido.TxtNumeroPedido_KeyPress (13)
+
+    End If
+
 
 
 End Sub
 
 Private Sub CmdLimparTela_Click()
 
-TxtCodCliente.Text = ""
-LblCliente.Caption = ""
-MskPeriodoDe.Mask = ""
-MskPeriodoDe.Text = ""
-MskPeriodoDe.Mask = "##/##/####"
-MskPeriodoAte.Mask = ""
-MskPeriodoAte.Text = ""
-MskPeriodoAte.Mask = "##/##/####"
-OptTodos.Value = True
-LblValorTotal.Caption = ""
+    TxtCodCliente.Text = ""
+    LblCliente.Caption = ""
+    MskPeriodoDe.Mask = ""
+    MskPeriodoDe.Text = ""
+    MskPeriodoDe.Mask = "##/##/####"
+    MskPeriodoAte.Mask = ""
+    MskPeriodoAte.Text = ""
+    MskPeriodoAte.Mask = "##/##/####"
+    OptTodos.Value = True
+    LblValorTotal.Caption = ""
 
-Call formata_flex
+    Call formata_flex
 
-TxtNumeroPedido.Text = ""
+    TxtNumeroPedido.Text = ""
 
-TxtCodCliente.SetFocus
+    TxtCodCliente.SetFocus
 
 End Sub
 
 Private Sub CmdPesquisaNome_Click()
 
- FrmComEmissaoConsultaBuscarNome.Show
+    FrmComEmissaoConsultaBuscarNome.Show
 
 End Sub
 
 Public Sub TxtCodCliente_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And IsNumeric(TxtCodCliente.Text) <> Empty Then
+    If KeyAscii = 13 And IsNumeric(TxtCodCliente.Text) <> Empty Then
 
- Set CN1 = New ADODB.Connection
-    CN1.Open STR_DSN
-    Set reg = New ADODB.Recordset
-    reg.ActiveConnection = CN1
-    
-    reg.Open ("SELECT NOME FROM CLIENTES WHERE CODCLI = " & Trim(TxtCodCliente.Text) & "")
-    
-    If reg.EOF = False Then
-    
-    LblCliente.Caption = reg.Fields("Nome")
-    
-    MskPeriodoDe.SetFocus
-    
-    Else
-    
-    MsgBox "Cliente não encontrado"
-    
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
+
+        reg.Open ("SELECT NOME FROM CLIENTES WHERE CODCLI = " & Trim(TxtCodCliente.Text) & "")
+
+        If reg.EOF = False Then
+
+            LblCliente.Caption = reg.Fields("Nome")
+
+            MskPeriodoDe.SetFocus
+
+        Else
+
+            MsgBox "Cliente não encontrado"
+
+        End If
+
+        reg.Close
+
     End If
-    
-    reg.Close
-    
- End If
-     
+
 End Sub
 
 
 Private Sub MskPeriodoDe_KeyPress(KeyAscii As Integer)
 
- If KeyAscii = 13 And (IsDate(MskPeriodoDe.Text) = True Or Replace(Replace(MskPeriodoDe.Text, "_", ""), "/", "") = Empty) Then
+    If KeyAscii = 13 And (IsDate(MskPeriodoDe.Text) = True Or Replace(Replace(MskPeriodoDe.Text, "_", ""), "/", "") = Empty) Then
 
- MskPeriodoAte.SetFocus
- 
- End If
- 
+        MskPeriodoAte.SetFocus
+
+    End If
+
 End Sub
 Private Sub MskPeriodoAte_KeyPress(KeyAscii As Integer)
 
-If KeyAscii = 13 And (IsDate(MskPeriodoDe.Text) = True Or Replace(Replace(MskPeriodoAte.Text, "_", ""), "/", "") = Empty) Then
+    If KeyAscii = 13 And (IsDate(MskPeriodoDe.Text) = True Or Replace(Replace(MskPeriodoAte.Text, "_", ""), "/", "") = Empty) Then
 
- CmdConsultar.SetFocus
- 
- End If
- 
+        CmdConsultar.SetFocus
+
+    End If
+
 End Sub
 Private Sub formata_flex()
 
-MSFlexPedidos.Clear
-MSFlexPedidos.Cols = 9
-MSFlexPedidos.Rows = 1
+    MSFlexPedidos.Clear
+    MSFlexPedidos.Cols = 9
+    MSFlexPedidos.Rows = 1
 
-MSFlexPedidos.Col = 0
-MSFlexPedidos.Text = "Nº Ped."
-MSFlexPedidos.ColWidth(0) = 1000
+    MSFlexPedidos.Col = 0
+    MSFlexPedidos.Text = "Nº Ped."
+    MSFlexPedidos.ColWidth(0) = 1000
 
-MSFlexPedidos.Col = 1
-MSFlexPedidos.Text = "Cod.Vend."
-MSFlexPedidos.ColWidth(1) = 1000
+    MSFlexPedidos.Col = 1
+    MSFlexPedidos.Text = "Cod.Vend."
+    MSFlexPedidos.ColWidth(1) = 1000
 
-MSFlexPedidos.Col = 2
-MSFlexPedidos.Text = "Cod.Cliente"
-MSFlexPedidos.ColWidth(2) = 1000
+    MSFlexPedidos.Col = 2
+    MSFlexPedidos.Text = "Cod.Cliente"
+    MSFlexPedidos.ColWidth(2) = 1000
 
-MSFlexPedidos.Col = 3
-MSFlexPedidos.Text = "Data Entrega"
-MSFlexPedidos.ColWidth(3) = 1500
-
-
-MSFlexPedidos.Col = 4
-MSFlexPedidos.Text = "Data Lim. Dev."
-MSFlexPedidos.ColWidth(4) = 1500
-
-MSFlexPedidos.Col = 5
-MSFlexPedidos.Text = "Data Devolução"
-MSFlexPedidos.ColWidth(5) = 1500
+    MSFlexPedidos.Col = 3
+    MSFlexPedidos.Text = "Data Entrega"
+    MSFlexPedidos.ColWidth(3) = 1500
 
 
-MSFlexPedidos.Col = 6
-MSFlexPedidos.Text = "Valor Total R$"
-MSFlexPedidos.ColWidth(6) = 1500
+    MSFlexPedidos.Col = 4
+    MSFlexPedidos.Text = "Data Lim. Dev."
+    MSFlexPedidos.ColWidth(4) = 1500
 
-MSFlexPedidos.Col = 7
-MSFlexPedidos.Text = "Valor Pago R$"
-MSFlexPedidos.ColWidth(7) = 1500
+    MSFlexPedidos.Col = 5
+    MSFlexPedidos.Text = "Data Devolução"
+    MSFlexPedidos.ColWidth(5) = 1500
 
-MSFlexPedidos.Col = 8
-MSFlexPedidos.Text = "Status"
-MSFlexPedidos.ColWidth(8) = 1500
+
+    MSFlexPedidos.Col = 6
+    MSFlexPedidos.Text = "Valor Total R$"
+    MSFlexPedidos.ColWidth(6) = 1500
+
+    MSFlexPedidos.Col = 7
+    MSFlexPedidos.Text = "Valor Pago R$"
+    MSFlexPedidos.ColWidth(7) = 1500
+
+    MSFlexPedidos.Col = 8
+    MSFlexPedidos.Text = "Status"
+    MSFlexPedidos.ColWidth(8) = 1500
 
 End Sub
 
 
+Private Sub TxtNumeroPedido_KeyPress(KeyAscii As Integer)
 
+    If KeyAscii = 13 And IsNumeric(TxtNumeroPedido) <> Empty Then
+
+        CmdDetalhar.SetFocus
+
+    End If
+End Sub
+
+Private Sub MSFlexPedido_KeyPress(KeyAscii As Integer)
+
+
+    Dim CODIGO As Long
+
+    If KeyAscii = 13 Then
+
+        MSFlexPedidos.Col = 0
+        CODIGO = Trim(MSFlexPedidos.Text)
+
+        FrmComEmissaoConsultaPedido.TxtNumeroPedido.Text = CODIGO
+        FrmComEmissaoConsultaPedido.TxtNumeroPedido_KeyPress (13)
+
+
+    End If
+
+End Sub

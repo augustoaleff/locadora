@@ -80,64 +80,64 @@ Attribute VB_Exposed = False
 
 
 Private Sub MDIForm_Load()
- 'STR_DSN = "Driver={SQL Server Native Client 10.0};Server=localhost,1433;Database=Locadora;Uid=sa;Pwd=ELetro66573759000171;Connection Timeout=30;"
- STR_DSN = "Driver={SQL Server Native Client 10.0};Server=localhost,1433;Database=Locadora;Uid=sa;Pwd=ELetro66573759000171;Connection Timeout=30;"
+    'STR_DSN = "Driver={SQL Server Native Client 10.0};Server=localhost,1433;Database=Locadora;Uid=sa;Pwd=ELetro66573759000171;Connection Timeout=30;"
+    STR_DSN = "Driver={SQL Server Native Client 10.0};Server=localhost,1433;Database=Locadora;Uid=sa;Pwd=ELetro66573759000171;Connection Timeout=30;"
 End Sub
 
 Private Sub mnu_cad_produtos_novo_Click()
- FrmComCadProdutosNovo.Show
+    FrmComCadProdutosNovo.Show
 End Sub
 
 Private Sub mnu_cap_consulta_Click()
- FrmComCapConsulta.Show
+    FrmComCapConsulta.Show
 End Sub
 
 Private Sub mnu_cap_lanc_Click()
- FrmComCapLanc.Show
+    FrmComCapLanc.Show
 End Sub
 
 Private Sub mnu_car_consulta_Click()
- FrmComCarConsulta.Show
+    FrmComCarConsulta.Show
 End Sub
 
 Private Sub mnu_car_lanc_Click()
- FrmComCarLanc.Show
+    FrmComCarLanc.Show
 End Sub
 
 Private Sub mnu_emissoes_aluguel_Click()
- FrmComEmissaoAluguel.Show
+    FrmComEmissaoAluguel.Show
 End Sub
 
 Private Sub mnu_emissoes_consulta_Click()
- FrmComEmissaoConsulta.Show
+    FrmComEmissaoConsulta.Show
 End Sub
 
 Private Sub mnu_emissoes_cupons_consulta_Click()
- FrmComEmissaoCuponsConsulta.Show
+    FrmComEmissaoCuponsConsulta.Show
 End Sub
 
 Private Sub mnu_emissoes_cupons_emissao_Click()
- FrmComEmissaoCuponsEmissao.Show
+    FrmComEmissaoCuponsEmissao.Show
 End Sub
 
 Private Sub mnu_emissoes_devolucao_Click()
- FrmComEmissaoDevolucao.Show
+    FrmComEmissaoDevolucao.Show
 End Sub
 
 Private Sub mnu_Sair_Click()
- Unload Me
+    Unload Me
 End Sub
 Private Sub mnu_cad_clientes_click()
- FrmComCadClientes.Show
+    FrmComCadClientes.Show
 End Sub
 Private Sub mnu_cad_produtos_entradas_click()
- FrmComCadProdutosEnt.Show
+    FrmComCadProdutosEnt.Show
 End Sub
 Private Sub mnu_cad_forn_click()
- FrmComCadForn.Show
+    FrmComCadForn.Show
 End Sub
 Private Sub mnu_cad_func_click()
- FrmComCadFunc.Show
+    FrmComCadFunc.Show
 End Sub
 
 

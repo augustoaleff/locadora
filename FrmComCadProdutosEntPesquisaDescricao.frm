@@ -62,116 +62,116 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub Form_Load()
- Me.Top = 1500
- Me.Left = 1500
+    Me.Top = 1500
+    Me.Left = 1500
 End Sub
 Private Sub CmdBuscar_Click()
 
-If ValidaCampos() = True Then
+    If ValidaCampos() = True Then
 
 
-    Set CN1 = New ADODB.Connection
-    CN1.Open STR_DSN
-    Set reg = New ADODB.Recordset
-    reg.ActiveConnection = CN1
- 
- 
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
 
- If CBoxAleatorio.Value = vbChecked Then
-      
-      reg.Open ("SELECT codprod,descricao FROM PRODUTOS WHERE DESCRICAO LIKE '%" & Trim(TxtDescricao.Text) & "%'")
-      
- Else
-       
-      reg.Open ("SELECT codprod,descricao FROM PRODUTOS WHERE DESCRICAO LIKE '" & Trim(TxtDescricao.Text) & "%'")
-     
- End If
 
- 
- Call formata_flex
- 
- Do Until reg.EOF = True
-    
-  MSFlexPesquisa.AddItem (reg.Fields("codprod") & vbTab & _
-                         reg.Fields("descricao"))
-                         
-  reg.MoveNext
-    
- Loop
- 
- 
- reg.Close
- End If
- 
+
+        If CBoxAleatorio.Value = vbChecked Then
+
+            reg.Open ("SELECT codprod,descricao FROM PRODUTOS WHERE DESCRICAO LIKE '%" & Trim(TxtDescricao.Text) & "%'")
+
+        Else
+
+            reg.Open ("SELECT codprod,descricao FROM PRODUTOS WHERE DESCRICAO LIKE '" & Trim(TxtDescricao.Text) & "%'")
+
+        End If
+
+
+        Call formata_flex
+
+        Do Until reg.EOF = True
+
+            MSFlexPesquisa.AddItem (reg.Fields("codprod") & vbTab & _
+                                    reg.Fields("descricao"))
+
+            reg.MoveNext
+
+        Loop
+
+
+        reg.Close
+    End If
+
 End Sub
 Private Sub formata_flex()
- 
- MSFlexPesquisa.Clear
- MSFlexPesquisa.Cols = 2
- MSFlexPesquisa.Rows = 1
 
- MSFlexPesquisa.Col = 0
- MSFlexPesquisa.Text = "Cód."
- MSFlexPesquisa.ColWidth(0) = 700
- 
- MSFlexPesquisa.Col = 1
- MSFlexPesquisa.Text = "Descricao"
- MSFlexPesquisa.ColWidth(1) = 5400
- 
+    MSFlexPesquisa.Clear
+    MSFlexPesquisa.Cols = 2
+    MSFlexPesquisa.Rows = 1
+
+    MSFlexPesquisa.Col = 0
+    MSFlexPesquisa.Text = "Cód."
+    MSFlexPesquisa.ColWidth(0) = 700
+
+    MSFlexPesquisa.Col = 1
+    MSFlexPesquisa.Text = "Descricao"
+    MSFlexPesquisa.ColWidth(1) = 5400
+
 End Sub
 Private Sub CmdLimparTela_Click()
- Call limpa_campos
+    Call limpa_campos
 End Sub
 Private Sub limpa_campos()
 
     CBoxAleatorio.Value = vbUnchecked
     TxtDescricao.Text = ""
     Call formata_flex
-    
+
     TxtDescricao.SetFocus
 End Sub
 
 Private Function ValidaCampos() As Boolean
 
 
-If TxtDescricao.Text <> Empty Then
+    If TxtDescricao.Text <> Empty Then
 
-    ValidaCampos = True
-    
-Else
+        ValidaCampos = True
 
-    ValidaCampos = False
-    
-End If
+    Else
+
+        ValidaCampos = False
+
+    End If
 
 
 End Function
 
 Private Sub MSFlexPesquisa_KeyPress(KeyAscii As Integer)
- 
- Dim CODIGO As Long
- 
- If KeyAscii = 13 Then
-  
-  MSFlexPesquisa.Col = 0
-  CODIGO = Trim(MSFlexPesquisa.Text)
-  
-  FrmComCadProdutosEnt.TxtCodProduto.Text = CODIGO
-  FrmComCadProdutosEnt.TxtCodProduto_KeyPress (13)
-  Unload Me
-  
- End If
+
+    Dim CODIGO As Long
+
+    If KeyAscii = 13 Then
+
+        MSFlexPesquisa.Col = 0
+        CODIGO = Trim(MSFlexPesquisa.Text)
+
+        FrmComCadProdutosEnt.TxtCodProduto.Text = CODIGO
+        FrmComCadProdutosEnt.TxtCodProduto_KeyPress (13)
+        Unload Me
+
+    End If
 
 End Sub
 
 Private Sub TxtDescricao_KeyPress(KeyAscii As Integer)
 
     If KeyAscii = 13 And TxtDescricao.Text <> Empty Then
-    
-    Call CmdBuscar_Click
-    
-    MSFlexPesquisa.SetFocus
-    
+
+        Call CmdBuscar_Click
+
+        MSFlexPesquisa.SetFocus
+
     End If
-    
+
 End Sub

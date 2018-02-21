@@ -18,7 +18,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
    Begin VB.TextBox TxtJuros 
       Enabled         =   0   'False
       Height          =   285
-      Left            =   3600
+      Left            =   3720
       TabIndex        =   46
       Top             =   7800
       Width           =   1575
@@ -81,7 +81,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Begin VB.TextBox TxtDesconto 
          Enabled         =   0   'False
          Height          =   285
-         Left            =   1920
+         Left            =   2040
          TabIndex        =   34
          Top             =   1800
          Width           =   1575
@@ -99,7 +99,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Begin VB.TextBox TxtTotalCheque 
          Enabled         =   0   'False
          Height          =   285
-         Left            =   1920
+         Left            =   2040
          TabIndex        =   31
          Top             =   1440
          Width           =   1575
@@ -107,7 +107,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Begin VB.TextBox TxtTotalCC 
          Enabled         =   0   'False
          Height          =   285
-         Left            =   1920
+         Left            =   2040
          TabIndex        =   30
          Top             =   1080
          Width           =   1575
@@ -115,7 +115,7 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Begin VB.TextBox TxtTotalCD 
          Enabled         =   0   'False
          Height          =   285
-         Left            =   1920
+         Left            =   2040
          TabIndex        =   29
          Top             =   720
          Width           =   1575
@@ -123,26 +123,46 @@ Begin VB.Form FrmComEmissaoConsultaPedido
       Begin VB.TextBox TxtTotalDinheiro 
          Enabled         =   0   'False
          Height          =   285
-         Left            =   1920
+         Left            =   2040
          TabIndex        =   28
          Top             =   360
          Width           =   1575
       End
       Begin VB.Label Label1 
          Caption         =   "Total Juros/Multa R$"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H000000FF&
          Height          =   255
          Left            =   120
          TabIndex        =   45
          Top             =   2160
-         Width           =   1695
+         Width           =   1815
       End
       Begin VB.Label LblTotalDesconto 
          Caption         =   "Total Desconto R$"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FF0000&
          Height          =   255
          Left            =   120
          TabIndex        =   35
          Top             =   1800
-         Width           =   1575
+         Width           =   1695
       End
       Begin VB.Label LblCuponsUtilizados 
          Caption         =   "Cupons Utilizados"
@@ -572,6 +592,47 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Private Sub CmdLimparTela_Click()
+
+    TxtNumeroPedido.Text = ""
+    TxtCodVendedor.Text = ""
+    LblNomeVendedor.Caption = ""
+    TxtStatusPedido.Text = ""
+    TxtCodCliente.Text = ""
+    LblCliente.Caption = ""
+    MskDataEmissao.Mask = ""
+    MskDataEmissao.Text = ""
+    MskDataEmissao.Mask = "##/##/####"
+    MskDataEntrega.Mask = ""
+    MskDataEntrega.Text = ""
+    MskDataEntrega.Mask = "##/##/####"
+    MskDataLimDev.Mask = ""
+    MskDataLimDev.Text = ""
+    MskDataLimDev.Mask = "##/##/####"
+    MskDataDev.Mask = ""
+    MskDataDev.Text = ""
+    MskDataDev.Mask = "##/##/####"
+    TxtDiasAtraso.Text = ""
+    TxtOBS.Text = ""
+    Call formata_flex
+    Call formata_flex2
+    TxtValorAReceber.Text = ""
+    TxtValorPago.Text = ""
+    TxtValorTotal.Text = ""
+    TxtTotalDinheiro.Text = ""
+    TxtTotalCC.Text = ""
+    TxtTotalCD.Text = ""
+    TxtTotalCheque.Text = ""
+    TxtDesconto.Text = ""
+    TxtJuros.Text = ""
+    
+    TxtNumeroPedido.Enabled = True
+    TxtNumeroPedido.SetFocus
+    
+    
+
+End Sub
+
 Public Sub TxtNumeroPedido_KeyPress(KeyAscii As Integer)
     Dim I As Integer
     Dim X, DH, CD, CC, CH, DESCONTO, JUROS As Double
@@ -603,9 +664,10 @@ Public Sub TxtNumeroPedido_KeyPress(KeyAscii As Integer)
         REG2.Open ("SELECT I.CodProd,P.Descricao,P.Preco,Quant,I.Status FROM ITENS AS I " & _
                    "INNER JOIN PRODUTOS AS P on I.CodProd = P.CodProd WHERE NUMPED = " & Trim(TxtNumeroPedido.Text) & "")
 
-        REG3.Open ("SELECT P.VDinheiro,P.VCCredito,P.VCDebito,P.VCheque,P.Juros,P.CodCupom,C.Tipo,C.Valor FROM PAGAMENTOS AS P " & _
-                   "INNER JOIN CUPONS AS C ON P.CodCupom=C.CodCupom " & _
-                   "WHERE NUMPED = " & Trim(TxtNumeroPedido.Text) & "")
+        REG3.Open ("SELECT P.VDinheiro,P.VCCredito,P.VCDebito,P.VCheque,P.Juros,P.Desconto,P.CodCupom,C.Tipo,C.Valor FROM PAGAMENTOS AS P " & _
+                   "FULL OUTER JOIN CUPONS AS C ON P.CodCupom=C.CodCupom " & _
+                   "WHERE P.NUMPED = " & Trim(TxtNumeroPedido.Text) & "")
+
 
 
         If reg.EOF = False Then
@@ -621,8 +683,6 @@ Public Sub TxtNumeroPedido_KeyPress(KeyAscii As Integer)
             TxtValorPago.Text = Format(reg.Fields("ValorP"), "#,##0.00")
             TxtValorTotal.Text = Format(reg.Fields("ValorT"), "#,##0.00")
 
-            VAREC = CDbl(TxtValorTotal.Text) - CDbl(TxtValorPago.Text)
-            TxtValorAReceber = Format(VAREC, "#,##0.00")
 
 
             If reg.Fields("DataDev") = "01/01/1900" Then
@@ -661,13 +721,16 @@ Public Sub TxtNumeroPedido_KeyPress(KeyAscii As Integer)
                                      Format(REG2.Fields("Preco"), "#,##0.00") & vbTab & _
                                      Format(X, "#,##0.00"))
 
-
                 REG2.MoveNext
 
             Loop
 
-
+            Call formata_flex2
+            DESCONTO = 0
             Do Until REG3.EOF = True
+
+
+
 
                 DH = DH + REG3.Fields("VDinheiro")
                 CD = CD + REG3.Fields("VCDebito")
@@ -676,23 +739,33 @@ Public Sub TxtNumeroPedido_KeyPress(KeyAscii As Integer)
                 JUROS = JUROS + REG3("Juros")
 
 
+                If REG3.Fields("Desconto") = Empty Or REG3.Fields("Desconto") = Null Then
+
+                    DESCONTO = DESCONTO + 0
+
+                Else
+
+
+                    DESCONTO = DESCONTO + REG3.Fields("Desconto")
+
+
+                End If
+
                 If REG3.Fields("Codcupom") <> Empty Then
 
                     If REG3.Fields("Tipo") = "V" Then
-                        DESCONTO = DESCONTO + REG3.Fields("Valor")
-                        Call formata_flex2
+                        'DESCONTO = DESCONTO + REG3.Fields("Valor")
                         MSFlexCupons.AddItem (REG3.Fields("CodCupom") & vbTab & _
                                               "R$ " & Format(REG3.Fields("Valor"), "#,##0.00"))
 
                     Else
-                        DESCONTO = DESCONTO + (REG3.Fields("Valor") * CDbl(TxtValorTotal.Text))
+                        'DESCONTO = DESCONTO + (REG3.Fields("Valor") * reg.Fields("ValorT"))
 
-
-                        Call formata_flex2
                         MSFlexCupons.AddItem (REG3.Fields("CodCupom") & vbTab & _
                                               Format((REG3.Fields("Valor") * 100), "#,##0.00") & " %")
 
                     End If
+
                 End If
 
 
@@ -707,6 +780,18 @@ Public Sub TxtNumeroPedido_KeyPress(KeyAscii As Integer)
             TxtJuros.Text = Format(JUROS, "#,##0.00")
             TxtDesconto.Text = Format(DESCONTO, "#,##0.00")
 
+            If JUROS = Empty Then
+                JUROS = 0
+            End If
+
+            If DESCONTO = Empty Then
+                DESCONTO = 0
+            End If
+
+
+
+            VAREC = CDbl(TxtValorTotal.Text) - CDbl(TxtValorPago.Text) + JUROS
+            TxtValorAReceber = Format(VAREC, "#,##0.00")
 
         Else
 
@@ -719,6 +804,7 @@ Public Sub TxtNumeroPedido_KeyPress(KeyAscii As Integer)
         REG3.Close
 
     End If
+
 
 
 End Sub

@@ -659,7 +659,7 @@ Dim CUPOM As Boolean
 Attribute CUPOM.VB_VarUserMemId = 1073938441
 Private Sub DIFERENCA()
 
-    DIFF = VTOTAL - VRECEBIDO + JUROS - DESCONTO
+    DIFF = VTOTAL - VRECEBIDO + JUROS
     TxtDiferenca.Text = Format(DIFF, "#,##0.00")
 
 End Sub
@@ -881,6 +881,12 @@ Private Sub CmdFecharDevolucao_Click()
             TxtQuantCheque.Text = "0"
         End If
 
+        If DESCONTO = Empty Then
+            DESCONTO = 0
+        End If
+
+
+
         CN1.Execute ("UPDATE PEDIDOS SET DataDev = '" & Format(MskDataDev.Text, "YYYYMMDD") & "',ValorP = " & Replace(CDbl(VRECEBIDO), ",", ".") & ",Status = 'DEVOLVIDO' " & _
                      "WHERE NumPed = " & TxtNumPedido & "")
 
@@ -908,9 +914,9 @@ Private Sub CmdFecharDevolucao_Click()
 
         If CUPOM = True Then
 
-            CN1.Execute ("INSERT INTO PAGAMENTOS(NumPed,DataPagto,VDinheiro,VCDebito,VCCredito,VCheque,BandCD,BandCC,QuantCC,QuantCH,Juros,CodCupom) " & _
+            CN1.Execute ("INSERT INTO PAGAMENTOS(NumPed,DataPagto,VDinheiro,VCDebito,VCCredito,VCheque,BandCD,BandCC,QuantCC,QuantCH,Juros,Desconto,CodCupom) " & _
                          "VALUES (" & Trim(TxtNumPedido.Text) & ",'" & Format(Now, "YYYYMMDD hh:mm") & "'," & Replace(DH, ",", ".") & "," & Replace(CD, ",", ".") & "," & Replace(CC, ",", ".") & ", " & Replace(CH, ",", ".") & ",'" & StrConv(CmbBandeiraCD.Text, vbUpperCase) & "','" & _
-                         StrConv(CmbBandeiraCC.Text, vbUpperCase) & "','" & Trim(TxtParcelasCC.Text) & "','" & Trim(TxtQuantCheque.Text) & "'," & Replace(JUROS, ",", ".") & ",'" & StrConv(Trim(TxtCupomDesconto.Text), vbUpperCase) & "')")
+                         StrConv(CmbBandeiraCC.Text, vbUpperCase) & "','" & Trim(TxtParcelasCC.Text) & "','" & Trim(TxtQuantCheque.Text) & "'," & Replace(JUROS, ",", ".") & "," & Replace(DESCONTO, ",", ".") & ",'" & StrConv(Trim(TxtCupomDesconto.Text), vbUpperCase) & "')")
 
             CN1.Execute ("UPDATE CUPONS SET Status = 'UTILIZADO' " & _
                          "WHERE codCUPOM = '" & StrConv(Trim(TxtCupomDesconto.Text), vbUpperCase) & "'")
@@ -930,6 +936,10 @@ Private Sub CmdFecharDevolucao_Click()
             CN1.Execute ("INSERT INTO CUPONS(CodCupom,Tipo,Valor,ValidadeDe,ValidadeAte,Descricao,Status,Usuario,DataEmissao)" & _
                          "VALUES('" & CStr(TxtNumPedido.Text) & "DIF','V'," & Replace(CDbl(Replace(TxtDiferenca.Text, "-", "")), ",", ".") & ",'" & Format(Now, "YYYYMMDD") & "','" & _
                          Format("31/12/2199", "YYYYMMDD") & "','DIF REF PED N " & CStr(TxtNumPedido.Text) & "','NAOUTILIZADO','','" & Format(Now, "YYYYMMDD") & "')")
+                         
+            CN1.Execute ("UPDATE PEDIDOS SET OBS =  Obs + ' / GERADO CUPOM NUM " & CStr(TxtNumPedido.Text) & "DIF NO VALOR DE R$ " & Replace(Replace(TxtDiferenca.Text, "-", ""), ",", ".") & "' WHERE NUMPED = " & Trim(TxtNumPedido.Text) & "")
+            
+
 
             MsgBox "Foi Criado um Cupom no valor de R$ " & Replace(TxtDiferenca.Text, "-", "") & " para a sua proxima locação, Cod Cupom : " & TxtNumPedido.Text & "DIF", vbInformation, "Cupom Criado"
 
@@ -1337,50 +1347,59 @@ Private Sub CmdValidarCupom_Click()
 
         reg.Open ("SELECT * FROM CUPONS WHERE CODCUPOM = '" & TxtCupomDesconto.Text & "'")
 
-        I = DateDiff("d", Now, reg.Fields("ValidadeAte"))
-        F = DateDiff("d", reg.Fields("ValidadeDe"), Now)
 
-        If I >= 0 And F >= 0 Then
 
-            If reg.EOF = False Then
+        If reg.EOF = False Then
+
+            I = DateDiff("d", Now, reg.Fields("ValidadeAte"))
+            F = DateDiff("d", reg.Fields("ValidadeDe"), Now)
+            
+
+            If I >= 0 And F >= 0 Then
 
                 If reg.Fields("Tipo") = "V" And reg.Fields("Status") = "NAOUTILIZADO" Then
 
+                    
+                    VRECEBIDO = VRECEBIDO - DESCONTO
                     DESCONTO = CDbl(reg.Fields("Valor"))
                     MsgBox "Cupom Validado", vbInformation, CUPOM
                     TxtDesconto.Text = Format(DESCONTO, "#,##0.00")
                     VRECEBIDO = VRECEBIDO + DESCONTO
-                    Call DIFERENCA
+                    TxtValorRecebido = Format(VRECEBIDO, "#,##0.00")
+                    Call calcula_diferenca
+                    CUPOM = True
+                    
+
+
+                ElseIf reg.Fields("Tipo") = "P" And reg.Fields("Status") = "NAOUTILIZADO" Then
+
+                    VRECEBIDO = VRECEBIDO - DESCONTO
+                    DESCONTO = VTOTAL * CDbl(reg.Fields("Valor"))
+                    MsgBox "Cupom Validado", vbInformation, CUPOM
+                    TxtDesconto.Text = Format(DESCONTO, "#,##0.00")
+                    VRECEBIDO = VRECEBIDO + DESCONTO
+                    TxtValorRecebido = Format(VRECEBIDO, "#,##0.00")
+                    Call calcula_diferenca
                     CUPOM = True
 
-
                 Else
-                    If reg.Fields("Tipo") = "P" And reg.Fields("Status") = "NAOUTILIZADO" Then
 
-                        DESCONTO = (VTOTAL - VRECEBIDO) * CDbl(reg.Fields("Valor"))
-                        MsgBox "Cupom Validado", vbInformation, CUPOM
-                        TxtDesconto.Text = Format(DESCONTO, "#,##0.00")
-                        VRECEBIDO = VRECEBIDO + DESCONTO
-                        Call DIFERENCA
-                        CUPOM = True
+                    MsgBox "Cupom já Utilizado", vbInformation, Aviso
 
-                    Else
-
-                        MsgBox "Cupom já Utilizado", vbInformation, Aviso
-
-                    End If
                 End If
+
+
 
             Else
 
-                MsgBox "Cupom não encontrado", vbExclamation, Aviso
-                CUPOM = False
+                MsgBox "O Período do Cupom é de " & Format(reg.Fields("ValidadeDe"), "DD/MM/YYYY") & " até " & Format(reg.Fields("ValidadeAte"), "DD/MM/YYYY") & " !", vbExclamation, Aviso
 
             End If
 
         Else
 
-            MsgBox "O Período do Cupom é de " & Format(reg.Fields("ValidadeDe"), "DD/MM/YYYY") & " até " & Format(reg.Fields("ValidadeAte"), "DD/MM/YYYY") & " !", vbExclamation, Aviso
+            MsgBox "Cupom não encontrado", vbExclamation, Aviso
+            CUPOM = False
 
         End If
 

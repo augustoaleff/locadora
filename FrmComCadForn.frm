@@ -562,7 +562,7 @@ Private Sub CmdGravar_Click()
                          StrConv(Trim(TxtEndereco.Text), vbUpperCase) & "',NumEnd='" & StrConv(Trim(TxtNumero.Text), vbUpperCase) & "',Complemento='" & StrConv(Trim(TxtComplemento.Text), vbUpperCase) & "', Bairro='" & _
                          StrConv(Trim(TxtBairro.Text), vbUpperCase) & "',Cidade='" & StrConv(Trim(TxtCidade.Text), vbUpperCase) & "',CodMun='" & StrConv(Trim(TxtCodMunicipio.Text), vbUpperCase) & "',UF='" & _
                          StrConv(Trim(TxtUF.Text), vbUpperCase) & "',Email='" & StrConv(Trim(TxtEmail.Text), vbLowerCase) & "',OBS='" & StrConv(Trim(TxtOBS.Text), vbUpperCase) & "' " & _
-                       " WHERE CODFORN = " & Trim(TxtCodigo.Text) & "")
+                         " WHERE CODFORN = " & Trim(TxtCodigo.Text) & "")
 
 
             MsgBox "Fornecedor Atualizado com Sucesso", vbInformation, "Aviso"

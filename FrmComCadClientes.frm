@@ -566,7 +566,7 @@ Private Sub CmdGravar_Click()
                          Format(MskDataNasc.Text, "YYYYMMDD") & "',Telefone = '" & Replace(Replace(Replace(Replace(MskTelefone.Text, "(", ""), ")", ""), "-", ""), " ", "") & "',Celular = '" & Replace(Replace(Replace(Replace(MskCelular.Text, "(", ""), ")", ""), "-", ""), " ", "") & "',CEP = '" & _
                          Replace(Replace(MskCEP.Text, "-", ""), " ", "") & "',Endereco = '" & StrConv(Trim(TxtEndereco.Text), vbUpperCase) & "',NumEnd = '" & StrConv(Trim(TxtNumero.Text), vbUpperCase) & "',Complemento = '" & StrConv(Trim(TxtComplemento.Text), vbUpperCase) & "',Bairro = '" & StrConv(Trim(TxtBairro.Text), vbUpperCase) & "',Cidade = '" & StrConv(Trim(TxtCidade.Text), vbUpperCase) & _
                          "' ,CodMun = " & Trim(TxtCodMunicipio.Text) & ",UF = '" & StrConv(Trim(TxtUF.Text), vbUpperCase) & "' ,Email = '" & StrConv(TxtEmail.Text, vbLowerCase) & "' ,Obs = '" & Trim(TxtOBS.Text) & "' " & _
-                       " WHERE CODCLI = " & Trim(TxtCodigo.Text) & "")
+                         " WHERE CODCLI = " & Trim(TxtCodigo.Text) & "")
 
             MsgBox "Cliente Atualizado com Sucesso", vbInformation, "Aviso"
 

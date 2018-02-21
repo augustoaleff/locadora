@@ -80,7 +80,7 @@ Attribute VB_Exposed = False
 
 
 Private Sub MDIForm_Load()
-    'STR_DSN = "Driver={SQL Server Native Client 10.0};Server=localhost,1433;Database=Locadora;Uid=sa;Pwd=ELetro66573759000171;Connection Timeout=30;"
+'STR_DSN = "Driver={SQL Server Native Client 10.0};Server=localhost,1433;Database=Locadora;Uid=sa;Pwd=ELetro66573759000171;Connection Timeout=30;"
     STR_DSN = "Driver={SQL Server Native Client 10.0};Server=localhost,1433;Database=Locadora;Uid=sa;Pwd=ELetro66573759000171;Connection Timeout=30;"
 End Sub
 

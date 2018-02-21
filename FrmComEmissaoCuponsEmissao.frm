@@ -275,10 +275,10 @@ Private Sub CmdGerarCupom_Click()
 
 
         CN1.Execute ("INSERT INTO CUPONS(CodCupom,Tipo,Valor,ValidadeDe,ValidadeAte,Descricao,Status,Usuario,DataEmissao)" & _
-                   " VALUES('" & StrConv(Trim(TxtCodCupom.Text), vbUpperCase) & "','" & TIPO & "'," & Replace(VALOR, ",", ".") & ",'" & _
+                     " VALUES('" & StrConv(Trim(TxtCodCupom.Text), vbUpperCase) & "','" & TIPO & "'," & Replace(VALOR, ",", ".") & ",'" & _
                      Format(MskValidoDe.Text, "YYYYMMDD") & "','" & Format(MskValidoAte.Text, "YYYYMMDD") & "','" & Trim(StrConv(TxtDescricao.Text, vbUpperCase)) & "','NAOUTILIZADO','','" & Format(Now, "YYYYMMDD hh:mm") & "')")
-        
-        
+
+
 
         MsgBox "Cupom Criado", vbInformation, Criação
         Call limpa_campos
@@ -414,7 +414,7 @@ Private Sub TxtPorcentagem_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 And TxtPorcentagem.Text <> Empty Then
 
         MskValidoDe.SetFocus
-        
+
     End If
 
 End Sub

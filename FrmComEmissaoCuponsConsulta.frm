@@ -292,6 +292,23 @@ Private Sub CmdConsultar_Click()
 
 End Sub
 
+Private Sub CmdLimparTela_Click()
+
+    OptTodos.Value = True
+    MskPeriodoDe.Mask = ""
+    MskPeriodoDe.Text = ""
+    MskPeriodoDe.Mask = "##/##/####"
+    MskPeriodoAte.Mask = ""
+    MskPeriodoAte.Text = ""
+    MskPeriodoAte.Mask = "##/##/####"
+    LblValorTotal.Caption = ""
+    TxtCodCupom.SetFocus
+
+    Call formata_flex
+
+
+End Sub
+
 Private Sub TxtCodCupom_KeyPress(KeyAscii As Integer)
 
     If KeyAscii = 13 Then

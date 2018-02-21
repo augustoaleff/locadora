@@ -129,14 +129,22 @@ Begin VB.Form FrmComEmissaoConsulta
    Begin VB.Frame FrmStatusAluguel 
       Caption         =   "Status Aluguel"
       Height          =   735
-      Left            =   5520
+      Left            =   4560
       TabIndex        =   12
       Top             =   960
-      Width           =   3975
+      Width           =   5175
+      Begin VB.OptionButton OptCancelados 
+         Caption         =   "Cancelados"
+         Height          =   375
+         Left            =   3720
+         TabIndex        =   22
+         Top             =   240
+         Width           =   1335
+      End
       Begin VB.OptionButton OptAguardandoDevolucao 
          Caption         =   "Aguardando Devolução"
          Height          =   495
-         Left            =   2520
+         Left            =   2280
          TabIndex        =   4
          Top             =   120
          Width           =   1335
@@ -299,17 +307,18 @@ Private Sub CmdConsultar_Click()
 
                 reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and Status = 'DEVOLVIDO' order by dataentrega")
 
+            ElseIf OptAguardandoDevolucao.Value = True Then
+
+                reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and Status = 'ALUGADO' order by dataentrega")
+
+            ElseIf OptCancelados.Value = True Then
+            
+                reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and Status = 'CANCELADO' order by dataentrega")
+            
             Else
 
-                If OptAguardandoDevolucao.Value = True Then
+                reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " order by dataentrega")
 
-                    reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and Status = 'ALUGADO' order by dataentrega")
-
-                Else
-
-                    reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " order by dataentrega")
-
-                End If
 
             End If
 
@@ -320,17 +329,18 @@ Private Sub CmdConsultar_Click()
 
                 reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and dataentrega between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' and Status = 'DEVOLVIDO' order by dataentrega")
 
+            ElseIf OptAguardandoDevolucao.Value = True Then
+
+                reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and dataentrega between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' and Status = 'ALUGADO' order by dataentrega")
+
+            ElseIf OptCancelados.Value = True Then
+                
+                reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and dataentrega between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' and Status = 'CANCELADO' order by dataentrega")
+            
             Else
 
-                If OptAguardandoDevolucao.Value = True Then
+                reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and dataentrega between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' order by dataentrega")
 
-                    reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and dataentrega between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' and Status = 'ALUGADO' order by dataentrega")
-
-                Else
-
-                    reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and dataentrega between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' order by dataentrega")
-
-                End If
 
             End If
 
@@ -537,7 +547,7 @@ Private Sub TxtNumeroPedido_KeyPress(KeyAscii As Integer)
     End If
 End Sub
 
-Private Sub MSFlexPedido_KeyPress(KeyAscii As Integer)
+Private Sub MSFlexPedidos_KeyPress(KeyAscii As Integer)
 
 
     Dim CODIGO As Long
@@ -545,10 +555,11 @@ Private Sub MSFlexPedido_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Then
 
         MSFlexPedidos.Col = 0
-        CODIGO = Trim(MSFlexPedidos.Text)
+        CODIGO = Trim(MSFlexPedidos.TextMatrix(MSFlexPedidos.RowSel, 0))
 
         FrmComEmissaoConsultaPedido.TxtNumeroPedido.Text = CODIGO
         FrmComEmissaoConsultaPedido.TxtNumeroPedido_KeyPress (13)
+
 
 
     End If

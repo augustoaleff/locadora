@@ -1,19 +1,20 @@
 VERSION 5.00
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Begin VB.Form FrmComCarConsulta 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Consulta Contas a Receber"
    ClientHeight    =   7500
    ClientLeft      =   930
    ClientTop       =   6240
-   ClientWidth     =   11640
+   ClientWidth     =   11655
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MDIChild        =   -1  'True
    MinButton       =   0   'False
    ScaleHeight     =   7500
-   ScaleWidth      =   11640
-   Begin VB.TextBox TxtComCarConsultaNumeroPedido 
+   ScaleWidth      =   11655
+   Begin VB.TextBox TxtTipoPagto 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -23,62 +24,68 @@ Begin VB.Form FrmComCarConsulta
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   375
-      Left            =   9720
-      TabIndex        =   6
+      Height          =   360
+      Left            =   7680
+      TabIndex        =   25
       Top             =   1920
-      Width           =   1695
+      Width           =   1455
    End
-   Begin VB.Frame FrameComCarConsultaConsultarPor 
-      Caption         =   "Consultar Por"
-      Height          =   855
-      Left            =   240
-      TabIndex        =   11
-      Top             =   120
-      Width           =   5415
-      Begin VB.OptionButton OptComCarConsultaVencimento 
-         Caption         =   "Vencimento"
+   Begin VB.Frame FrameStatus 
+      Caption         =   "Status"
+      Height          =   615
+      Left            =   3960
+      TabIndex        =   20
+      Top             =   1680
+      Width           =   3375
+      Begin VB.OptionButton OptPago 
+         Caption         =   "Pago"
          Height          =   255
-         Left            =   240
-         TabIndex        =   14
-         Top             =   360
+         Left            =   2280
+         TabIndex        =   23
+         Top             =   240
+         Width           =   975
+      End
+      Begin VB.OptionButton OptAberto 
+         Caption         =   "Aberto"
+         Height          =   255
+         Left            =   1080
+         TabIndex        =   22
+         Top             =   240
+         Width           =   975
+      End
+      Begin VB.OptionButton OptTodos 
+         Caption         =   "Todos"
+         Height          =   255
+         Left            =   120
+         TabIndex        =   21
+         Top             =   240
          Value           =   -1  'True
-         Width           =   1335
-      End
-      Begin VB.OptionButton OptComCarConsultaDataPagamento 
-         Caption         =   "Data Pagamento"
-         Height          =   255
-         Left            =   1680
-         TabIndex        =   13
-         Top             =   360
-         Width           =   1695
-      End
-      Begin VB.OptionButton OptComCarConsultaDataLancamento 
-         Caption         =   "Data Lançamento"
-         Height          =   255
-         Left            =   3600
-         TabIndex        =   12
-         Top             =   360
-         Width           =   1695
+         Width           =   855
       End
    End
-   Begin VB.TextBox TxtComCarConsultaCodForn 
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
+   Begin MSMask.MaskEdBox MskPeriodoDe 
       Height          =   330
-      Left            =   1080
+      Left            =   960
       TabIndex        =   1
-      Top             =   1200
+      Top             =   1920
       Width           =   1215
+      _ExtentX        =   2143
+      _ExtentY        =   582
+      _Version        =   393216
+      MaxLength       =   10
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Mask            =   "##/##/####"
+      PromptChar      =   "_"
    End
-   Begin VB.TextBox TxtComCarConsultaPeriodoDe 
+   Begin VB.TextBox TxtNumeroPedido 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -88,173 +95,197 @@ Begin VB.Form FrmComCarConsulta
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   330
-      Left            =   1080
-      TabIndex        =   2
-      Top             =   1920
-      Width           =   1695
-   End
-   Begin VB.TextBox TxtComCarConsultaPeriodoAte 
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   330
-      Left            =   3120
-      TabIndex        =   3
-      Top             =   1920
-      Width           =   1695
-   End
-   Begin VB.TextBox TxtComCarConsultaStatus 
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   330
-      Left            =   5640
-      TabIndex        =   4
-      Top             =   1920
-      Width           =   375
-   End
-   Begin VB.TextBox TxtComCarConsultaTipoPagto 
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   330
-      Left            =   6960
+      Height          =   360
+      Left            =   9720
       TabIndex        =   5
       Top             =   1920
       Width           =   1695
    End
-   Begin VB.CommandButton CmdComCarConsutaImprimir 
+   Begin VB.Frame FrameConsultarPor 
+      Caption         =   "Consultar Por"
+      Height          =   855
+      Left            =   240
+      TabIndex        =   9
+      Top             =   120
+      Width           =   5415
+      Begin VB.OptionButton OptVencimento 
+         Caption         =   "Vencimento"
+         Height          =   255
+         Left            =   240
+         TabIndex        =   12
+         Top             =   360
+         Value           =   -1  'True
+         Width           =   1335
+      End
+      Begin VB.OptionButton OptDataPagamento 
+         Caption         =   "Data Pagamento"
+         Height          =   255
+         Left            =   1680
+         TabIndex        =   11
+         Top             =   360
+         Width           =   1695
+      End
+      Begin VB.OptionButton OptDataLancamento 
+         Caption         =   "Data Lançamento"
+         Height          =   255
+         Left            =   3600
+         TabIndex        =   10
+         Top             =   360
+         Width           =   1695
+      End
+   End
+   Begin VB.TextBox TxtCodCliente 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   330
+      Left            =   1080
+      TabIndex        =   0
+      Top             =   1200
+      Width           =   1215
+   End
+   Begin VB.CommandButton CmdImprimir 
       Caption         =   "Imprimir Relatório"
       Height          =   615
       Left            =   240
-      TabIndex        =   9
+      TabIndex        =   7
       Top             =   6600
       Width           =   2175
    End
-   Begin VB.CommandButton CmdComCarConsutaConsultar 
+   Begin VB.CommandButton CmdConsultar 
       Caption         =   "Consultar"
       Height          =   615
       Left            =   9360
-      TabIndex        =   7
+      TabIndex        =   3
       Top             =   6600
       Width           =   2055
    End
-   Begin VB.CommandButton CmdComCarConsutaLimparTela 
+   Begin VB.CommandButton CmdLimparTela 
       Caption         =   "Limpar Tela"
       Height          =   615
       Left            =   4920
-      TabIndex        =   8
+      TabIndex        =   6
       Top             =   6600
       Width           =   2055
    End
-   Begin VB.CommandButton CmdComCarConsultaConsultarNome 
+   Begin VB.CommandButton CmdConsultarNome 
       Caption         =   "Buscar por Nome"
       Height          =   375
-      Left            =   6600
-      TabIndex        =   0
+      Left            =   6000
+      TabIndex        =   4
       Top             =   360
       Width           =   2055
    End
-   Begin MSFlexGridLib.MSFlexGrid MSFlexComCarConsultaResultado 
+   Begin MSFlexGridLib.MSFlexGrid MSFlexResultado 
       Height          =   3735
-      Left            =   240
-      TabIndex        =   10
+      Left            =   120
+      TabIndex        =   8
       Top             =   2520
-      Width           =   11175
-      _ExtentX        =   19711
+      Width           =   11295
+      _ExtentX        =   19923
       _ExtentY        =   6588
       _Version        =   393216
    End
-   Begin VB.Label LblComCarConsultaNumeroPedido 
-      Caption         =   "Pedido nº"
-      Height          =   255
-      Left            =   8880
-      TabIndex        =   23
+   Begin MSMask.MaskEdBox MskPeriodoAte 
+      Height          =   330
+      Left            =   2520
+      TabIndex        =   2
       Top             =   1920
+      Width           =   1215
+      _ExtentX        =   2143
+      _ExtentY        =   582
+      _Version        =   393216
+      MaxLength       =   10
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Mask            =   "##/##/####"
+      PromptChar      =   "_"
+   End
+   Begin VB.Label LblValor 
+      BorderStyle     =   1  'Fixed Single
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   12
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   330
+      Left            =   9480
+      TabIndex        =   13
+      Top             =   960
+      Width           =   1935
+   End
+   Begin VB.Label LblTipoPagto 
+      Caption         =   "Tipo Pagto"
+      Height          =   255
+      Left            =   7680
+      TabIndex        =   24
+      Top             =   1680
       Width           =   855
    End
-   Begin VB.Label LblComCarConsultaCodCliente 
+   Begin VB.Label LblNumeroPedido 
+      Caption         =   "Pedido nº"
+      Height          =   255
+      Left            =   9720
+      TabIndex        =   19
+      Top             =   1680
+      Width           =   855
+   End
+   Begin VB.Label LblCodCliente 
       Caption         =   "Cód Cliente"
       Height          =   255
       Left            =   120
-      TabIndex        =   22
+      TabIndex        =   18
       Top             =   1200
       Width           =   855
    End
-   Begin VB.Label LblComCarConsultaPeriodo 
+   Begin VB.Label LblPeriodo 
       Caption         =   "Período"
       Height          =   255
       Left            =   240
-      TabIndex        =   21
+      TabIndex        =   17
       Top             =   1920
       Width           =   615
    End
-   Begin VB.Label LblComCarConsultaPeriodoA 
+   Begin VB.Label LblPeriodoA 
       Caption         =   "à"
       Height          =   255
-      Left            =   2880
-      TabIndex        =   20
+      Left            =   2280
+      TabIndex        =   16
       Top             =   2040
       Width           =   135
    End
-   Begin VB.Label LblComCarConsultaForn 
+   Begin VB.Label LblCliente 
       BorderStyle     =   1  'Fixed Single
       Height          =   330
       Left            =   2400
-      TabIndex        =   19
+      TabIndex        =   15
       Top             =   1200
       Width           =   4815
    End
-   Begin VB.Label LblComCarConsultaStatus 
-      Caption         =   "Status"
-      Height          =   375
-      Left            =   5040
-      TabIndex        =   18
-      Top             =   1920
-      Width           =   615
-   End
-   Begin VB.Label LblComCarConsultaTipoPagto 
-      Caption         =   "Tipo Pagto"
-      Height          =   255
-      Left            =   6120
-      TabIndex        =   17
-      Top             =   1920
-      Width           =   975
-   End
-   Begin VB.Label LblComCarConsultaValorTotal 
+   Begin VB.Label LblValorTotal 
       Caption         =   "Valor Total R$"
       Height          =   255
       Left            =   8400
-      TabIndex        =   16
-      Top             =   1200
+      TabIndex        =   14
+      Top             =   1005
       Width           =   1095
-   End
-   Begin VB.Label LblComCarConsultaValor 
-      BorderStyle     =   1  'Fixed Single
-      Height          =   330
-      Left            =   9480
-      TabIndex        =   15
-      Top             =   1200
-      Width           =   1935
    End
 End
 Attribute VB_Name = "FrmComCarConsulta"
@@ -262,6 +293,667 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Sub LblComCapConsultaCodCliente_Click()
+Private Sub limpa_campos()
+
+    OptVencimento.Value = True
+    TxtCodCliente.Text = ""
+    LblCliente.Caption = ""
+    MskPeriodoDe.Mask = ""
+    MskPeriodoDe.Text = ""
+    MskPeriodoDe.Mask = "##/##/####"
+    MskPeriodoAte.Mask = ""
+    MskPeriodoAte.Text = ""
+    MskPeriodoAte.Mask = "##/##/####"
+    OptTodos.Value = True
+    TxtTipoPagto.Text = ""
+    TxtNumeroPedido.Text = ""
+    LblValor.Caption = ""
+    MSFlexResultado.Clear
+    
+    TxtCodCliente.SetFocus
+
+
+End Sub
+
+
+Private Sub CmdConsultar_Click()
+
+
+    Dim PERIODODE, PERIODOATE As Date
+    Dim VTOTAL As Double
+    Set CN1 = New ADODB.Connection
+    CN1.Open STR_DSN
+    Set reg = New ADODB.Recordset
+    reg.ActiveConnection = CN1
+
+
+    If Replace(Replace(MskPeriodoDe.Text, "_", ""), "/", "") = Empty Then
+
+        PERIODODE = "01/01/1900"
+
+    Else
+
+        If IsDate(MskPeriodoDe.Text) = True Then
+        PERIODOATE = Format(MskPeriodoDe.Text, "DD/MM/YYYY")
+        Else
+        MsgBox "Digite a Data Inicial Correta"
+        End If
+
+    End If
+
+
+    If Replace(Replace(MskPeriodoAte.Text, "_", ""), "/", "") = Empty Then
+
+        PERIODOATE = "31/12/2199"
+
+    Else
+
+        If IsDate(MskPeriodoAte.Text) = True Then
+        PERIODOATE = Format(MskPeriodoAte.Text, "DD/MM/YYYY")
+        Else
+        MsgBox "Digite a Data Final Correta"
+        End If
+        
+
+    End If
+    
+    
+    
+
+    If OptVencimento.Value = True Then
+
+        If TxtCodCliente.Text <> Empty Then
+
+            If OptAberto.Value = True Then
+
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'A'")
+
+                End If
+
+
+            ElseIf OptPago.Value = True Then
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'P'")
+                End If
+
+
+            Else
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'")
+
+                End If
+
+            End If
+
+
+
+        Else
+
+            If OptAberto.Value = True Then
+
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'A'")
+
+
+                End If
+
+
+            ElseIf OptPago.Value = True Then
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'P'")
+                End If
+
+
+            Else
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'")
+
+                End If
+
+            End If
+
+
+        End If
+
+    ElseIf OptDataPagamento.Value = True Then
+
+        If TxtCodCliente.Text <> Empty Then
+
+            If OptAberto.Value = True Then
+
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'A'")
+
+                End If
+
+
+            ElseIf OptPago.Value = True Then
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'P'")
+                End If
+
+
+            Else
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'")
+
+                End If
+
+            End If
+
+
+
+        Else
+
+            If OptAberto.Value = True Then
+
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'A'")
+
+                End If
+
+
+            ElseIf OptPago.Value = True Then
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'P'")
+                End If
+
+
+            Else
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'")
+
+                End If
+
+            End If
+
+
+        End If
+
+    Else
+
+        If TxtCodCliente.Text <> Empty Then
+
+            If OptAberto.Value = True Then
+
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'A'")
+
+                End If
+
+
+            ElseIf OptPago.Value = True Then
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'P'")
+                End If
+
+
+            Else
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
+                              "DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'")
+
+                End If
+
+            End If
+
+
+
+        Else
+
+            If OptAberto.Value = True Then
+
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+ 
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'A'")
+
+                End If
+
+
+            ElseIf OptPago.Value = True Then
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND STATUS = 'P'")
+                End If
+
+
+            Else
+
+                If TxtNumeroPedido.Text <> Empty Then
+
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
+                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+
+
+                Else
+
+
+                    reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
+                              "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
+                              "WHERE DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'")
+
+                End If
+
+            End If
+
+        End If
+
+
+
+    End If
+
+
+    Call formata_flex
+
+    Do Until reg.EOF = True
+
+
+        MSFlexResultado.AddItem (reg.Fields("Vencto") & vbTab & _
+                                 reg.Fields("Codcli") & vbTab & _
+                                 reg.Fields("Nome") & vbTab & _
+                                 reg.Fields("NumPed") & vbTab & _
+                                 reg.Fields("NumDocto") & vbTab & _
+                                 Format(reg.Fields("Valor"), "#,##0.00") & vbTab & _
+                                 reg.Fields("Status") & vbTab & _
+                                 Format(reg.Fields("DataPagto"), "DD/MM/YYYY") & vbTab & _
+                                 reg.Fields("Obs"))
+
+
+        reg.MoveNext
+
+    Loop
+
+    reg.Close
+
+    
+For contador = 1 To MSFlexResultado.Rows - 1
+    
+        VTOTAL = VTOTAL + CDbl(MSFlexResultado.TextMatrix(contador, 5))
+    
+Next
+
+ LblValor.Caption = Format(VTOTAL, "#,##0.00")
+ 
+End Sub
+
+Private Sub CmdConsultarNome_Click()
+    FrmComCarConsultaBuscarNome.Show
+End Sub
+
+Private Sub CmdLimparTela_Click()
+Call limpa_campos
+End Sub
+
+
+Public Sub TxtCodCliente_KeyPress(KeyAscii As Integer)
+
+    If KeyAscii = 13 And IsNumeric(TxtCodCliente.Text) <> Empty Then
+
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set reg = New ADODB.Recordset
+        reg.ActiveConnection = CN1
+
+        reg.Open ("SELECT Nome FROM CLIENTES WHERE CODCLI =  " & Trim(TxtCodCliente.Text) & "")
+
+        If reg.EOF = False Then
+
+            LblCliente.Caption = reg.Fields("Nome")
+
+            MskPeriodoDe.SetFocus
+
+        Else
+
+            MsgBox "Cliente não encontrado"
+
+        End If
+
+
+        reg.Close
+
+    ElseIf KeyAscii = 13 And TxtCodCliente.Text = Empty Then
+
+        LblCliente.Caption = ""
+        MskPeriodoDe.SetFocus
+
+    End If
+
+End Sub
+
+Private Sub MskPeriodoDe_KeyPress(KeyAscii As Integer)
+
+    If KeyAscii = 13 And (IsDate(MskPeriodoDe.Text) <> Empty Or Replace(Replace(MskPeriodoDe.Text, "_", ""), "/", "") = Empty) Then
+
+        MskPeriodoAte.SetFocus
+
+    End If
+
+
+End Sub
+
+Private Sub MskPeriodoAte_KeyPress(KeyAscii As Integer)
+
+    If KeyAscii = 13 And (IsDate(MskPeriodoAte.Text) <> Empty Or Replace(Replace(MskPeriodoAte.Text, "_", ""), "/", "") = Empty) Then
+
+
+        CmdConsultar.SetFocus
+
+
+    End If
+
+
+End Sub
+
+Private Sub formata_flex()
+
+    MSFlexResultado.Clear
+    MSFlexResultado.Cols = 9
+    MSFlexResultado.Rows = 1
+
+    MSFlexResultado.Col = 0
+    MSFlexResultado.Text = "Vencto"
+    MSFlexResultado.ColWidth(0) = 1000
+
+    MSFlexResultado.Col = 1
+    MSFlexResultado.Text = "Cod. Cliente"
+    MSFlexResultado.ColWidth(1) = 1000
+
+    MSFlexResultado.Col = 2
+    MSFlexResultado.Text = "Cliente"
+    MSFlexResultado.ColWidth(2) = 3000
+
+    MSFlexResultado.Col = 3
+    MSFlexResultado.Text = "Num. Pedido"
+    MSFlexResultado.ColWidth(3) = 1000
+
+    MSFlexResultado.Col = 4
+    MSFlexResultado.Text = "Num. Docto"
+    MSFlexResultado.ColWidth(4) = 1500
+
+    MSFlexResultado.Col = 5
+    MSFlexResultado.Text = "Valor"
+    MSFlexResultado.ColWidth(5) = 1000
+
+    MSFlexResultado.Col = 6
+    MSFlexResultado.Text = "Status"
+    MSFlexResultado.ColWidth(6) = 500
+
+    MSFlexResultado.Col = 7
+    MSFlexResultado.Text = "Data. Pagto"
+    MSFlexResultado.ColWidth(7) = 1000
+
+    MSFlexResultado.Col = 8
+    MSFlexResultado.Text = "OBS"
+    MSFlexResultado.ColWidth(8) = 3000
+
 
 End Sub

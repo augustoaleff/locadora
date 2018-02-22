@@ -1371,8 +1371,12 @@ End Sub
 
 Private Sub CmdEmitirPedido_Click()
 
-
+    Dim VENCIMENTO As Date
     resultado = MsgBox("Confima a emissao do pedido?", vbYesNo, Confirmação)
+    Set CN1 = New ADODB.Connection
+    CN1.Open STR_DSN
+    Set reg = New ADODB.Recordset
+    reg.ActiveConnection = CN1
 
     If resultado = vbYes Then
 
@@ -1411,10 +1415,13 @@ Private Sub CmdEmitirPedido_Click()
             End If
 
 
+            'Inserir no Pedidos
 
             CN1.Execute ("INSERT INTO PEDIDOS(NumPed,CodVend,CodCli,DataEntrega,DataLimDev,DataDev,OBS,ValorT,ValorP,Status,Usuario,DataEmissao)" & _
                          "VALUES(" & Trim(CInt(TxtNumPedido.Text)) & "," & Trim(CInt(TxtCodVendedor.Text)) & "," & Trim(CInt(TxtCodCliente.Text)) & ",'" & Format(MskDataEntrega.Text, "YYYYMMDD") & "','" & _
                          Format(MskDataLimiteDev.Text, "YYYYMMDD") & "','','" & Trim(StrConv(TxtOBS.Text, vbUpperCase)) & "'," & Replace(VTOTAL, ",", ".") & "," & Replace(VRECEBIDO, ",", ".") & ",'ALUGADO','','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+
+            'Inserir no Itens
 
             For contador = 1 To MSFlexItens.Rows - 1
 
@@ -1422,6 +1429,9 @@ Private Sub CmdEmitirPedido_Click()
                              "VALUES(" & Trim(TxtNumPedido.Text) & "," & MSFlexItens.TextMatrix(contador, 0) & ",'" & MSFlexItens.TextMatrix(contador, 2) & "','ALUGADO')")
 
             Next
+
+
+            'Inserir no cupons e pagamentos
 
             If CUPOM = True Then
 
@@ -1438,6 +1448,115 @@ Private Sub CmdEmitirPedido_Click()
                 CN1.Execute ("INSERT INTO PAGAMENTOS(NumPed,DataPagto,VDinheiro,VCDebito,VCCredito,VCheque,BandCD,BandCC,QuantCC,QuantCH,Juros,CodCupom) " & _
                              "VALUES (" & Trim(TxtNumPedido.Text) & ",'" & Format(Now, "YYYYMMDD hh:mm") & "'," & Replace(DH, ",", ".") & "," & Replace(CD, ",", ".") & "," & Replace(CC, ",", ".") & ", " & Replace(CH, ",", ".") & ",'" & StrConv(CmbBandeiraCD.Text, vbUpperCase) & "','" & _
                              StrConv(CmbBandeiraCC.Text, vbUpperCase) & "','" & Trim(CInt(TxtParcelasCC.Text)) & "','" & Trim(CInt(TxtQuantCheque.Text)) & "','','')")
+
+            End If
+
+
+
+
+
+
+            'Inserir no Contas a Receber
+
+            If DH <> Empty And DH <> 0 Then
+
+                VENCIMENTO = Format(Now, "YYYY/MM/DD")
+
+                reg.Open ("SELECT CodCli,Vencto,Seq FROM C_A_R WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " AND VENCTO = '" & Format(VENCIMENTO, "YYYYMMDD") & "' order by DataEmissao desc")
+
+                If reg.EOF = True Then
+
+
+                    CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
+                                 "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(VENCIMENTO, "YYYYMMDD") & "',1,'" & Format(Now, "YYYYMMDD") & "'," & Trim(TxtNumPedido.Text) & ", '" & _
+                                 Trim(TxtNumPedido.Text) & "-DH-A','DH','P','" & Format(Now, "YYYYMMDD hh:mm") & "',''," & Replace(DH, ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+
+                Else
+
+                    CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
+                                 "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(VENCIMENTO, "YYYYMMDD") & "'," & reg.Fields("Seq") & " + 1,'" & Format(Now, "YYYYMMDD") & "'," & Trim(TxtNumPedido.Text) & ", '" & _
+                                 Trim(TxtNumPedido.Text) & "-DH-A','DH','P','" & Format(Now, "YYYYMMDD hh:mm") & "',''," & Replace(DH, ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+                End If
+
+                reg.Close
+
+            End If
+
+            If CD <> Empty And CD <> 0 Then
+
+                VENCIMENTO = Format(DateAdd("d", 1, Now), "YYYY/MM/DD")
+
+                reg.Open ("SELECT CodCli,Vencto,Seq FROM C_A_R WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " AND VENCTO = '" & Format(VENCIMENTO, "YYYYMMDD") & "' order by DataEmissao desc")
+
+                If reg.EOF = True Then
+
+                    CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
+                                 "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(VENCIMENTO, "YYYYMMDD") & "',1,'" & Format(Now, "YYYYMMDD") & "'," & Trim(TxtNumPedido.Text) & ", '" & _
+                                 Trim(TxtNumPedido.Text) & "-CD-A','CD','P','" & Format(Now + 1, "YYYYMMDD hh:mm") & "','BAND: " & CmbBandeiraCD.Text & "'," & Replace(CD, ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+
+                Else
+
+                    CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
+                                 "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(VENCIMENTO, "YYYYMMDD") & "'," & reg.Fields("Seq") & " + 1,'" & Format(Now, "YYYYMMDD") & "'," & Trim(TxtNumPedido.Text) & ", '" & _
+                                 Trim(TxtNumPedido.Text) & "-CD-A','CD','P','" & Format(Now + 1, "YYYYMMDD hh:mm") & "','BAND: " & CmbBandeiraCD.Text & "'," & Replace(CD, ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+
+                End If
+
+                reg.Close
+
+            End If
+
+            If CC <> Empty And CC <> 0 Then
+
+                VENCIMENTO = Format(Now, "YYYY/MM/DD")
+
+                For contador = 1 To CInt(TxtParcelasCC.Text)
+
+
+                    VENCIMENTO = DateAdd("d", 30, VENCIMENTO)
+
+                    reg.Open ("SELECT CodCli,Vencto,Seq FROM C_A_R WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " AND VENCTO = '" & Format(VENCIMENTO, "YYYYMMDD") & "' order by DataEmissao desc")
+
+                    If reg.EOF = True Then
+
+                        CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
+                                     "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(VENCIMENTO, "YYYYMMDD") & "',1,'" & Format(Now, "YYYYMMDD") & "'," & Trim(TxtNumPedido.Text) & ", '" & _
+                                     Trim(TxtNumPedido.Text) & "-CC-A-" & contador & "/" & TxtParcelasCC.Text & "','CC','P','" & Format(VENCIMENTO, "YYYYMMDD") & "','BAND: " & CmbBandeiraCC.Text & ", PARCELA : " & contador & "/" & TxtParcelasCC.Text & "'," & Replace(CC / CInt(TxtParcelasCC.Text), ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+
+                    Else
+
+                        CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
+                                     "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(VENCIMENTO, "YYYYMMDD") & "'," & reg.Fields("Seq") & " + 1,'" & Format(Now, "YYYYMMDD") & "'," & Trim(TxtNumPedido.Text) & ", '" & _
+                                     Trim(TxtNumPedido.Text) & "-CC-A-" & contador & "/" & TxtParcelasCC.Text & "','CC','P','" & Format(VENCIMENTO, "YYYYMMDD") & "','BAND: " & CmbBandeiraCC.Text & ", PARCELA : " & contador & "/" & TxtParcelasCC.Text & "'," & Replace(CC / CInt(TxtParcelasCC.Text), ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+
+                    End If
+
+                    reg.Close
+
+
+                Next
+
+            End If
+
+            If CH <> Empty And CH <> 0 Then
+
+                VENCIMENTO = Format(Now, "YYYY/MM/DD")
+
+                reg.Open ("SELECT CodCli,Vencto,Seq FROM C_A_R WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " AND VENCTO = '" & Format(VENCIMENTO, "YYYYMMDD") & "' order by DataEmissao desc")
+
+                If reg.EOF = True Then
+
+                    CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
+                                 "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(VENCIMENTO, "YYYYMMDD") & "',1,'" & Format(Now, "YYYYMMDD") & "'," & Trim(TxtNumPedido.Text) & ", '" & _
+                                 Trim(TxtNumPedido.Text) & "-CH-A','CHQ','P','" & Format(Now, "YYYYMMDD hh:mm") & "','QUANT. CHQS: " & TxtQuantCheque.Text & "'," & Replace(CH, ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+                Else
+
+                    CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
+                                 "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(VENCIMENTO, "YYYYMMDD") & "'," & reg.Fields("Seq") & " + 1,'" & Format(Now, "YYYYMMDD") & "'," & Trim(TxtNumPedido.Text) & ", '" & _
+                                 Trim(TxtNumPedido.Text) & "-CH-A','CHQ','P','" & Format(Now, "YYYYMMDD hh:mm") & "','QUANT. CHQS: " & TxtQuantCheque.Text & "'," & Replace(CH, ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+                End If
+
+                reg.Close
 
             End If
 

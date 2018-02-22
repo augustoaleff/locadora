@@ -1,4 +1,5 @@
 VERSION 5.00
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Begin VB.Form FrmComCarLanc 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Lançamento Contas a Receber"
@@ -12,23 +13,61 @@ Begin VB.Form FrmComCarLanc
    MinButton       =   0   'False
    ScaleHeight     =   5205
    ScaleWidth      =   7875
-   Begin VB.CommandButton CmdComCarLancBuscarDocto 
+   Begin MSMask.MaskEdBox MskDataPagto 
+      Height          =   330
+      Left            =   2880
+      TabIndex        =   24
+      Top             =   3240
+      Width           =   1215
+      _ExtentX        =   2143
+      _ExtentY        =   582
+      _Version        =   393216
+      MaxLength       =   10
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Mask            =   "##/##/####"
+      PromptChar      =   "_"
+   End
+   Begin VB.TextBox TxtValorTotal 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   360
+      Left            =   5880
+      TabIndex        =   23
+      Top             =   2160
+      Width           =   1695
+   End
+   Begin VB.CommandButton CmdBuscarDocto 
       Caption         =   "Busca por Nº Documento"
       Height          =   375
       Left            =   2640
-      TabIndex        =   33
+      TabIndex        =   20
       Top             =   120
       Width           =   2055
    End
-   Begin VB.CommandButton CmdComCarLancBuscarNome 
+   Begin VB.CommandButton CmdBuscarNome 
       Caption         =   "Busca por Nome"
       Height          =   375
       Left            =   240
-      TabIndex        =   32
+      TabIndex        =   19
       Top             =   120
       Width           =   2055
    End
-   Begin VB.TextBox TxtComCarLancSeq 
+   Begin VB.TextBox TxtSeq 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -39,131 +78,28 @@ Begin VB.Form FrmComCarLanc
          Strikethrough   =   0   'False
       EndProperty
       Height          =   330
-      Left            =   3840
-      TabIndex        =   3
+      Left            =   3600
+      TabIndex        =   2
       Top             =   1200
       Width           =   375
    End
-   Begin VB.Frame Frame1 
-      Height          =   1815
-      Left            =   4800
-      TabIndex        =   26
-      Top             =   1680
-      Width           =   2895
-      Begin VB.TextBox TxtComCarLancValor 
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   330
-         Left            =   1320
-         TabIndex        =   8
-         Top             =   240
-         Width           =   1215
-      End
-      Begin VB.TextBox TxtComCarLancDesconto 
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   330
-         Left            =   1320
-         TabIndex        =   9
-         Top             =   600
-         Width           =   1215
-      End
-      Begin VB.TextBox TxtComCarLancJuros 
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   330
-         Left            =   1320
-         TabIndex        =   10
-         Top             =   960
-         Width           =   1215
-      End
-      Begin VB.TextBox TxtComCarLancValorTotal 
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   330
-         Left            =   1320
-         TabIndex        =   11
-         Top             =   1320
-         Width           =   1455
-      End
-      Begin VB.Label LblComCarLancValor 
-         Caption         =   "Valor R$"
-         Height          =   375
-         Left            =   120
-         TabIndex        =   30
-         Top             =   240
-         Width           =   975
-      End
-      Begin VB.Label LblComCarLancDesconto 
-         Caption         =   "Desconto R$"
-         Height          =   255
-         Left            =   120
-         TabIndex        =   29
-         Top             =   600
-         Width           =   975
-      End
-      Begin VB.Label LblComCarLancJuros 
-         Caption         =   "Juros/Multa R$"
-         Height          =   255
-         Left            =   120
-         TabIndex        =   28
-         Top             =   960
-         Width           =   1215
-      End
-      Begin VB.Label LblComCarLancValorTotal 
-         Caption         =   "Valor Total R$"
-         Height          =   255
-         Left            =   120
-         TabIndex        =   27
-         Top             =   1320
-         Width           =   1215
-      End
-   End
-   Begin VB.CommandButton CmdComCarLancLimparTela 
+   Begin VB.CommandButton CmdLimparTela 
       Caption         =   "Limpar Tela"
       Height          =   615
       Left            =   240
-      TabIndex        =   25
+      TabIndex        =   17
       Top             =   4320
       Width           =   1935
    End
-   Begin VB.CommandButton CmdComCarLancGravar 
+   Begin VB.CommandButton CmdGravar 
       Caption         =   "Gravar"
       Height          =   495
       Left            =   5640
-      TabIndex        =   15
+      TabIndex        =   8
       Top             =   4440
       Width           =   2055
    End
-   Begin VB.TextBox TxtComCarLancNumeroDocto 
+   Begin VB.TextBox TxtNumeroDocto 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -175,11 +111,11 @@ Begin VB.Form FrmComCarLanc
       EndProperty
       Height          =   330
       Left            =   1440
-      TabIndex        =   6
+      TabIndex        =   4
       Top             =   2160
       Width           =   1815
    End
-   Begin VB.TextBox TxtComCarLancOBS 
+   Begin VB.TextBox TxtOBS 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -191,27 +127,11 @@ Begin VB.Form FrmComCarLanc
       EndProperty
       Height          =   330
       Left            =   600
-      TabIndex        =   14
+      TabIndex        =   7
       Top             =   3720
       Width           =   7095
    End
-   Begin VB.TextBox TxtComCarLancDataPagamento 
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   330
-      Left            =   2760
-      TabIndex        =   13
-      Top             =   3240
-      Width           =   1815
-   End
-   Begin VB.TextBox TxtComCarLancStatus 
+   Begin VB.TextBox TxtStatus 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -223,11 +143,11 @@ Begin VB.Form FrmComCarLanc
       EndProperty
       Height          =   330
       Left            =   720
-      TabIndex        =   12
+      TabIndex        =   6
       Top             =   3240
       Width           =   495
    End
-   Begin VB.ComboBox CmbComCarLancTipoDocto 
+   Begin VB.ComboBox CmbTipoDocto 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -238,28 +158,14 @@ Begin VB.Form FrmComCarLanc
          Strikethrough   =   0   'False
       EndProperty
       Height          =   360
+      ItemData        =   "FrmComCarLanc.frx":0000
       Left            =   1440
-      TabIndex        =   7
+      List            =   "FrmComCarLanc.frx":0010
+      TabIndex        =   5
       Top             =   2640
       Width           =   1815
    End
-   Begin VB.TextBox TxtComCarLancDataLancamento 
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   330
-      Left            =   6120
-      TabIndex        =   4
-      Top             =   1200
-      Width           =   1575
-   End
-   Begin VB.TextBox TxtComCarLancNumeroPedido 
+   Begin VB.TextBox TxtNumeroPedido 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -271,44 +177,11 @@ Begin VB.Form FrmComCarLanc
       EndProperty
       Height          =   330
       Left            =   1440
-      TabIndex        =   5
+      TabIndex        =   3
       Top             =   1680
       Width           =   2055
    End
-   Begin VB.TextBox TxtComCarLancVencimento 
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   330
-      Left            =   1440
-      TabIndex        =   2
-      Top             =   1200
-      Width           =   1695
-   End
-   Begin VB.TextBox TxtComCarLancCliente 
-      Enabled         =   0   'False
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   330
-      Left            =   2640
-      TabIndex        =   16
-      Top             =   720
-      Width           =   5055
-   End
-   Begin VB.TextBox TxtComCarLancCodCliente 
+   Begin VB.TextBox TxtCodCliente 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -324,79 +197,148 @@ Begin VB.Form FrmComCarLanc
       Top             =   720
       Width           =   1095
    End
-   Begin VB.Label LblComCarLancSeq 
+   Begin MSMask.MaskEdBox MskDataLancto 
+      Height          =   330
+      Left            =   6000
+      TabIndex        =   25
+      Top             =   1200
+      Width           =   1215
+      _ExtentX        =   2143
+      _ExtentY        =   582
+      _Version        =   393216
+      MaxLength       =   10
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Mask            =   "##/##/####"
+      PromptChar      =   "_"
+   End
+   Begin MSMask.MaskEdBox MskVencto 
+      Height          =   330
+      Left            =   1440
+      TabIndex        =   26
+      Top             =   1200
+      Width           =   1215
+      _ExtentX        =   2143
+      _ExtentY        =   582
+      _Version        =   393216
+      MaxLength       =   10
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Mask            =   "##/##/####"
+      PromptChar      =   "_"
+   End
+   Begin VB.Label LblValorTotal 
+      Caption         =   "Valor Total R$"
+      Height          =   255
+      Left            =   4680
+      TabIndex        =   22
+      Top             =   2160
+      Width           =   1215
+   End
+   Begin VB.Label LblCliente 
+      BorderStyle     =   1  'Fixed Single
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   330
+      Left            =   2640
+      TabIndex        =   21
+      Top             =   720
+      Width           =   5055
+   End
+   Begin VB.Label LblSeq 
       Caption         =   "Seq."
       Height          =   375
-      Left            =   3480
-      TabIndex        =   31
+      Left            =   3240
+      TabIndex        =   18
       Top             =   1200
       Width           =   375
    End
-   Begin VB.Label LblComCarLancNumeroDocto 
+   Begin VB.Label LblNumeroDocto 
       Caption         =   "Nº Documento"
       Height          =   255
       Left            =   120
-      TabIndex        =   24
+      TabIndex        =   16
       Top             =   2160
       Width           =   1095
    End
-   Begin VB.Label LblComCarLancOBS 
+   Begin VB.Label LblOBS 
       Caption         =   "OBS"
       Height          =   255
       Left            =   120
-      TabIndex        =   23
+      TabIndex        =   15
       Top             =   3720
       Width           =   375
    End
-   Begin VB.Label LblComCarLancStatus 
+   Begin VB.Label Lbltatus 
       Caption         =   "Status"
       Height          =   255
       Left            =   120
-      TabIndex        =   22
+      TabIndex        =   14
       Top             =   3240
       Width           =   615
    End
-   Begin VB.Label LblComCarLancDataPagamento 
+   Begin VB.Label LblDataPagamento 
       Caption         =   "Data Pagamento"
-      Height          =   375
+      Height          =   255
       Left            =   1440
-      TabIndex        =   21
+      TabIndex        =   13
       Top             =   3240
       Width           =   1335
    End
-   Begin VB.Label LblComCarLancNumeroPedido 
+   Begin VB.Label LblNumeroPedido 
       Caption         =   "Nº Pedido"
       Height          =   255
       Left            =   120
-      TabIndex        =   20
+      TabIndex        =   12
       Top             =   1680
       Width           =   855
    End
-   Begin VB.Label LblComCarLancDataLancamento 
+   Begin VB.Label LblDataLancamento 
       Caption         =   "Data Lançamento"
       Height          =   255
       Left            =   4560
-      TabIndex        =   19
+      TabIndex        =   11
       Top             =   1200
       Width           =   1455
    End
-   Begin VB.Label LblComCarLancTipoDocto 
+   Begin VB.Label LblTipoDocto 
       Caption         =   "Tipo Documento"
       Height          =   255
       Left            =   120
-      TabIndex        =   18
+      TabIndex        =   10
       Top             =   2640
       Width           =   1215
    End
-   Begin VB.Label LblComCarLancVencimento 
+   Begin VB.Label LblVencimento 
       Caption         =   "Vencimento"
       Height          =   255
       Left            =   120
-      TabIndex        =   17
+      TabIndex        =   9
       Top             =   1200
       Width           =   855
    End
-   Begin VB.Label LblComCarLancCodCliente 
+   Begin VB.Label LblCodCliente 
       Caption         =   "Cód. Cliente"
       Height          =   255
       Left            =   240
@@ -410,7 +352,3 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Sub Label7_Click()
-
-End Sub
-

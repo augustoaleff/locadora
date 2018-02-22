@@ -936,12 +936,116 @@ Private Sub CmdFecharDevolucao_Click()
             CN1.Execute ("INSERT INTO CUPONS(CodCupom,Tipo,Valor,ValidadeDe,ValidadeAte,Descricao,Status,Usuario,DataEmissao)" & _
                          "VALUES('" & CStr(TxtNumPedido.Text) & "DIF','V'," & Replace(CDbl(Replace(TxtDiferenca.Text, "-", "")), ",", ".") & ",'" & Format(Now, "YYYYMMDD") & "','" & _
                          Format("31/12/2199", "YYYYMMDD") & "','DIF REF PED N " & CStr(TxtNumPedido.Text) & "','NAOUTILIZADO','','" & Format(Now, "YYYYMMDD") & "')")
-                         
+
             CN1.Execute ("UPDATE PEDIDOS SET OBS =  Obs + ' / GERADO CUPOM NUM " & CStr(TxtNumPedido.Text) & "DIF NO VALOR DE R$ " & Replace(Replace(TxtDiferenca.Text, "-", ""), ",", ".") & "' WHERE NUMPED = " & Trim(TxtNumPedido.Text) & "")
-            
+
 
 
             MsgBox "Foi Criado um Cupom no valor de R$ " & Replace(TxtDiferenca.Text, "-", "") & " para a sua proxima locação, Cod Cupom : " & TxtNumPedido.Text & "DIF", vbInformation, "Cupom Criado"
+
+        End If
+
+        'Inserir no Contas a Receber
+
+        If DH <> Empty And DH <> 0 Then
+
+            VENCIMENTO = Format(Now, "YYYY/MM/DD")
+
+            reg.Open ("SELECT CodCli,Vencto,Seq FROM C_A_R WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " AND VENCTO = '" & Format(VENCIMENTO, "YYYYMMDD") & "' order by DataEmissao desc")
+
+            If reg.EOF = True Then
+
+
+                CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
+                             "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(VENCIMENTO, "YYYYMMDD") & "',1,'" & Format(Now, "YYYYMMDD") & "'," & Trim(TxtNumPedido.Text) & ", '" & _
+                             Trim(TxtNumPedido.Text) & "-DH-D','DH','P','" & Format(Now, "YYYYMMDD hh:mm") & "',''," & Replace(DH, ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+
+            Else
+
+                CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
+                             "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(VENCIMENTO, "YYYYMMDD") & "'," & reg.Fields("Seq") & " + 1,'" & Format(Now, "YYYYMMDD") & "'," & Trim(TxtNumPedido.Text) & ", '" & _
+                             Trim(TxtNumPedido.Text) & "-DH-D','DH','P','" & Format(Now, "YYYYMMDD hh:mm") & "',''," & Replace(DH, ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+            End If
+
+            reg.Close
+
+        End If
+
+        If CD <> Empty And CD <> 0 Then
+
+            VENCIMENTO = Format(DateAdd("d", 1, Now), "YYYY/MM/DD")
+
+            reg.Open ("SELECT CodCli,Vencto,Seq FROM C_A_R WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " AND VENCTO = '" & Format(VENCIMENTO, "YYYYMMDD") & "' order by DataEmissao desc")
+
+            If reg.EOF = True Then
+
+                CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
+                             "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(VENCIMENTO, "YYYYMMDD") & "',1,'" & Format(Now, "YYYYMMDD") & "'," & Trim(TxtNumPedido.Text) & ", '" & _
+                             Trim(TxtNumPedido.Text) & "-CD-D','CD','P','" & Format(Now + 1, "YYYYMMDD hh:mm") & "','BAND: " & CmbBandeiraCD.Text & "'," & Replace(CD, ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+
+            Else
+
+                CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
+                             "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(VENCIMENTO, "YYYYMMDD") & "'," & reg.Fields("Seq") & " + 1,'" & Format(Now, "YYYYMMDD") & "'," & Trim(TxtNumPedido.Text) & ", '" & _
+                             Trim(TxtNumPedido.Text) & "-CD-D','CD','P','" & Format(Now + 1, "YYYYMMDD hh:mm") & "','BAND: " & CmbBandeiraCD.Text & "'," & Replace(CD, ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+
+            End If
+
+            reg.Close
+
+        End If
+
+        If CC <> Empty And CC <> 0 Then
+
+            VENCIMENTO = Format(Now, "YYYY/MM/DD")
+
+            For contador = 1 To CInt(TxtParcelasCC.Text)
+
+
+                VENCIMENTO = DateAdd("d", 30, VENCIMENTO)
+
+                reg.Open ("SELECT CodCli,Vencto,Seq FROM C_A_R WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " AND VENCTO = '" & Format(VENCIMENTO, "YYYYMMDD") & "' order by DataEmissao desc")
+
+                If reg.EOF = True Then
+
+                    CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
+                                 "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(VENCIMENTO, "YYYYMMDD") & "',1,'" & Format(Now, "YYYYMMDD") & "'," & Trim(TxtNumPedido.Text) & ", '" & _
+                                 Trim(TxtNumPedido.Text) & "-CC-D-" & contador & "/" & TxtParcelasCC.Text & "','CC','P','" & Format(VENCIMENTO, "YYYYMMDD") & "','BAND: " & CmbBandeiraCC.Text & ", PARCELA : " & contador & "/" & TxtParcelasCC.Text & "'," & Replace(CC / CInt(TxtParcelasCC.Text), ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+
+                Else
+
+                    CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
+                                 "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(VENCIMENTO, "YYYYMMDD") & "'," & reg.Fields("Seq") & " + 1,'" & Format(Now, "YYYYMMDD") & "'," & Trim(TxtNumPedido.Text) & ", '" & _
+                                 Trim(TxtNumPedido.Text) & "-CC-D-" & contador & "/" & TxtParcelasCC.Text & "','CC','P','" & Format(VENCIMENTO, "YYYYMMDD") & "','BAND: " & CmbBandeiraCC.Text & ", PARCELA : " & contador & "/" & TxtParcelasCC.Text & "'," & Replace(CC / CInt(TxtParcelasCC.Text), ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+
+                End If
+
+                reg.Close
+
+
+            Next
+
+        End If
+
+        If CH <> Empty And CH <> 0 Then
+
+            VENCIMENTO = Format(Now, "YYYY/MM/DD")
+
+            reg.Open ("SELECT CodCli,Vencto,Seq FROM C_A_R WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " AND VENCTO = '" & Format(VENCIMENTO, "YYYYMMDD") & "' order by DataEmissao desc")
+
+            If reg.EOF = True Then
+
+                CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
+                             "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(VENCIMENTO, "YYYYMMDD") & "',1,'" & Format(Now, "YYYYMMDD") & "'," & Trim(TxtNumPedido.Text) & ", '" & _
+                             Trim(TxtNumPedido.Text) & "-CH-D','CHQ','P','" & Format(Now, "YYYYMMDD hh:mm") & "','QUANT. CHQS: " & TxtQuantCheque.Text & "'," & Replace(CH, ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+            Else
+
+                CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
+                             "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(VENCIMENTO, "YYYYMMDD") & "'," & reg.Fields("Seq") & " + 1,'" & Format(Now, "YYYYMMDD") & "'," & Trim(TxtNumPedido.Text) & ", '" & _
+                             Trim(TxtNumPedido.Text) & "-CH-D','CHQ','P','" & Format(Now, "YYYYMMDD hh:mm") & "','QUANT. CHQS: " & TxtQuantCheque.Text & "'," & Replace(CH, ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+            End If
+
+            reg.Close
 
         End If
 
@@ -1353,13 +1457,13 @@ Private Sub CmdValidarCupom_Click()
 
             I = DateDiff("d", Now, reg.Fields("ValidadeAte"))
             F = DateDiff("d", reg.Fields("ValidadeDe"), Now)
-            
+
 
             If I >= 0 And F >= 0 Then
 
                 If reg.Fields("Tipo") = "V" And reg.Fields("Status") = "NAOUTILIZADO" Then
 
-                    
+
                     VRECEBIDO = VRECEBIDO - DESCONTO
                     DESCONTO = CDbl(reg.Fields("Valor"))
                     MsgBox "Cupom Validado", vbInformation, CUPOM
@@ -1368,7 +1472,7 @@ Private Sub CmdValidarCupom_Click()
                     TxtValorRecebido = Format(VRECEBIDO, "#,##0.00")
                     Call calcula_diferenca
                     CUPOM = True
-                    
+
 
 
                 ElseIf reg.Fields("Tipo") = "P" And reg.Fields("Status") = "NAOUTILIZADO" Then

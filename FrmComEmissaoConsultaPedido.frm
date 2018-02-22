@@ -625,11 +625,11 @@ Private Sub CmdLimparTela_Click()
     TxtTotalCheque.Text = ""
     TxtDesconto.Text = ""
     TxtJuros.Text = ""
-    
+
     TxtNumeroPedido.Enabled = True
     TxtNumeroPedido.SetFocus
-    
-    
+
+
 
 End Sub
 

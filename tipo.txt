@@ -1,0 +1,28 @@
+
+                        If CheckDinheiro.Value = vbChecked Then
+
+                            TIPO = TIPO + ",DH,"
+
+                        End If
+
+                        If CheckCD.Value = vbChecked Then
+
+                            TIPO = TIPO + "ANCD,"
+
+                        End If
+
+                        If CheckCC.Value = vbChecked Then
+
+                            TIPO = TIPO + " AND TIPO ='CC'"
+
+                        End If
+
+                        If CheckCH.Value = vbChecked Then
+
+                            TIPO = TIPO + ",CH,"
+
+                        End If
+
+                         TIPO2 = Mid(TIPO, 2, Len(TIPO) - 1)
+                        
+                        MsgBox "Tipo = " & TIPO & " Tipo2 = " & TIPO2

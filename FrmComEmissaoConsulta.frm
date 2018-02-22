@@ -312,9 +312,9 @@ Private Sub CmdConsultar_Click()
                 reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and Status = 'ALUGADO' order by dataentrega")
 
             ElseIf OptCancelados.Value = True Then
-            
+
                 reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and Status = 'CANCELADO' order by dataentrega")
-            
+
             Else
 
                 reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " order by dataentrega")
@@ -334,9 +334,9 @@ Private Sub CmdConsultar_Click()
                 reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and dataentrega between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' and Status = 'ALUGADO' order by dataentrega")
 
             ElseIf OptCancelados.Value = True Then
-                
+
                 reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and dataentrega between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' and Status = 'CANCELADO' order by dataentrega")
-            
+
             Else
 
                 reg.Open ("SELECT * FROM PEDIDOS WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and dataentrega between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' order by dataentrega")

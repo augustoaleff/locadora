@@ -1462,7 +1462,7 @@ Private Sub CmdEmitirPedido_Click()
 
                 VENCIMENTO = Format(Now, "YYYY/MM/DD")
 
-                reg.Open ("SELECT CodCli,Vencto,Seq FROM C_A_R WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " AND VENCTO = '" & Format(VENCIMENTO, "YYYYMMDD") & "' order by DataEmissao desc")
+                reg.Open ("SELECT CodCli,Vencto,Seq FROM C_A_R WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " AND VENCTO = '" & Format(VENCIMENTO, "YYYYMMDD") & "' order by seq desc")
 
                 If reg.EOF = True Then
 

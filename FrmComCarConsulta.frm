@@ -5,8 +5,8 @@ Begin VB.Form FrmComCarConsulta
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Consulta Contas a Receber"
    ClientHeight    =   7500
-   ClientLeft      =   930
-   ClientTop       =   6240
+   ClientLeft      =   10125
+   ClientTop       =   1815
    ClientWidth     =   11655
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
@@ -14,7 +14,7 @@ Begin VB.Form FrmComCarConsulta
    MinButton       =   0   'False
    ScaleHeight     =   7500
    ScaleWidth      =   11655
-   Begin VB.TextBox TxtTipoPagto 
+   Begin VB.ComboBox CmbTipoPagto 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -25,10 +25,12 @@ Begin VB.Form FrmComCarConsulta
          Strikethrough   =   0   'False
       EndProperty
       Height          =   360
-      Left            =   7680
+      ItemData        =   "FrmComCarConsulta.frx":0000
+      Left            =   7440
+      List            =   "FrmComCarConsulta.frx":0002
       TabIndex        =   25
       Top             =   1920
-      Width           =   1455
+      Width           =   3975
    End
    Begin VB.Frame FrameStatus 
       Caption         =   "Status"
@@ -96,9 +98,9 @@ Begin VB.Form FrmComCarConsulta
          Strikethrough   =   0   'False
       EndProperty
       Height          =   360
-      Left            =   9720
+      Left            =   7320
       TabIndex        =   5
-      Top             =   1920
+      Top             =   1200
       Width           =   1695
    End
    Begin VB.Frame FrameConsultarPor 
@@ -228,13 +230,13 @@ Begin VB.Form FrmComCarConsulta
       Height          =   330
       Left            =   9480
       TabIndex        =   13
-      Top             =   960
+      Top             =   1200
       Width           =   1935
    End
    Begin VB.Label LblTipoPagto 
       Caption         =   "Tipo Pagto"
       Height          =   255
-      Left            =   7680
+      Left            =   7440
       TabIndex        =   24
       Top             =   1680
       Width           =   855
@@ -242,9 +244,9 @@ Begin VB.Form FrmComCarConsulta
    Begin VB.Label LblNumeroPedido 
       Caption         =   "Pedido nº"
       Height          =   255
-      Left            =   9720
+      Left            =   7320
       TabIndex        =   19
-      Top             =   1680
+      Top             =   960
       Width           =   855
    End
    Begin VB.Label LblCodCliente 
@@ -282,9 +284,9 @@ Begin VB.Form FrmComCarConsulta
    Begin VB.Label LblValorTotal 
       Caption         =   "Valor Total R$"
       Height          =   255
-      Left            =   8400
+      Left            =   9480
       TabIndex        =   14
-      Top             =   1005
+      Top             =   885
       Width           =   1095
    End
 End
@@ -293,6 +295,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim Tipo As String
+
 Private Sub limpa_campos()
 
     OptVencimento.Value = True
@@ -309,22 +313,116 @@ Private Sub limpa_campos()
     TxtNumeroPedido.Text = ""
     LblValor.Caption = ""
     MSFlexResultado.Clear
-    
+
     TxtCodCliente.SetFocus
 
 
 End Sub
 
+Private Sub carregar_combo_tipo()
 
-Private Sub CmdConsultar_Click()
-
-
-    Dim PERIODODE, PERIODOATE As Date
-    Dim VTOTAL As Double
     Set CN1 = New ADODB.Connection
     CN1.Open STR_DSN
     Set reg = New ADODB.Recordset
     reg.ActiveConnection = CN1
+
+    reg.Open ("SELECT Descricao FROM TIPOS_PAGTOS order by descricao")
+
+    Do Until reg.EOF = True
+
+        CmbTipoPagto.AddItem (reg.Fields("Descricao"))
+
+        reg.MoveNext
+
+    Loop
+
+    reg.Close
+
+End Sub
+Private Sub tipo_pagto()
+
+    If CmbTipoPagto.Text = "Dinheiro" Then
+
+        Tipo = " AND TIPO = 'DH'"
+
+    ElseIf CmbTipoPagto.Text = "Cartão Crédito" Then
+
+        Tipo = " AND TIPO = 'CC'"
+
+    ElseIf CmbTipoPagto.Text = "Cartão Débito" Then
+
+        Tipo = " AND TIPO = 'CD'"
+
+    ElseIf CmbTipoPagto.Text = "Cheque" Then
+
+        Tipo = " AND TIPO = 'CHQ'"
+
+    ElseIf CmbTipoPagto.Text = "Dinheiro e Cheque" Then
+
+        Tipo = " AND (TIPO = 'DH' OR TIPO = 'CHQ')"
+
+    ElseIf CmbTipoPagto.Text = "Dinheiro e CC" Then
+
+        Tipo = " AND (TIPO = 'DH' OR TIPO = 'CC')"
+
+    ElseIf CmbTipoPagto.Text = "Dinheiro e CD" Then
+
+        Tipo = " AND (TIPO = 'DH' OR TIPO = 'CD')"
+
+    ElseIf CmbTipoPagto.Text = "CD e CC" Then
+
+        Tipo = " AND (TIPO = 'CD' OR TIPO = 'CC')"
+
+    ElseIf CmbTipoPagto.Text = "CD e Cheque" Then
+
+        Tipo = " AND (TIPO = 'CD' OR TIPO = 'CHQ')"
+
+    ElseIf CmbTipoPagto.Text = "CC e Cheque" Then
+
+        Tipo = " AND (TIPO = 'CC' OR TIPO = 'CHQ')"
+
+    ElseIf CmbTipoPagto.Text = "Dinheiro,CC e CD" Then
+
+        Tipo = " AND (TIPO = 'DH' OR TIPO = 'CC' OR TIPO = 'CD')"
+
+    ElseIf CmbTipoPagto.Text = "Dinheiro, CC e Cheque" Then
+
+        Tipo = " AND (TIPO = 'DH' OR TIPO = 'CC' OR TIPO = 'CHQ')"
+
+    ElseIf CmbTipoPagto.Text = "Dinheiro, CD e Cheque" Then
+
+        Tipo = " AND (TIPO = 'DH' OR TIPO = 'CD' OR TIPO = 'CHQ')"
+
+    ElseIf CmbTipoPagto.Text = "CD,CC e Cheque" Then
+
+        Tipo = " AND (TIPO = 'CD' OR TIPO = 'CC' OR TIPO = 'CHQ')"
+
+    ElseIf CmbTipoPagto.Text = "*Todos" Then
+
+        Tipo = ""
+
+    Else
+
+        Tipo = ""
+
+    End If
+
+
+End Sub
+
+Private Sub CmdConsultar_Click()
+
+    Dim PERIODODE, PERIODOATE As Date
+    Dim VTOTAL As Double
+
+    Call tipo_pagto
+
+    Set CN1 = New ADODB.Connection
+    CN1.Open STR_DSN
+    Set reg = New ADODB.Recordset
+    reg.ActiveConnection = CN1
+
+
 
 
     If Replace(Replace(MskPeriodoDe.Text, "_", ""), "/", "") = Empty Then
@@ -334,9 +432,9 @@ Private Sub CmdConsultar_Click()
     Else
 
         If IsDate(MskPeriodoDe.Text) = True Then
-        PERIODOATE = Format(MskPeriodoDe.Text, "DD/MM/YYYY")
+            PERIODODE = Format(MskPeriodoDe.Text, "DD/MM/YYYY")
         Else
-        MsgBox "Digite a Data Inicial Correta"
+            MsgBox "Digite a Data Inicial Correta"
         End If
 
     End If
@@ -349,16 +447,15 @@ Private Sub CmdConsultar_Click()
     Else
 
         If IsDate(MskPeriodoAte.Text) = True Then
-        PERIODOATE = Format(MskPeriodoAte.Text, "DD/MM/YYYY")
+            PERIODOATE = Format(MskPeriodoAte.Text, "DD/MM/YYYY")
         Else
-        MsgBox "Digite a Data Final Correta"
+            MsgBox "Digite a Data Final Correta"
         End If
-        
+
+
+
 
     End If
-    
-    
-    
 
     If OptVencimento.Value = True Then
 
@@ -374,7 +471,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
                               "VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -383,7 +480,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
                               "VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'A'")
+                              "AND STATUS = 'A'" & Tipo & "")
 
                 End If
 
@@ -397,7 +494,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
                               "VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -406,7 +503,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
                               "VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'P'")
+                              "AND STATUS = 'P'" & Tipo & "")
                 End If
 
 
@@ -419,7 +516,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
                               "VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -427,7 +524,7 @@ Private Sub CmdConsultar_Click()
 
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
-                              "VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'")
+                              "VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & Tipo & "")
 
                 End If
 
@@ -447,7 +544,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
                               "WHERE VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -456,7 +553,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
                               "WHERE VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'A'")
+                              "AND STATUS = 'A'" & Tipo & "")
 
 
                 End If
@@ -471,7 +568,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
                               "WHERE VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -480,7 +577,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
                               "WHERE VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'P'")
+                              "AND STATUS = 'P'" & Tipo & "")
                 End If
 
 
@@ -493,7 +590,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
                               "WHERE VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -501,7 +598,7 @@ Private Sub CmdConsultar_Click()
 
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
-                              "WHERE VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'")
+                              "WHERE VENCTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & Tipo & "")
 
                 End If
 
@@ -524,7 +621,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
                               "DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -533,7 +630,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
                               "DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'A'")
+                              "AND STATUS = 'A'" & Tipo & "")
 
                 End If
 
@@ -547,7 +644,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
                               "DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -556,7 +653,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
                               "DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'P'")
+                              "AND STATUS = 'P'" & Tipo & "")
                 End If
 
 
@@ -569,7 +666,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
                               "DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -577,7 +674,7 @@ Private Sub CmdConsultar_Click()
 
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
-                              "DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'")
+                              "DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & Tipo & "")
 
                 End If
 
@@ -597,7 +694,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
                               "WHERE DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -606,7 +703,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
                               "WHERE DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'A'")
+                              "AND STATUS = 'A'" & Tipo & "")
 
                 End If
 
@@ -620,7 +717,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
                               "WHERE DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -629,7 +726,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
                               "WHERE DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'P'")
+                              "AND STATUS = 'P'" & Tipo & "")
                 End If
 
 
@@ -642,7 +739,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
                               "WHERE DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -650,7 +747,7 @@ Private Sub CmdConsultar_Click()
 
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
-                              "WHERE DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'")
+                              "WHERE DATAPAGTO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & Tipo & "")
 
                 End If
 
@@ -673,7 +770,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
                               "DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -682,7 +779,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
                               "DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'A'")
+                              "AND STATUS = 'A'" & Tipo & "")
 
                 End If
 
@@ -696,7 +793,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
                               "DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -705,7 +802,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
                               "DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'P'")
+                              "AND STATUS = 'P'" & Tipo & "")
                 End If
 
 
@@ -718,7 +815,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
                               "DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -726,7 +823,7 @@ Private Sub CmdConsultar_Click()
 
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE R.CODCLI= " & Trim(TxtCodCliente.Text) & " and " & _
-                              "DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'")
+                              "DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & Tipo & "")
 
                 End If
 
@@ -746,16 +843,16 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
                               "WHERE DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND STATUS = 'A' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
 
- 
+
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
                               "WHERE DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'A'")
+                              "AND STATUS = 'A'" & Tipo & "")
 
                 End If
 
@@ -769,7 +866,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
                               "WHERE DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND STATUS = 'P' AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -778,7 +875,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
                               "WHERE DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND STATUS = 'P'")
+                              "AND STATUS = 'P'" & Tipo & "")
                 End If
 
 
@@ -791,7 +888,7 @@ Private Sub CmdConsultar_Click()
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
                               "WHERE DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & _
-                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "")
+                              "AND NUMPED=" & Trim(TxtNumeroPedido.Text) & "" & Tipo & "")
 
 
                 Else
@@ -799,7 +896,7 @@ Private Sub CmdConsultar_Click()
 
                     reg.Open ("SELECT R.CodCli,C.Nome,R.Vencto,R.DataLancto,R.NumPed,R.NumDocto,R.Tipo,R.Status,R.DataPagto,R.OBS,R.Valor FROM C_A_R AS R " & _
                               "FULL OUTER JOIN CLIENTES AS C ON C.CodCli = R.CodCli " & _
-                              "WHERE DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'")
+                              "WHERE DATAEMISSAO BETWEEN '" & Format(PERIODODE, "YYYYMMDD") & "' AND '" & Format(PERIODOATE, "YYYYMMDD") & "'" & Tipo & "")
 
                 End If
 
@@ -822,6 +919,7 @@ Private Sub CmdConsultar_Click()
                                  reg.Fields("Nome") & vbTab & _
                                  reg.Fields("NumPed") & vbTab & _
                                  reg.Fields("NumDocto") & vbTab & _
+                                 reg.Fields("Tipo") & vbTab & _
                                  Format(reg.Fields("Valor"), "#,##0.00") & vbTab & _
                                  reg.Fields("Status") & vbTab & _
                                  Format(reg.Fields("DataPagto"), "DD/MM/YYYY") & vbTab & _
@@ -834,25 +932,74 @@ Private Sub CmdConsultar_Click()
 
     reg.Close
 
-    
-For contador = 1 To MSFlexResultado.Rows - 1
-    
-        VTOTAL = VTOTAL + CDbl(MSFlexResultado.TextMatrix(contador, 5))
-    
-Next
 
- LblValor.Caption = Format(VTOTAL, "#,##0.00")
- 
+    For contador = 1 To MSFlexResultado.Rows - 1
+
+        VTOTAL = VTOTAL + CDbl(MSFlexResultado.TextMatrix(contador, 6))
+
+    Next
+
+    LblValor.Caption = Format(VTOTAL, "#,##0.00")
+
 End Sub
 
 Private Sub CmdConsultarNome_Click()
     FrmComCarConsultaBuscarNome.Show
 End Sub
 
-Private Sub CmdLimparTela_Click()
-Call limpa_campos
+Private Sub CmdImprimir_Click()
+
+
+' Dim VETOR As Variant
+'Dim Tipo As String
+
+
+'If TxtTipoPagto <> Empty Then
+
+'VETOR = Split(TxtTipoPagto.Text, ",")
+
+'Tipo = "AND TIPO = "
+
+
+'If VETOR = 0 Then
+
+'Tipo = Tipo & VETOR1
+
+'Else
+
+
+
+'For Each VETOR1 In VETOR
+
+'Tipo = Tipo + " OR TIPO = " & "'" & VETOR1 & "'"
+
+'Next
+
+
+'End If
+
+
+'Else
+
+'Tipo = ""
+
+'End If
+
+'MsgBox Tipo
+
+
 End Sub
 
+Private Sub CmdLimparTela_Click()
+    Call limpa_campos
+End Sub
+
+
+Private Sub Form_Load()
+
+    Call carregar_combo_tipo
+
+End Sub
 
 Public Sub TxtCodCliente_KeyPress(KeyAscii As Integer)
 
@@ -916,7 +1063,7 @@ End Sub
 Private Sub formata_flex()
 
     MSFlexResultado.Clear
-    MSFlexResultado.Cols = 9
+    MSFlexResultado.Cols = 10
     MSFlexResultado.Rows = 1
 
     MSFlexResultado.Col = 0
@@ -940,20 +1087,24 @@ Private Sub formata_flex()
     MSFlexResultado.ColWidth(4) = 1500
 
     MSFlexResultado.Col = 5
-    MSFlexResultado.Text = "Valor"
-    MSFlexResultado.ColWidth(5) = 1000
+    MSFlexResultado.Text = "Tipo"
+    MSFlexResultado.ColWidth(5) = 500
 
     MSFlexResultado.Col = 6
-    MSFlexResultado.Text = "Status"
-    MSFlexResultado.ColWidth(6) = 500
+    MSFlexResultado.Text = "Valor"
+    MSFlexResultado.ColWidth(6) = 1000
 
     MSFlexResultado.Col = 7
-    MSFlexResultado.Text = "Data. Pagto"
-    MSFlexResultado.ColWidth(7) = 1000
+    MSFlexResultado.Text = "Status"
+    MSFlexResultado.ColWidth(7) = 500
 
     MSFlexResultado.Col = 8
+    MSFlexResultado.Text = "Data. Pagto"
+    MSFlexResultado.ColWidth(8) = 1000
+
+    MSFlexResultado.Col = 9
     MSFlexResultado.Text = "OBS"
-    MSFlexResultado.ColWidth(8) = 3000
+    MSFlexResultado.ColWidth(9) = 3000
 
 
 End Sub

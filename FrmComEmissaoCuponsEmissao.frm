@@ -234,7 +234,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim TIPO As String
+Dim Tipo As String
 Dim VALOR As Double
 Private Sub limpa_campos()
 
@@ -263,19 +263,19 @@ Private Sub CmdGerarCupom_Click()
 
         If OptValor.Value = True And TxtValor.Text <> Empty Then
 
-            TIPO = "V"
+            Tipo = "V"
             VALOR = CDbl(TxtValor.Text)
         Else
             If OptPorcentagem.Value = True And TxtPorcentagem.Text <> Empty Then
 
-                TIPO = "P"
+                Tipo = "P"
                 VALOR = CDbl(TxtPorcentagem.Text) / 100
             End If
         End If
 
 
         CN1.Execute ("INSERT INTO CUPONS(CodCupom,Tipo,Valor,ValidadeDe,ValidadeAte,Descricao,Status,Usuario,DataEmissao)" & _
-                     " VALUES('" & StrConv(Trim(TxtCodCupom.Text), vbUpperCase) & "','" & TIPO & "'," & Replace(VALOR, ",", ".") & ",'" & _
+                     " VALUES('" & StrConv(Trim(TxtCodCupom.Text), vbUpperCase) & "','" & Tipo & "'," & Replace(VALOR, ",", ".") & ",'" & _
                      Format(MskValidoDe.Text, "YYYYMMDD") & "','" & Format(MskValidoAte.Text, "YYYYMMDD") & "','" & Trim(StrConv(TxtDescricao.Text, vbUpperCase)) & "','NAOUTILIZADO','','" & Format(Now, "YYYYMMDD hh:mm") & "')")
 
 

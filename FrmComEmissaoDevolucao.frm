@@ -186,16 +186,16 @@ Begin VB.Form FrmComEmissaoDevolucao
          Height          =   315
          ItemData        =   "FrmComEmissaoDevolucao.frx":0000
          Left            =   3480
-         List            =   "FrmComEmissaoDevolucao.frx":0010
+         List            =   "FrmComEmissaoDevolucao.frx":0002
          TabIndex        =   35
          Top             =   1080
          Width           =   1215
       End
       Begin VB.ComboBox CmbBandeiraCD 
          Height          =   315
-         ItemData        =   "FrmComEmissaoDevolucao.frx":003E
+         ItemData        =   "FrmComEmissaoDevolucao.frx":0004
          Left            =   3480
-         List            =   "FrmComEmissaoDevolucao.frx":004E
+         List            =   "FrmComEmissaoDevolucao.frx":0006
          TabIndex        =   34
          Top             =   720
          Width           =   1215
@@ -663,6 +663,38 @@ Private Sub DIFERENCA()
     TxtDiferenca.Text = Format(DIFF, "#,##0.00")
 
 End Sub
+Private Sub carregar_combo_bandeiras()
+
+    Set CN1 = New ADODB.Connection
+    CN1.Open STR_DSN
+    Set reg = New ADODB.Recordset
+    reg.ActiveConnection = CN1
+
+    reg.Open ("SELECT Descricao FROM BANDS_CC order by descricao")
+
+    Do Until reg.EOF = True
+
+        CmbBandeiraCC.AddItem (reg.Fields("Descricao"))
+
+        reg.MoveNext
+
+    Loop
+
+    reg.Close
+
+    reg.Open ("SELECT Descricao FROM BANDS_CD order by descricao")
+
+    Do Until reg.EOF = True
+
+        CmbBandeiraCD.AddItem (reg.Fields("Descricao"))
+
+        reg.MoveNext
+
+    Loop
+
+    reg.Close
+
+End Sub
 Private Sub limpa_campos()
 
     TxtCodVendedor.Text = ""
@@ -1080,6 +1112,9 @@ End Sub
 Private Sub Form_Load()
     Me.Left = 1600
     Me.Top = 1600
+
+    Call carregar_combo_bandeiras
+
 End Sub
 
 

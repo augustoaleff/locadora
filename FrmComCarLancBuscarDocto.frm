@@ -66,7 +66,7 @@ Private Sub CmdBuscar_Click()
         Set reg = New ADODB.Recordset
         reg.ActiveConnection = CN1
 
-            reg.Open ("SELECT R.NumDocto,R.CodCli,C.Nome,R.Valor,R.Status FROM C_A_R AS R INNER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE NumDocTO LIKE '" & Trim(TxtNumDocto.Text) & "%'")
+        reg.Open ("SELECT R.NumDocto,R.CodCli,C.Nome,R.Valor,R.Status FROM C_A_R AS R INNER JOIN CLIENTES AS C ON C.CodCli = R.CodCli WHERE NumDocTO LIKE '" & Trim(TxtNumDocto.Text) & "%'")
 
 
 
@@ -101,15 +101,15 @@ Private Sub formata_flex()
     MSFlexPesquisa.Col = 1
     MSFlexPesquisa.Text = "Cod.Cli."
     MSFlexPesquisa.ColWidth(1) = 700
-    
+
     MSFlexPesquisa.Col = 2
     MSFlexPesquisa.Text = "Nome"
     MSFlexPesquisa.ColWidth(2) = 3000
-    
+
     MSFlexPesquisa.Col = 3
     MSFlexPesquisa.Text = "Valor"
     MSFlexPesquisa.ColWidth(3) = 700
-    
+
     MSFlexPesquisa.Col = 4
     MSFlexPesquisa.Text = "Status"
     MSFlexPesquisa.ColWidth(4) = 500
@@ -118,7 +118,7 @@ End Sub
 Private Sub CmdLimparTela_Click()
 
     Call limpa_campos
-    
+
 End Sub
 Private Sub limpa_campos()
 
@@ -153,7 +153,7 @@ Private Sub MSFlexPesquisa_KeyPress(KeyAscii As Integer)
 
         MSFlexPesquisa.Col = 0
         CODIGO = Trim(MSFlexPesquisa.Text)
-        
+
         Set CN1 = New ADODB.Connection
         CN1.Open STR_DSN
         Set REG2 = New ADODB.Recordset
@@ -161,23 +161,23 @@ Private Sub MSFlexPesquisa_KeyPress(KeyAscii As Integer)
 
         REG2.Open ("SELECT * FROM C_A_R WHERE NumDocTO LIKE '" & CODIGO & "%'")
 
-            Call FrmComCarLanc.limpa_campos
-            FrmComCarLanc.TxtCodCliente.Text = REG2.Fields("CodCli")
-            FrmComCarLanc.TxtCodCliente_KeyPress (13)
-            FrmComCarLanc.MskVencto.Text = Format(REG2.Fields("vencto"), "DD/MM/YYYY")
-            FrmComCarLanc.TxtSeq.Text = REG2.Fields("seq")
-            FrmComCarLanc.MskDataLancto.Text = Format(REG2.Fields("DataLancto"), "DD/MM/YYYY")
-            FrmComCarLanc.TxtNumeroPedido.Text = REG2.Fields("numped")
-            FrmComCarLanc.TxtNumeroDocto.Text = REG2.Fields("NumDocto")
-            FrmComCarLanc.CmbTipoDocto.Text = REG2.Fields("Tipo")
-            FrmComCarLanc.TxtValorTotal.Text = Format(REG2.Fields("Valor"), "#,##0.00")
-            FrmComCarLanc.TxtStatus.Text = REG2.Fields("Status")
+        Call FrmComCarLanc.limpa_campos
+        FrmComCarLanc.TxtCodCliente.Text = REG2.Fields("CodCli")
+        FrmComCarLanc.TxtCodCliente_KeyPress (13)
+        FrmComCarLanc.MskVencto.Text = Format(REG2.Fields("vencto"), "DD/MM/YYYY")
+        FrmComCarLanc.TxtSeq.Text = REG2.Fields("seq")
+        FrmComCarLanc.MskDataLancto.Text = Format(REG2.Fields("DataLancto"), "DD/MM/YYYY")
+        FrmComCarLanc.TxtNumeroPedido.Text = REG2.Fields("numped")
+        FrmComCarLanc.TxtNumeroDocto.Text = REG2.Fields("NumDocto")
+        FrmComCarLanc.CmbTipoDocto.Text = REG2.Fields("Tipo")
+        FrmComCarLanc.TxtValorTotal.Text = Format(REG2.Fields("Valor"), "#,##0.00")
+        FrmComCarLanc.TxtStatus.Text = REG2.Fields("Status")
 
-            If FrmComCarLanc.TxtStatus.Text = "P" Then
-                FrmComCarLanc.MskDataPagto.Text = Format(REG2.Fields("DataPagto"), "DD/MM/YYYY")
-            End If
+        If FrmComCarLanc.TxtStatus.Text = "P" Then
+            FrmComCarLanc.MskDataPagto.Text = Format(REG2.Fields("DataPagto"), "DD/MM/YYYY")
+        End If
 
-            FrmComCarLanc.TxtOBS.Text = REG2.Fields("OBS")
+        FrmComCarLanc.TxtOBS.Text = REG2.Fields("OBS")
 
 
         REG2.Close

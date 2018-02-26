@@ -79,7 +79,6 @@ Begin VB.Form FrmComCarLanc
       EndProperty
       Height          =   330
       Left            =   3600
-      Locked          =   -1  'True
       TabIndex        =   2
       Top             =   1200
       Width           =   375
@@ -358,13 +357,33 @@ Attribute VB_Exposed = False
 Private Sub CmdBuscarDocto_Click()
 
     FrmComCarLancBuscarDocto.Show
-    
+
 End Sub
 
 Private Sub CmdBuscarNome_Click()
 
     FrmComCarLancBuscarNome.Show
-    
+
+End Sub
+Private Sub carregar_combo_tipo()
+
+    Set CN1 = New ADODB.Connection
+    CN1.Open STR_DSN
+    Set reg = New ADODB.Recordset
+    reg.ActiveConnection = CN1
+
+    reg.Open ("SELECT Descricao FROM TIPOS_DOCTOS order by descricao")
+
+    Do Until reg.EOF = True
+
+        CmbTipoDocto.AddItem (reg.Fields("Descricao"))
+
+        reg.MoveNext
+
+    Loop
+
+    reg.Close
+
 End Sub
 Public Sub limpa_campos()
 
@@ -386,13 +405,20 @@ Public Sub limpa_campos()
     MskDataPagto.Text = ""
     MskDataPagto.Mask = "##/##/####"
     TxtOBS.Text = ""
-    
+
     TxtCodCliente.SetFocus
-    
-    
+
+
 
 End Sub
 Private Function ValidaCampos() As Boolean
+
+
+
+    TxtStatus_KeyPress (13)
+    TxtCodCliente_KeyPress (13)
+    TxtValorTotal_KeyPress (13)
+
 
     If IsNumeric(TxtCodCliente.Text) <> Empty Then
 
@@ -414,6 +440,11 @@ Private Function ValidaCampos() As Boolean
 
                         ValidaCampos = True
 
+                        If TxtNumeroPedido.Text = Empty Then
+
+                            TxtNumeroPedido.Text = "0"
+                        End If
+
                         If TxtNumeroDocto.Text <> Empty Then
 
                             ValidaCampos = True
@@ -430,18 +461,18 @@ Private Function ValidaCampos() As Boolean
 
                                         ValidaCampos = True
 
-                                            If (TxtStatus.Text = "P" And Replace(Replace(MskDataPagto.Text, "/", ""), "_", "") <> Empty) Or (TxtStatus.Text = "A" And Replace(Replace(MskDataPagto.Text, "/", ""), "_", "") = Empty) Or (TxtStatus.Text = "C" And Replace(Replace(MskDataPagto.Text, "/", ""), "_", "") = Empty) Then
+                                        If (TxtStatus.Text = "P" And Replace(Replace(MskDataPagto.Text, "/", ""), "_", "") <> Empty) Or (TxtStatus.Text = "A" And Replace(Replace(MskDataPagto.Text, "/", ""), "_", "") = Empty) Or (TxtStatus.Text = "C" And Replace(Replace(MskDataPagto.Text, "/", ""), "_", "") = Empty) Then
 
                                             ValidaCampos = True
-                                            
-                                        
-                                            Else
+
+
+                                        Else
 
                                             ValidaCampos = False
 
-                                            End If
+                                        End If
 
-                                        
+
 
                                     Else
 
@@ -507,46 +538,47 @@ End Function
 Private Sub CmdGravar_Click()
 
     Call ValidaCampos
-    
+
     If ValidaCampos = True Then
 
         Dim PAGTO As Date
-        
+
         Set CN1 = New ADODB.Connection
         CN1.Open STR_DSN
         Set reg = New ADODB.Recordset
         reg.ActiveConnection = CN1
 
         reg.Open ("SELECT CodCli,Vencto,Seq FROM C_A_R WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " AND Vencto = '" & Format(MskVencto.Text, "YYYYMMDD") & "' AND SEQ = " & Trim(TxtSeq.Text) & "")
-        
-        
+
+
         If StrConv(TxtStatus.Text, vbUpperCase) = "A" Or StrConv(TxtStatus.Text, vbUpperCase) = "C" Then
-        
-        PAGTO = "01/01/1900"
-        
+
+            PAGTO = "01/01/1900"
+
         Else
-        
-        PAGTO = Format(MskDataPagto.Text, "DD/MM/YYYY")
-        
+
+            PAGTO = Format(MskDataPagto.Text, "DD/MM/YYYY")
+
         End If
-        
+
+
 
         If reg.EOF = True Then
 
-            CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao)" & _
+            CN1.Execute ("INSERT INTO C_A_R(CodCli,Vencto,Seq,DataLancto,NumPed,NumDocto,Tipo,Status,DataPagto,OBS,Valor,Usuario,DataEmissao) " & _
                          "VALUES(" & Trim(TxtCodCliente.Text) & ",'" & Format(MskVencto.Text, "YYYYMMDD") & "'," & Trim(TxtSeq.Text) & ",'" & Format(Now, "YYYYMMDD") & "'," & _
                          TxtNumeroPedido.Text & ",'" & StrConv(TxtNumeroDocto.Text, vbUpperCase) & "','" & StrConv(CmbTipoDocto.Text, vbUpperCase) & "','" & StrConv(Trim(TxtStatus.Text), vbUpperCase) & "','" & _
-                         Format(PAGTO, "YYYYMMDD") & "','" & StrConv(OBS.Text, vbUpperCase) & "'," & Replace(Trim(CDbl(TxtValorTotal.Text)), ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+                         Format(PAGTO, "YYYYMMDD") & "','" & StrConv(TxtOBS.Text, vbUpperCase) & "'," & Replace(Trim(CDbl(TxtValorTotal.Text)), ",", ".") & ",'','" & Format(Now, "YYYYMMDD hh:mm") & "')")
 
         Else
 
-            CN1.Execute ("UPDATE C_A_R  SET DataLancto='" & Format(MskDataLancto, "YYYYMMDD") & "',NumPed=" & TxtNumeroPedido.Text & "," & _
+            CN1.Execute ("UPDATE C_A_R SET DataLancto='" & Format(MskDataLancto, "YYYYMMDD") & "',NumPed=" & TxtNumeroPedido.Text & "," & _
                          "NumDocto = '" & StrConv(TxtNumeroDocto.Text, vbUpperCase) & "',Tipo='" & StrConv(CmbTipoDocto.Text, vbUpperCase) & "'," & _
-                         "Status='" & StrConv(Trim(TxtStatus.Text), vbUpperCase) & "',DataPagto='" & Format(PAGTO, "YYYYMMDD") & "',OBS = '" & StrConv(OBS, vbUpperCase) & "'," & _
+                         "Status='" & StrConv(Trim(TxtStatus.Text), vbUpperCase) & "',DataPagto='" & Format(PAGTO, "YYYYMMDD") & "',OBS = '" & StrConv(TxtOBS.Text, vbUpperCase) & "'," & _
                          "Valor = " & Replace(Trim(CDbl(TxtValorTotal.Text)), ",", ".") & ",DataEmissao='" & Format(Now, "YYYYMMDD hh:mm") & "'" & _
                          "WHERE CodCli= " & Trim(TxtCodCliente.Text) & " AND Vencto = '" & Format(MskVencto.Text, "YYYYMMDD") & "' AND Seq=" & Trim(TxtSeq.Text) & "")
         End If
-        
+
         Call limpa_campos
 
     Else
@@ -559,9 +591,15 @@ Private Sub CmdGravar_Click()
 End Sub
 
 Private Sub CmdLimparTela_Click()
-    
+
     Call limpa_campos
-    
+
+End Sub
+
+Private Sub Form_Load()
+
+    Call carregar_combo_tipo
+
 End Sub
 
 Public Sub TxtCodCliente_KeyPress(KeyAscii As Integer)
@@ -620,89 +658,148 @@ Private Sub MskVencto_KeyPress(KeyAscii As Integer)
 
         TxtSeq.Text = SEQ
         MskDataLancto = Format(Now, "DD/MM/YYYY")
-        TxtNumeroPedido.SetFocus
-        
+        TxtSeq.SetFocus
+        TxtSeq.Locked = False
+        TxtSeq.SelStart = 0
+        TxtSeq.SelLength = Len(TxtSeq.Text)
+
+
     End If
-    
-    End Sub
+
+End Sub
 
 Private Sub TxtNumeroPedido_KeyPress(KeyAscii As Integer)
 
     If KeyAscii = 13 And (IsNumeric(TxtNumeroPedido.Text) <> Empty Or TxtNumeroPedido.Text = Empty) Then
-    
+
         TxtNumeroDocto.SetFocus
-        
+
     End If
-    
+
 
 End Sub
 Private Sub TxtNumeroDocto_KeyPress(KeyAscii As Integer)
 
     If KeyAscii = 13 And TxtNumeroDocto.Text <> Empty Then
-    
+
         TxtValorTotal.SetFocus
-        
+
     End If
-    
+
+
+End Sub
+
+Private Sub TxtSeq_KeyPress(KeyAscii As Integer)
+
+    If KeyAscii = 13 And IsNumeric(TxtSeq.Text) <> Empty Then
+
+
+        Set CN1 = New ADODB.Connection
+        CN1.Open STR_DSN
+        Set REG2 = New ADODB.Recordset
+        REG2.ActiveConnection = CN1
+
+        REG2.Open ("SELECT * FROM C_A_R WHERE CODCLI = " & Trim(TxtCodCliente.Text) & " and VENCTO = '" & Format(MskVencto.Text, "YYYYMMDD") & "' " & _
+                   " AND SEQ = " & Trim(TxtSeq.Text) & "")
+
+
+        If REG2.EOF = False Then
+
+            TxtCodCliente_KeyPress (13)
+
+
+
+            MskDataLancto.Enabled = True
+            MskDataLancto.Text = "__/__/____"
+            MskDataLancto.Mask = ""
+            MskDataLancto.Text = Format(REG2.Fields("DataLancto"), "DD/MM/YYYY")
+            MskDataLancto.Mask = "##/##/####"
+            TxtNumeroPedido.Text = REG2.Fields("numped")
+            TxtNumeroDocto.Text = REG2.Fields("NumDocto")
+            CmbTipoDocto.Text = REG2.Fields("Tipo")
+            TxtValorTotal.Text = Format(REG2.Fields("Valor"), "#,##0.00")
+            TxtStatus.Text = REG2.Fields("Status")
+
+            If TxtStatus.Text = "P" Then
+                MskDataPagto.Text = Format(REG2.Fields("DataPagto"), "DD/MM/YYYY")
+            End If
+
+            TxtOBS.Text = REG2.Fields("OBS")
+
+            REG2.Close
+
+            TxtSeq.Locked = True
+            TxtNumeroPedido.SetFocus
+            MskDataLancto.Enabled = False
+
+
+        Else
+
+            TxtNumeroPedido.SetFocus
+
+        End If
+
+
+    End If
 
 End Sub
 
 Private Sub TxtValorTotal_KeyPress(KeyAscii As Integer)
 
     If KeyAscii = 13 And IsNumeric(TxtValorTotal.Text) <> Empty Then
-    
+
         CmbTipoDocto.SetFocus
         TxtValorTotal = Format(TxtValorTotal, "#,##0.00")
-        
+
     End If
-    
+
 
 End Sub
 Private Sub CmbTipoDocto_KeyPress(KeyAscii As Integer)
 
     If KeyAscii = 13 And CmbTipoDocto.Text <> Empty Then
-    
+
         TxtStatus.SetFocus
         TxtStatus.Text = "A"
-        
+
     End If
-    
+
 
 End Sub
 Private Sub TxtStatus_KeyPress(KeyAscii As Integer)
 
     If KeyAscii = 13 And (StrConv(TxtStatus.Text, vbUpperCase) = "A" Or StrConv(TxtStatus.Text, vbUpperCase) = "C") Then
-        
+
         TxtOBS.SetFocus
         MskDataPagto.Mask = ""
         MskDataPagto.Text = ""
         MskDataPagto.Mask = "##/##/####"
-    
+
     ElseIf KeyAscii = 13 And StrConv(TxtStatus.Text, vbUpperCase) = "P" Then
-        
+
         TxtOBS.SetFocus
         MskDataPagto.Text = Format(Now, "DD/MM/YYYY")
-        
+
     ElseIf KeyAscii = 13 And TxtStatus <> Empty Then
-    
+
         MsgBox "Digite somente Status P - Pago, A- Aberto ou C - Cancelado"
-        
+
     End If
-    
+
 End Sub
 Private Sub TxtOBS_KeyPress(KeyAscii As Integer)
 
     If KeyAscii = 13 Then
-    
+
         CmdGravar.SetFocus
-        
+
     End If
-    
+
 
 End Sub
 
 
-    
+
 
 
 

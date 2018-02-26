@@ -342,7 +342,8 @@ Begin VB.Form FrmComEmissaoAluguel
          Height          =   315
          ItemData        =   "FrmComEmissaoAluguel.frx":0000
          Left            =   3480
-         List            =   "FrmComEmissaoAluguel.frx":0010
+         List            =   "FrmComEmissaoAluguel.frx":0002
+         Locked          =   -1  'True
          TabIndex        =   11
          Top             =   720
          Width           =   1215
@@ -358,9 +359,9 @@ Begin VB.Form FrmComEmissaoAluguel
             Strikethrough   =   0   'False
          EndProperty
          Height          =   315
-         ItemData        =   "FrmComEmissaoAluguel.frx":003D
+         ItemData        =   "FrmComEmissaoAluguel.frx":0004
          Left            =   3480
-         List            =   "FrmComEmissaoAluguel.frx":004D
+         List            =   "FrmComEmissaoAluguel.frx":0006
          TabIndex        =   13
          Top             =   1080
          Width           =   1215
@@ -1111,6 +1112,38 @@ Private Sub calcula_diferenca()
     TxtDiferenca.Text = Format(DIFERENCA, "#,##0.00")
 
 End Sub
+Private Sub carregar_combo_bandeiras()
+
+    Set CN1 = New ADODB.Connection
+    CN1.Open STR_DSN
+    Set reg = New ADODB.Recordset
+    reg.ActiveConnection = CN1
+
+    reg.Open ("SELECT Descricao FROM BANDS_CC order by descricao")
+
+    Do Until reg.EOF = True
+
+        CmbBandeiraCC.AddItem (reg.Fields("Descricao"))
+
+        reg.MoveNext
+
+    Loop
+
+    reg.Close
+
+    reg.Open ("SELECT Descricao FROM BANDS_CD order by descricao")
+
+    Do Until reg.EOF = True
+
+        CmbBandeiraCD.AddItem (reg.Fields("Descricao"))
+
+        reg.MoveNext
+
+    Loop
+
+    reg.Close
+
+End Sub
 Private Function verifica_produto() As Boolean
 
     If MSFlexItens.Rows >= 2 Then
@@ -1855,6 +1888,7 @@ Private Sub Form_Load()
     Me.Top = 100
 
     Call formata_flex
+    Call carregar_combo_bandeiras
 
     CUPOM = False
 End Sub

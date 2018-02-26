@@ -196,7 +196,7 @@ Begin VB.Form FrmComCadProdutosNovo
       Height          =   360
       ItemData        =   "FrmComCadProdutos.frx":0000
       Left            =   1200
-      List            =   "FrmComCadProdutos.frx":0013
+      List            =   "FrmComCadProdutos.frx":0002
       TabIndex        =   4
       Top             =   1920
       Width           =   3495
@@ -212,9 +212,9 @@ Begin VB.Form FrmComCadProdutosNovo
          Strikethrough   =   0   'False
       EndProperty
       Height          =   360
-      ItemData        =   "FrmComCadProdutos.frx":004B
+      ItemData        =   "FrmComCadProdutos.frx":0004
       Left            =   1200
-      List            =   "FrmComCadProdutos.frx":0058
+      List            =   "FrmComCadProdutos.frx":0006
       TabIndex        =   3
       Top             =   1440
       Width           =   3495
@@ -349,6 +349,38 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Private Sub carregar_combo()
+
+    Set CN1 = New ADODB.Connection
+    CN1.Open STR_DSN
+    Set reg = New ADODB.Recordset
+    reg.ActiveConnection = CN1
+
+    reg.Open ("SELECT Descricao FROM TIPOS_PROD order by descricao")
+
+    Do Until reg.EOF = True
+
+        CmbTipo.AddItem (reg.Fields("Descricao"))
+
+        reg.MoveNext
+
+    Loop
+
+    reg.Close
+
+    reg.Open ("SELECT Descricao FROM CATEGS_PROD order by descricao")
+
+    Do Until reg.EOF = True
+
+        CmbCategoria.AddItem (reg.Fields("Descricao"))
+
+        reg.MoveNext
+
+    Loop
+
+    reg.Close
+
+End Sub
 
 Private Sub CmdGravar_Click()
     If ValidaCampos = True Then
@@ -442,6 +474,8 @@ End Sub
 Private Sub Form_Load()
     Me.Top = 1000
     Me.Left = 1000
+
+    Call carregar_combo
 End Sub
 Private Sub limpa_campos()
 

@@ -2,10 +2,10 @@ VERSION 5.00
 Begin VB.MDIForm MDIPrincipal 
    BackColor       =   &H8000000C&
    Caption         =   "Sistema Locadora"
-   ClientHeight    =   3990
+   ClientHeight    =   9075
    ClientLeft      =   2595
    ClientTop       =   1110
-   ClientWidth     =   7545
+   ClientWidth     =   17190
    LinkTopic       =   "MDIForm1"
    WindowState     =   2  'Maximized
    Begin VB.Menu mnu_cadastro_geral 
@@ -68,6 +68,24 @@ Begin VB.MDIForm MDIPrincipal
          Caption         =   "Consulta"
       End
    End
+   Begin VB.Menu mnu_relat 
+      Caption         =   "Relatórios"
+      Begin VB.Menu mnu_relat_ped 
+         Caption         =   "Pedidos"
+      End
+      Begin VB.Menu mnu_relat_cli 
+         Caption         =   "Cadastro"
+      End
+      Begin VB.Menu mnu_relat_prod 
+         Caption         =   "Produtos"
+      End
+      Begin VB.Menu mnu_relat_cap 
+         Caption         =   "Contas A Pagar"
+      End
+      Begin VB.Menu mnu_relat_car 
+         Caption         =   "Contas a Receber"
+      End
+   End
    Begin VB.Menu mnu_Sair 
       Caption         =   "Sair"
    End
@@ -122,6 +140,26 @@ End Sub
 
 Private Sub mnu_emissoes_devolucao_Click()
     FrmComEmissaoDevolucao.Show
+End Sub
+
+Private Sub mnu_relat_cap_Click()
+    FrmComRelatCAP.Show
+End Sub
+
+Private Sub mnu_relat_car_Click()
+    FrmComRelatCAR.Show
+End Sub
+
+Private Sub mnu_relat_cli_Click()
+    FrmComRelatClientes.Show
+End Sub
+
+Private Sub mnu_relat_ped_Click()
+    FrmComRelatPedidos.Show
+End Sub
+
+Private Sub mnu_relat_prod_Click()
+    FrmComRelatProdutos.Show
 End Sub
 
 Private Sub mnu_Sair_Click()

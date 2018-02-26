@@ -559,6 +559,7 @@ Private Sub CmdGravar_Click()
                          StrConv(Trim(TxtBairro.Text), vbUpperCase) & "','" & StrConv(Trim(TxtCidade.Text), vbUpperCase) & "','" & StrConv(Trim(TxtCodMunicipio.Text), vbUpperCase) & "','" & Trim(TxtUF.Text) & "','" & StrConv(TxtEmail.Text, vbLowerCase) & "','" & StrConv(TxtOBS.Text, vbUpperCase) & "','','" & Format(reg.Fields("DATA"), "yyyymmdd hh:mm") & "')")
 
             MsgBox "Cliente Cadastro com Sucesso", vbInformation, "Aviso"
+
             'USO O UPDATE
         Else
 
@@ -571,8 +572,6 @@ Private Sub CmdGravar_Click()
             MsgBox "Cliente Atualizado com Sucesso", vbInformation, "Aviso"
 
         End If
-
-
 
         Call limpa_campos
 

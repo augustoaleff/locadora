@@ -172,20 +172,20 @@ Attribute VB_Exposed = False
 Private Sub TxtPesquisa_KeyPress(KeyAscii As Integer)
 
     If KeyAscii = 13 Then
-    
+
         CmbStatus.SetFocus
-        
+
     End If
-    
+
 End Sub
 Private Sub CmbStatus_KeyPress(KeyAscii As Integer)
 
     If KeyAscii = 13 And CmbStatus.Text <> Empty Then
-    
+
         MskPeriodoDe.SetFocus
-        
+
     End If
-    
+
 End Sub
 
 
@@ -193,21 +193,21 @@ End Sub
 Private Sub MskPeriodoDe_KeyPress(KeyAscii As Integer)
 
     If KeyAscii = 13 And (IsDate(MskPeriodoDe.Text) <> Empty Or Replace(Replace(MskPeriodoDe.Text, "_", ""), "/", "") = Empty) Then
-    
+
         MskPeriodoAte.SetFocus
-        
+
     End If
-    
+
 End Sub
 
 Private Sub MskPeriodoAte_KeyPress(KeyAscii As Integer)
 
     If KeyAscii = 13 And (IsDate(MskPeriodoAte.Text) <> Empty Or Replace(Replace(MskPeriodoAte.Text, "_", ""), "/", "") = Empty) Then
-    
+
         CmdImprimir.SetFocus
-        
+
     End If
-    
+
 End Sub
 
 

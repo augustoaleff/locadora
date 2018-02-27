@@ -196,6 +196,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 
+
 Private Sub CmdLimparTela_Click()
     Call limpa_campos
 End Sub
@@ -208,12 +209,12 @@ Private Sub Form_Load()
 
     Me.Top = 1500
     Me.Left = 2000
-    
+
     Call carregar_combo
-    
+
 End Sub
 Private Sub limpa_campos()
-    
+
     OptDataEmissao.Value = True
     TxtCodCliente.Text = ""
     LblCliente.Caption = ""
@@ -224,7 +225,7 @@ Private Sub limpa_campos()
     MskPeriodoAte.Mask = ""
     MskPeriodoAte.Text = ""
     MskPeriodoAte.Mask = "##/##/####"
-    
+
     TxtCodCliente.SetFocus
 
 End Sub
@@ -252,33 +253,33 @@ End Sub
 Private Sub CmbStatus_KeyPress(KeyAscii As Integer)
 
     If KeyAscii = 13 And CmbStatus.Text <> Empty Then
-    
+
         MskPeriodoDe.SetFocus
-    
+
     End If
-    
+
 
 End Sub
 Private Sub MskPeriodoDe_KeyPress(KeyAscii As Integer)
 
 
     If KeyAscii = 13 And (IsDate(MskPeriodoDe.Text) Or Replace(Replace(MskPeriodoDe.Text, "_", ""), "/", "") = Empty) Then
-    
+
         MskPeriodoAte.SetFocus
-    
+
     End If
-    
+
 
 End Sub
 Private Sub MskPeriodoAte_KeyPress(KeyAscii As Integer)
 
 
     If KeyAscii = 13 And (IsDate(MskPeriodoAte.Text) Or Replace(Replace(MskPeriodoAte.Text, "_", ""), "/", "") = Empty) Then
-    
+
         CmdImprimir.SetFocus
-    
+
     End If
-    
+
 
 End Sub
 

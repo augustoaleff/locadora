@@ -182,26 +182,36 @@ Attribute VB_Exposed = False
 Private Sub CmdConsultar_Click()
 
     Dim DE, ATE As Date
+    Dim DE2, ATE2 As String
+
     Set CN1 = New ADODB.Connection
     CN1.Open STR_DSN
     Set reg = New ADODB.Recordset
     reg.ActiveConnection = CN1
 
 
-    DE = Format("01/01/1900", "DD/MM/YYYY")
-    ATE = Format("31/12/2199", "DD/MM/YYYY")
 
     If Replace(Replace(MskPeriodoDe.Text, "/", ""), "_", "") = Empty Then
 
-        MskPeriodoDe.Text = Format(DE, "DD/MM/YYYY")
+        DE = "01/01/1900"
+
+    Else
+
+        DE = MskPeriodoDe.Text
 
     End If
 
     If Replace(Replace(MskPeriodoAte.Text, "/", ""), "_", "") = Empty Then
 
-        MskPeriodoAte.Text = Format(ATE, "DD/MM/YYYY")
+        ATE = "31/12/2199"
+
+    Else
+
+        ATE = MskPeriodoAte.Text
 
     End If
+
+
 
     If TxtCodCupom.Text <> Empty Then
 
@@ -210,20 +220,20 @@ Private Sub CmdConsultar_Click()
         If OptUtilizados.Value = vbTrue Then
 
             reg.Open ("SELECT * FROM CUPONS WHERE CODCUPOM like '%" & Trim(StrConv(TxtCodCupom.Text, vbUpperCase)) & "%' " & _
-                      "and DataEmissao between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' and " & _
-                      "Status = 'UTILIZADO'")
+                      "and DataEmissao between '" & Format(DE, "YYYYMMDD") & "' and '" & Format(ATE, "YYYYMMDD") & "' and " & _
+                      "Status = 'UTILIZADO' ORDER BY DataEmissao DESC")
         Else
 
             If OptNaoUtilizados.Value = vbTrue Then
 
                 reg.Open ("SELECT * FROM CUPONS WHERE CODCUPOM like '%" & Trim(StrConv(TxtCodCupom.Text, vbUpperCase)) & "%' " & _
-                          "and DataEmissao between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' and " & _
-                          "Status = 'NAOUTILIZADO'")
+                          "and DataEmissao between '" & Format(DE, "YYYYMMDD") & "' and '" & Format(ATE, "YYYYMMDD") & "' and " & _
+                          "Status = 'NAOUTILIZADO' ORDER BY DataEmissao DESC")
 
             Else
 
                 reg.Open ("SELECT * FROM CUPONS WHERE CODCUPOM like '%" & Trim(StrConv(TxtCodCupom.Text, vbUpperCase)) & "%' " & _
-                          "and DataEmissao between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "'")
+                          "and DataEmissao between '" & Format(DE, "YYYYMMDD") & "' and '" & Format(ATE, "YYYYMMDD") & "' ORDER BY DataEmissao DESC")
 
 
             End If
@@ -235,20 +245,20 @@ Private Sub CmdConsultar_Click()
         If OptUtilizados.Value = vbTrue Then
 
             reg.Open ("SELECT * FROM CUPONS " & _
-                      "WHERE DataEmissao between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' and " & _
-                      "Status = 'UTILIZADO'")
+                      "WHERE DataEmissao between '" & Format(DE.Text, "YYYYMMDD") & "' and '" & Format(ATE, "YYYYMMDD") & "' and " & _
+                      "Status = 'UTILIZADO' ORDER BY DataEmissao DESC")
         Else
 
             If OptNaoUtilizados.Value = vbTrue Then
 
                 reg.Open ("SELECT * FROM CUPONS " & _
-                          "WHERE DataEmissao between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "' and " & _
-                          "Status = 'NAOUTILIZADO'")
+                          "WHERE DataEmissao between '" & Format(DE, "YYYYMMDD") & "' and '" & Format(ATE, "YYYYMMDD") & "' and " & _
+                          "Status = 'NAOUTILIZADO' ORDER BY DataEmissao DESC")
 
             Else
 
                 reg.Open ("SELECT * FROM CUPONS " & _
-                          "WHERE DataEmissao between '" & Format(MskPeriodoDe.Text, "YYYYMMDD") & "' and '" & Format(MskPeriodoAte.Text, "YYYYMMDD") & "'")
+                          "WHERE DataEmissao between '" & Format(DE, "YYYYMMDD") & "' and '" & Format(ATE, "YYYYMMDD") & "' ORDER BY DataEmissao DESC")
 
             End If
 
@@ -261,24 +271,51 @@ Private Sub CmdConsultar_Click()
     Call formata_flex
 
     Do Until reg.EOF = True
+    
+
+        If reg.Fields("ValidadeDe") = "01/01/1900" Then
+
+            DE2 = ""
+
+        Else
+
+            DE2 = Format(reg.Fields("ValidadeDe"), "DD/MM/YYYY")
+
+        End If
+
+
+        If reg.Fields("ValidadeAte") = "31/12/2199" Then
+
+            ATE2 = ""
+
+        Else
+
+            ATE2 = Format(reg.Fields("ValidadeAte"), "DD/MM/YYYY")
+
+        End If
+
+
+
 
         If reg.Fields("Tipo") = "V" Then
 
-            MSFlexCupons.AddItem (reg.Fields("CodCupom") & vbTab & _
-                                  "R$ " & Format(reg.Fields("Valor"), "#,##0.00") & vbTab & _
-                                  reg.Fields("Descricao") & vbTab & _
-                                  Format(reg.Fields("ValidadeDe"), "DD/MM/YYYY") & vbTab & _
-                                  Format(reg.Fields("ValidadeAte"), "DD/MM/YYYY") & vbTab & _
-                                  Format(reg.Fields("DataEmissao"), "DD/MM/YYYY") & vbTab & _
-                                  reg.Fields("Status"))
+
+                MSFlexCupons.AddItem (reg.Fields("CodCupom") & vbTab & _
+                                      "R$ " & Format(reg.Fields("Valor"), "#,##0.00") & vbTab & _
+                                      reg.Fields("Descricao") & vbTab & _
+                                      DE2 & vbTab & _
+                                      ATE2 & vbTab & _
+                                      Format(reg.Fields("DataEmissao"), "DD/MM/YYYY") & vbTab & _
+                                      reg.Fields("Status"))
+
 
         Else
 
             MSFlexCupons.AddItem (reg.Fields("CodCupom") & vbTab & _
                                   Format(reg.Fields("Valor") * 100, "#,##0.00") & " %" & vbTab & _
                                   reg.Fields("Descricao") & vbTab & _
-                                  Format(reg.Fields("ValidadeDe"), "DD/MM/YYYY") & vbTab & _
-                                  Format(reg.Fields("ValidadeAte"), "DD/MM/YYYY") & vbTab & _
+                                  DE2 & vbTab & _
+                                  ATE2 & vbTab & _
                                   Format(reg.Fields("DataEmissao"), "DD/MM/YYYY") & vbTab & _
                                   reg.Fields("Status"))
 

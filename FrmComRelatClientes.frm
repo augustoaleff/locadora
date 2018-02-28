@@ -169,6 +169,32 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
+Private Sub Form_Load()
+
+    Me.Top = 1000
+    Me.Left = 1000
+
+End Sub
+Private Sub carregar_combo()
+
+    Set CN1 = New ADODB.Connection
+    CN1.Open STR_DSN
+    Set reg = New ADODB.Recordset
+    reg.ActiveConnection = CN1
+
+    reg.Open ("SELECT Descricao FROM STATUS_RELAT_CAD order by descricao")
+
+    Do Until reg.EOF = True
+
+        CmbStatus.AddItem (reg.Fields("Descricao"))
+
+        reg.MoveNext
+
+    Loop
+
+    reg.Close
+
+End Sub
 Private Sub TxtPesquisa_KeyPress(KeyAscii As Integer)
 
     If KeyAscii = 13 Then

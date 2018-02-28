@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin VB.MDIForm MDIPrincipal 
-   BackColor       =   &H8000000C&
+   BackColor       =   &H8000000A&
    Caption         =   "Sistema Locadora"
    ClientHeight    =   9075
-   ClientLeft      =   2595
-   ClientTop       =   1110
+   ClientLeft      =   4890
+   ClientTop       =   3450
    ClientWidth     =   17190
    LinkTopic       =   "MDIForm1"
    WindowState     =   2  'Maximized

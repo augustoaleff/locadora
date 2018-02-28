@@ -448,6 +448,7 @@ Begin VB.Form FrmComCadFunc
       Left            =   7440
       TabIndex        =   18
       Top             =   5520
+      Visible         =   0   'False
       Width           =   1455
       _ExtentX        =   2566
       _ExtentY        =   582
@@ -626,12 +627,13 @@ Begin VB.Form FrmComCadFunc
       Top             =   6120
       Width           =   615
    End
-   Begin VB.Label LblComCadFuncDataDemissao 
+   Begin VB.Label LblDataDemissao 
       Caption         =   "Data Demissão"
       Height          =   255
       Left            =   6240
       TabIndex        =   31
       Top             =   5520
+      Visible         =   0   'False
       Width           =   1215
    End
    Begin VB.Label LblDataAdmissao 
@@ -665,6 +667,25 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Private Sub CBoxDesligado_Click()
+
+    If CBoxDesligado.Value = vbChecked Then
+    
+    MskDataDemissao.Visible = True
+    LblDataDemissao.Visible = True
+    
+    Else
+    
+    MskDataDemissao.Visible = False
+    LblDataDemissao.Visible = False
+    MskDataDemissao.Mask = ""
+    MskDataDemissao.Text = ""
+    MskDataDemissao.Mask = "##/##/####"
+    
+    End If
+
+End Sub
+
 Private Sub CmdConsultaNome_Click()
     FrmComCadFuncPesquisa.Show
 End Sub
@@ -677,11 +698,21 @@ Private Sub CmdGravar_Click()
         CN1.Open STR_DSN
         Set reg = New ADODB.Recordset
         reg.ActiveConnection = CN1
-        Dim DATA_DEMISSAO As String
+        Dim DATA_DEMISSAO As Date
 
 
         If TxtCodGerente.Text = "" Then
             TxtCodGerente.Text = "0"
+        End If
+        
+        If CBoxDesligado.Value = vbChecked Then
+        
+            DATA_DEMISSAO = Format(MskDataDemissao.Text, "##/##/####")
+        
+        Else
+        
+            DATA_DEMISSAO = "01/01/1900"
+            
         End If
 
         reg.Open ("SELECT * FROM FUNCIONARIOS WHERE CODFUNC = " & Trim(TxtCodigo.Text) & "")
@@ -692,13 +723,13 @@ Private Sub CmdGravar_Click()
 
             CN1.Execute ("INSERT INTO FUNCIONARIOS(CodFunc,Nome,CPF,RG,DataNasc,Telefone,Celular,CEP,Endereco,NumEnd,Complemento,Bairro,Cidade,CodMun,UF,Email,DataAdm,DataDem,Cargo,CodGerente,OBS,Usuario,DataCad) " & _
                          "VALUES (" & Trim(TxtCodigo.Text) & ",'" & StrConv(TxtNome.Text, vbUpperCase) & "','" & Replace(Replace(Replace(Replace(Replace(TxtCPF.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "") & "','" & _
-                         Replace(Replace(Replace(Replace(Replace(TxtRG.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "") & "','" & Format(MskDataNasc.Text, "YYYYMMDD") & "','" & _
+                         StrConv(Replace(Replace(Replace(Replace(Replace(TxtRG.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", ""), vbUpperCase) & "','" & Format(MskDataNasc.Text, "YYYYMMDD") & "','" & _
                          Replace(Replace(Replace(Replace(Replace(Replace(MskTelefone.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "','" & _
                          Replace(Replace(Replace(Replace(Replace(Replace(MskCelular.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "', '" & _
                          Replace(Replace(Replace(Replace(Replace(Replace(MskCEP.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "','" & _
                          StrConv(Trim(TxtEndereco.Text), vbUpperCase) & "','" & StrConv(Trim(TxtNumero.Text), vbUpperCase) & "','" & StrConv(Trim(TxtComplemento.Text), vbUpperCase) & "','" & _
                          StrConv(Trim(TxtBairro.Text), vbUpperCase) & "','" & StrConv(Trim(TxtCidade.Text), vbUpperCase) & "','" & StrConv(Trim(TxtCodMunicipio.Text), vbUpperCase) & "', '" & _
-                         StrConv(TxtUF.Text, vbUpperCase) & "','" & StrConv(TxtEmail.Text, vbLowerCase) & "','" & Format(MskDataAdmissao.Text, "YYYYMMDD") & "','" & Format(Replace(Replace(MskDataDemissao.Text, "_", ""), "/", ""), "YYYYMMDD") & "','" & _
+                         StrConv(TxtUF.Text, vbUpperCase) & "','" & StrConv(TxtEmail.Text, vbLowerCase) & "','" & Format(MskDataAdmissao.Text, "YYYYMMDD") & "','" & Format(DATA_DEMISSAO, "YYYYMMDD") & "','" & _
                          StrConv(TxtCargo.Text, vbUpperCase) & "'," & Trim(TxtCodGerente.Text) & ",'" & StrConv(TxtOBS.Text, vbUpperCase) & "','','" & Format(Now, "YYYYMMDD hh:mm") & "') ")
 
 
@@ -707,13 +738,13 @@ Private Sub CmdGravar_Click()
         Else
 
             CN1.Execute ("UPDATE FUNCIONARIOS SET Nome = '" & StrConv(TxtNome.Text, vbUpperCase) & "',CPF='" & Replace(Replace(Replace(Replace(Replace(TxtCPF.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "") & "',RG = '" & _
-                         Replace(Replace(Replace(Replace(Replace(TxtRG.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", "") & "',DataNasc='" & Format(MskDataNasc.Text, "YYYYMMDD") & "',Telefone = '" & _
+                         StrConv(Replace(Replace(Replace(Replace(Replace(TxtRG.Text, ".", ""), "-", ""), "/", ""), "\", ""), " ", ""), vbUpperCase) & "',DataNasc='" & Format(MskDataNasc.Text, "YYYYMMDD") & "',Telefone = '" & _
                          Replace(Replace(Replace(Replace(Replace(Replace(MskTelefone.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "',Celular = '" & _
                          Replace(Replace(Replace(Replace(Replace(Replace(MskCelular.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "', CEP = '" & _
                          Replace(Replace(Replace(Replace(Replace(Replace(MskCEP.Text, "(", ""), ")", ""), "-", ""), " ", ""), "/", ""), "\", "") & "',Endereco = '" & _
                          StrConv(Trim(TxtEndereco.Text), vbUpperCase) & "',NumEnd='" & StrConv(Trim(TxtNumero.Text), vbUpperCase) & "',Complemento='" & StrConv(Trim(TxtComplemento.Text), vbUpperCase) & "',Bairro='" & _
                          StrConv(Trim(TxtBairro.Text), vbUpperCase) & "',Cidade='" & StrConv(Trim(TxtCidade.Text), vbUpperCase) & "',CodMun='" & StrConv(Trim(TxtCodMunicipio.Text), vbUpperCase) & "',UF= '" & _
-                         StrConv(TxtUF.Text, vbUpperCase) & "',Email='" & StrConv(TxtEmail.Text, vbLowerCase) & "',DataAdm='" & Format(MskDataAdmissao.Text, "YYYYMMDD") & "',DataDem='" & Format(Replace(Replace(MskDataDemissao.Text, "/", ""), "_", ""), "YYYYMMDD") & "',Cargo='" & _
+                         StrConv(TxtUF.Text, vbUpperCase) & "',Email='" & StrConv(TxtEmail.Text, vbLowerCase) & "',DataAdm='" & Format(MskDataAdmissao.Text, "YYYYMMDD") & "',DataDem='" & Format(DATA_DEMISSAO, "YYYYMMDD") & "',Cargo='" & _
                          StrConv(TxtCargo.Text, vbUpperCase) & "',CodGerente = " & Trim(TxtCodGerente.Text) & ",OBS='" & StrConv(TxtOBS.Text, vbUpperCase) & "' WHERE CODFUNC = " & Trim(TxtCodigo.Text) & "")
 
             MsgBox "Funcionário Atualizado com Sucesso", vbInformation, "Aviso"
@@ -863,8 +894,12 @@ Private Function ValidaCampos() As Boolean
 
                                                     ValidaCampos = True
 
-                                                    If IsDate(MskDataDemissao.Text) = True Then
+                                                    If CBoxDesligado.Value = vbChecked And IsDate(MskDataDemissao.Text) = True Then
 
+                                                        ValidaCampos = True
+                                                        
+                                                    ElseIf CBoxDesligado.Value = vbUnchecked And Replace(Replace(MskDataDemissao.Text, "/", ""), "_", "") = Empty Then
+                                                        
                                                         ValidaCampos = True
 
                                                         If TxtCargo.Text <> Empty Then
@@ -996,8 +1031,11 @@ Public Sub TxtCodigo_KeyPress(KeyAscii As Integer)
             TxtCodGerente_KeyPress (13)
 
             If Format(reg.Fields("DataDem"), "DD/MM/YYYY") = "01/01/1900" Then
-                MskDataDemissao.Text = "__/__/____"
+                
+                CBoxDesligado.Value = vbUnchecked
+                
             Else
+                CBoxDesligado.Value = vbChecked
                 MskDataDemissao.Text = Format(reg.Fields("DataDem"), "DD/MM/YYYY")
             End If
 

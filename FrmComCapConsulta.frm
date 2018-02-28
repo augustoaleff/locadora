@@ -340,12 +340,38 @@ Private Sub CmdConsultar_Click()
 
 End Sub
 
+Private Sub limpa_campos()
+
+    OptVencimento.Value = True
+    TxtCodForn.Text = ""
+    LblForn.Caption = ""
+    LblValor.Caption = ""
+    MskPeriodoDe.Mask = ""
+    MskPeriodoDe.Text = ""
+    MskPeriodoDe.Mask = "##/##/####"
+    OptTodos.Value = True
+    CmbTipoPagto.Text = ""
+    
+    TxtCodForn.SetFocus
+    
+    Call formata_flex
+
+End Sub
+
 Private Sub CmdConsultarNome_Click()
 
     FrmComCapConsultaBuscarNome.Show
 
 End Sub
 
+
+
+
+Private Sub CmdLimparTela_Click()
+
+    Call limpa_campos
+
+End Sub
 
 Private Sub Form_Load()
 

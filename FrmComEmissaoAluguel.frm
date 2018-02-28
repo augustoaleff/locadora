@@ -1965,7 +1965,7 @@ Private Sub TxtCodVendedor_KeyPress(KeyAscii As Integer)
         Set reg = New ADODB.Recordset
         reg.ActiveConnection = CN1
 
-        reg.Open ("SELECT Nome FROM FUNCIONARIOS WHERE CODFUNC = " & Trim(TxtCodVendedor.Text) & " AND CARGO LIKE '%VEND%'")
+        reg.Open ("SELECT Nome FROM FUNCIONARIOS WHERE CODFUNC = " & Trim(TxtCodVendedor.Text) & " AND CARGO LIKE '%VEND%' AND DATADEM = '19000101'")
 
         If reg.EOF = False Then
 
@@ -1976,7 +1976,7 @@ Private Sub TxtCodVendedor_KeyPress(KeyAscii As Integer)
 
         Else
 
-            MsgBox "Vendedor Não Existe ou não é Vendedor", vbExclamation, "Aviso"
+            MsgBox "Vendedor Não Existe, Não é Vendedor ou está Desligado!", vbExclamation, "Aviso"
             TxtCodVendedor.SetFocus
 
         End If

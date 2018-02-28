@@ -271,21 +271,24 @@ Private Sub limpa_campos()
     MskPeriodoAte.Mask = ""
     MskPeriodoAte.Text = ""
     MskPeriodoAte.Mask = "##/##/####"
-    
+
     TxtDescricao.SetFocus
-    
- 
+
+
 End Sub
 
 Private Sub CmdLimparTela_Click()
-    
+
     Call limpa_campos
-    
+
 End Sub
 
 Private Sub Form_Load()
 
     Call carregar_combo
+    
+    Me.Top = 1000
+    Me.Left = 2200
 
 End Sub
 

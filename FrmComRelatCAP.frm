@@ -26,14 +26,14 @@ Begin VB.Form FrmComRelatCAP
       Caption         =   "Consultar por"
       Height          =   735
       Left            =   120
-      TabIndex        =   6
+      TabIndex        =   7
       Top             =   120
       Width           =   5535
       Begin VB.OptionButton OptVencimento 
          Caption         =   "Vencimento"
          Height          =   255
          Left            =   240
-         TabIndex        =   9
+         TabIndex        =   10
          Top             =   360
          Value           =   -1  'True
          Width           =   1215
@@ -42,7 +42,7 @@ Begin VB.Form FrmComRelatCAP
          Caption         =   "Data Pagamento"
          Height          =   255
          Left            =   1800
-         TabIndex        =   8
+         TabIndex        =   9
          Top             =   360
          Width           =   1695
       End
@@ -50,7 +50,7 @@ Begin VB.Form FrmComRelatCAP
          Caption         =   "Data Emissão"
          Height          =   375
          Left            =   3960
-         TabIndex        =   7
+         TabIndex        =   8
          Top             =   240
          Width           =   1335
       End
@@ -58,7 +58,7 @@ Begin VB.Form FrmComRelatCAP
    Begin VB.TextBox TxtCodForn 
       Height          =   330
       Left            =   1080
-      TabIndex        =   5
+      TabIndex        =   0
       Top             =   1440
       Width           =   1215
    End
@@ -72,7 +72,7 @@ Begin VB.Form FrmComRelatCAP
    Begin VB.ComboBox CmbStatus 
       Height          =   315
       Left            =   1080
-      TabIndex        =   2
+      TabIndex        =   4
       Top             =   2880
       Width           =   1935
    End
@@ -80,7 +80,7 @@ Begin VB.Form FrmComRelatCAP
       Caption         =   "Imprimir"
       Height          =   495
       Left            =   3360
-      TabIndex        =   1
+      TabIndex        =   5
       Top             =   3480
       Width           =   2175
    End
@@ -88,14 +88,14 @@ Begin VB.Form FrmComRelatCAP
       Caption         =   "Limpar Tela"
       Height          =   495
       Left            =   240
-      TabIndex        =   0
+      TabIndex        =   6
       Top             =   3480
       Width           =   2055
    End
    Begin MSMask.MaskEdBox MskPeriodoDe 
       Height          =   330
       Left            =   1080
-      TabIndex        =   4
+      TabIndex        =   1
       Top             =   1920
       Width           =   1215
       _ExtentX        =   2143
@@ -117,7 +117,7 @@ Begin VB.Form FrmComRelatCAP
    Begin MSMask.MaskEdBox MskPeriodoAte 
       Height          =   330
       Left            =   2640
-      TabIndex        =   10
+      TabIndex        =   2
       Top             =   1920
       Width           =   1215
       _ExtentX        =   2143
@@ -225,7 +225,7 @@ End Sub
 Private Sub limpa_campos()
 
     OptVencimento.Value = True
-    
+
     TxtCodForn.Text = ""
     LblForn.Caption = ""
     MskPeriodoDe.Mask = ""
@@ -236,17 +236,17 @@ Private Sub limpa_campos()
     MskPeriodoAte.Mask = "##/##/####"
     CmbTipo.Text = ""
     CmbStatus.Text = ""
-    
+
     TxtCodForn.SetFocus
-    
+
 
 End Sub
 
 
 Private Sub CmdLimparTela_Click()
-    
+
     Call limpa_campos
-    
+
 End Sub
 
 Private Sub Command1_Click()
@@ -258,6 +258,9 @@ End Sub
 Private Sub Form_Load()
 
     Call carregar_combo
+
+    Me.Top = 1000
+    Me.Left = 1500
 
 End Sub
 
@@ -285,9 +288,9 @@ Public Sub TxtCodForn_KeyPress(KeyAscii As Integer)
         End If
 
         reg.Close
-        
+
     ElseIf KeyAscii = 13 And TxtCodForn.Text = Empty Then
-    
+
         LblForn.Caption = ""
         MskPeriodoDe.SetFocus
 
@@ -299,11 +302,11 @@ Private Sub MskPeriodoDe_KeyPress(KeyAscii As Integer)
 
 
     If KeyAscii = 13 And (IsDate(MskPeriodoDe.Text) <> Empty Or Replace(Replace(MskPeriodoDe.Text, "_", ""), "/", "") = Empty) Then
-    
-    MskPeriodoAte.SetFocus
-    
+
+        MskPeriodoAte.SetFocus
+
     End If
-    
+
 
 End Sub
 
@@ -311,11 +314,11 @@ Private Sub MskPeriodoAte_KeyPress(KeyAscii As Integer)
 
 
     If KeyAscii = 13 And (IsDate(MskPeriodoAte.Text) <> Empty Or Replace(Replace(MskPeriodoAte.Text, "_", ""), "/", "") = Empty) Then
-    
-    CmbTipo.SetFocus
-    
+
+        CmbTipo.SetFocus
+
     End If
-    
+
 
 End Sub
 
@@ -324,11 +327,11 @@ Private Sub CmbTipo_KeyPress(KeyAscii As Integer)
 
 
     If KeyAscii = 13 Then
-    
-    CmbStatus.SetFocus
-    
+
+        CmbStatus.SetFocus
+
     End If
-    
+
 
 End Sub
 
@@ -336,11 +339,11 @@ Private Sub CmbStatus_KeyPress(KeyAscii As Integer)
 
 
     If KeyAscii = 13 Then
-    
-    CmdImprimir.SetFocus
-    
+
+        CmdImprimir.SetFocus
+
     End If
-    
+
 
 End Sub
 

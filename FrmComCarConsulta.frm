@@ -309,10 +309,11 @@ Private Sub limpa_campos()
     MskPeriodoAte.Text = ""
     MskPeriodoAte.Mask = "##/##/####"
     OptTodos.Value = True
-    TxtTipoPagto.Text = ""
+    CmbTipoPagto.Text = ""
     TxtNumeroPedido.Text = ""
     LblValor.Caption = ""
-    MSFlexResultado.Clear
+    
+    Call formata_flex
 
     TxtCodCliente.SetFocus
 

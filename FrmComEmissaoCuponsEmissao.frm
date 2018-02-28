@@ -16,7 +16,7 @@ Begin VB.Form FrmComEmissaoCuponsEmissao
    Begin MSMask.MaskEdBox MskValidoDe 
       Height          =   330
       Left            =   1440
-      TabIndex        =   17
+      TabIndex        =   16
       Top             =   2040
       Width           =   1215
       _ExtentX        =   2143
@@ -39,7 +39,7 @@ Begin VB.Form FrmComEmissaoCuponsEmissao
       Caption         =   "Limpar Tela"
       Height          =   375
       Left            =   240
-      TabIndex        =   16
+      TabIndex        =   15
       Top             =   3240
       Width           =   1575
    End
@@ -54,9 +54,10 @@ Begin VB.Form FrmComEmissaoCuponsEmissao
          Strikethrough   =   0   'False
       EndProperty
       Height          =   360
-      Left            =   3480
+      Left            =   1440
       TabIndex        =   3
       Top             =   1560
+      Visible         =   0   'False
       Width           =   735
    End
    Begin VB.Frame FrameDesconto 
@@ -109,22 +110,6 @@ Begin VB.Form FrmComEmissaoCuponsEmissao
       Top             =   2520
       Width           =   4215
    End
-   Begin VB.TextBox TxtValor 
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   9.75
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   360
-      Left            =   1440
-      TabIndex        =   2
-      Top             =   1560
-      Width           =   1335
-   End
    Begin VB.TextBox TxtCodCupom 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -145,7 +130,7 @@ Begin VB.Form FrmComEmissaoCuponsEmissao
    Begin MSMask.MaskEdBox MskValidoAte 
       Height          =   330
       Left            =   3480
-      TabIndex        =   18
+      TabIndex        =   17
       Top             =   2040
       Width           =   1215
       _ExtentX        =   2143
@@ -164,11 +149,36 @@ Begin VB.Form FrmComEmissaoCuponsEmissao
       Mask            =   "##/##/####"
       PromptChar      =   "_"
    End
+   Begin VB.TextBox TxtValor 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   360
+      Left            =   1440
+      TabIndex        =   2
+      Top             =   1560
+      Width           =   1335
+   End
+   Begin VB.Label LblPorcent 
+      Caption         =   "%"
+      Height          =   255
+      Left            =   2280
+      TabIndex        =   11
+      Top             =   1680
+      Visible         =   0   'False
+      Width           =   135
+   End
    Begin VB.Label LblAte 
       Caption         =   "até"
       Height          =   255
       Left            =   2880
-      TabIndex        =   15
+      TabIndex        =   14
       Top             =   2040
       Width           =   375
    End
@@ -176,33 +186,17 @@ Begin VB.Form FrmComEmissaoCuponsEmissao
       Caption         =   "Válido de"
       Height          =   255
       Left            =   240
-      TabIndex        =   14
+      TabIndex        =   13
       Top             =   2040
       Width           =   975
    End
-   Begin VB.Label LblOu 
-      Caption         =   "ou"
-      Height          =   255
-      Left            =   3000
-      TabIndex        =   13
-      Top             =   1560
-      Width           =   375
-   End
-   Begin VB.Label LbRS 
+   Begin VB.Label LblRS 
       Caption         =   "R$"
       Height          =   255
       Left            =   1080
       TabIndex        =   12
       Top             =   1560
       Width           =   255
-   End
-   Begin VB.Label LblPorcent 
-      Caption         =   "%"
-      Height          =   255
-      Left            =   4320
-      TabIndex        =   11
-      Top             =   1560
-      Width           =   135
    End
    Begin VB.Label LblDescricao 
       Caption         =   "Descrição"
@@ -259,6 +253,7 @@ Private Sub CmdGerarCupom_Click()
 
         Set CN1 = New ADODB.Connection
         CN1.Open STR_DSN
+        Dim DATADE, DATAATE As Date
 
 
         If OptValor.Value = True And TxtValor.Text <> Empty Then
@@ -272,11 +267,33 @@ Private Sub CmdGerarCupom_Click()
                 VALOR = CDbl(TxtPorcentagem.Text) / 100
             End If
         End If
-
+        
+        If Replace(Replace(MskValidoDe.Text, "/", ""), "_", "") = Empty Then
+        
+            DATADE = "01/01/1900"
+            
+        Else
+        
+            DATADE = MskValidoDe.Text
+            
+        End If
+        
+         If Replace(Replace(MskValidoAte.Text, "/", ""), "_", "") = Empty Then
+        
+            DATAATE = "31/12/2199"
+            
+        Else
+        
+            DATAATE = MskValidoAte.Text
+            
+        End If
+        
+        
+        
 
         CN1.Execute ("INSERT INTO CUPONS(CodCupom,Tipo,Valor,ValidadeDe,ValidadeAte,Descricao,Status,Usuario,DataEmissao)" & _
                      " VALUES('" & StrConv(Trim(TxtCodCupom.Text), vbUpperCase) & "','" & TIPO & "'," & Replace(VALOR, ",", ".") & ",'" & _
-                     Format(MskValidoDe.Text, "YYYYMMDD") & "','" & Format(MskValidoAte.Text, "YYYYMMDD") & "','" & Trim(StrConv(TxtDescricao.Text, vbUpperCase)) & "','NAOUTILIZADO','','" & Format(Now, "YYYYMMDD hh:mm") & "')")
+                     Format(DATADE, "YYYYMMDD") & "','" & Format(DATAATE, "YYYYMMDD") & "','" & Trim(StrConv(TxtDescricao.Text, vbUpperCase)) & "','NAOUTILIZADO','','" & Format(Now, "YYYYMMDD hh:mm") & "')")
 
 
 
@@ -306,15 +323,15 @@ Private Function ValidaCampos() As Boolean
 
             ValidaCampos = True
 
-            If OptValor.Value = True And TxtValor.Text <> Empty Or OptPorcentagem.Value = True And TxtPorcentagem.Text <> Empty Then
+            If (OptValor.Value = True And TxtValor.Text <> Empty) Or (OptPorcentagem.Value = True And TxtPorcentagem.Text <> Empty) Then
 
                 ValidaCampos = True
 
-                If IsDate(MskValidoDe.Text) <> Empty Then
+                If (IsDate(MskValidoDe.Text) Or Replace(Replace(MskValidoDe.Text, "/", ""), "_", "") = Empty) <> Empty Then
 
                     ValidaCampos = True
 
-                    If IsDate(MskValidoAte.Text) <> Empty Then
+                    If (IsDate(MskValidoAte.Text) Or Replace(Replace(MskValidoAte.Text, "/", ""), "_", "") = Empty) <> Empty Then
 
                         ValidaCampos = True
 
@@ -380,6 +397,35 @@ Private Sub Form_Load()
 
 End Sub
 
+Private Sub OptPorcentagem_Click()
+
+    If OptPorcentagem.Value = True Then
+    
+    TxtValor.Visible = False
+    LblRS.Visible = False
+    
+    TxtPorcentagem.Visible = True
+    LblPorcent.Visible = True
+    
+    End If
+    
+End Sub
+
+Private Sub OptValor_Click()
+
+    If OptValor.Value = True Then
+    
+    TxtValor.Visible = True
+    LblRS.Visible = True
+    
+    TxtPorcentagem.Visible = False
+    LblPorcent.Visible = False
+    
+    End If
+    
+
+End Sub
+
 Private Sub TxtCodCupom_KeyPress(KeyAscii As Integer)
 
     If KeyAscii = 13 And TxtCodCupom.Text <> Empty Then
@@ -420,7 +466,7 @@ Private Sub TxtPorcentagem_KeyPress(KeyAscii As Integer)
 End Sub
 Private Sub MskValidoDe_KeyPress(KeyAscii As Integer)
 
-    If KeyAscii = 13 And IsDate(MskValidoDe.Text) Then
+    If KeyAscii = 13 And (IsDate(MskValidoDe.Text) Or Replace(Replace(MskValidoDe.Text, "/", ""), "_", "") = Empty) Then
 
         MskValidoAte.SetFocus
 
@@ -429,7 +475,7 @@ Private Sub MskValidoDe_KeyPress(KeyAscii As Integer)
 End Sub
 Private Sub MskValidoAte_KeyPress(KeyAscii As Integer)
 
-    If KeyAscii = 13 And IsDate(MskValidoAte.Text) Then
+    If KeyAscii = 13 And (IsDate(MskValidoAte.Text) Or Replace(Replace(MskValidoAte.Text, "/", ""), "_", "") = Empty) Then
 
         TxtDescricao.SetFocus
 

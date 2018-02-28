@@ -232,8 +232,8 @@ Private Sub MSFlexPesquisa_KeyPress(KeyAscii As Integer)
 
         MSFlexPesquisa.Col = 0
         CODIGO = Trim(MSFlexPesquisa.Text)
-        
-        
+
+
         FrmComRelatCAR.TxtCodCliente.Text = CODIGO
         FrmComRelatCAR.TxtCodCliente_KeyPress (13)
         Unload Me

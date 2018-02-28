@@ -225,7 +225,7 @@ End Sub
 Private Sub limpa_campos()
 
     OptVencimento.Value = True
-    
+
     TxtCodCliente.Text = ""
     LblCliente.Caption = ""
     MskPeriodoDe.Mask = ""
@@ -236,9 +236,9 @@ Private Sub limpa_campos()
     MskPeriodoAte.Mask = "##/##/####"
     CmbTipo.Text = ""
     CmbStatus.Text = ""
-    
+
     TxtCodCliente.SetFocus
-    
+
 
 End Sub
 
@@ -250,14 +250,17 @@ Private Sub CmdBuscarNome_Click()
 End Sub
 
 Private Sub CmdLimparTela_Click()
-    
+
     Call limpa_campos
-    
+
 End Sub
 
 Private Sub Form_Load()
 
     Call carregar_combo
+
+    Me.Top = 1000
+    Me.Left = 2000
 
 End Sub
 
@@ -285,9 +288,9 @@ Public Sub TxtCodCliente_KeyPress(KeyAscii As Integer)
         End If
 
         reg.Close
-        
+
     ElseIf KeyAscii = 13 And TxtCodCliente.Text = Empty Then
-    
+
         LblCliente.Caption = ""
         MskPeriodoDe.SetFocus
 
@@ -299,11 +302,11 @@ Private Sub MskPeriodoDe_KeyPress(KeyAscii As Integer)
 
 
     If KeyAscii = 13 And (IsDate(MskPeriodoDe.Text) <> Empty Or Replace(Replace(MskPeriodoDe.Text, "_", ""), "/", "") = Empty) Then
-    
-    MskPeriodoAte.SetFocus
-    
+
+        MskPeriodoAte.SetFocus
+
     End If
-    
+
 
 End Sub
 
@@ -311,11 +314,11 @@ Private Sub MskPeriodoAte_KeyPress(KeyAscii As Integer)
 
 
     If KeyAscii = 13 And (IsDate(MskPeriodoAte.Text) <> Empty Or Replace(Replace(MskPeriodoAte.Text, "_", ""), "/", "") = Empty) Then
-    
-    CmbTipo.SetFocus
-    
+
+        CmbTipo.SetFocus
+
     End If
-    
+
 
 End Sub
 
@@ -324,11 +327,11 @@ Private Sub CmbTipo_KeyPress(KeyAscii As Integer)
 
 
     If KeyAscii = 13 Then
-    
-    CmbStatus.SetFocus
-    
+
+        CmbStatus.SetFocus
+
     End If
-    
+
 
 End Sub
 
@@ -336,11 +339,11 @@ Private Sub CmbStatus_KeyPress(KeyAscii As Integer)
 
 
     If KeyAscii = 13 Then
-    
-    CmdImprimir.SetFocus
-    
+
+        CmdImprimir.SetFocus
+
     End If
-    
+
 
 End Sub
 
